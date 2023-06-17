@@ -52,6 +52,42 @@
   width: 180px;
 }
 
+.inputDiv{
+  border: 1px solid gray;
+  width: 80%;
+  height: 50px;
+  margin: auto;
+  border-radius: 10px;
+  margin-top: 25px;
+}
+
+.inputTitle{
+  text-align: left;
+  background-color: white;
+  width: 30px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-top: -12px;
+  margin-left: 20px;
+  position: absolute;
+  z-index: 1;
+  font-family: cursive;
+  color: rgb(255,91,61);
+}
+
+.inputField{
+  width: 96%;
+  height: 40px;
+  font-size: 18px;
+  margin-top: 5px;
+  border: none;
+}
+
+.errorBox{
+  color: rgb(255,91,61);
+  font-weight: 700;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
