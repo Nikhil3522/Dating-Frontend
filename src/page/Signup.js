@@ -13,10 +13,6 @@ const Signup = () => {
     const [otp, setOtp] = useState(["", "", "", ""]);
 
     useEffect(() => {
-        Aos.init({duration: 600})
-    }, []);
-
-    useEffect(() => {
         setTimeout(() =>{
             setAlert("");
         }, 7000)
@@ -126,7 +122,7 @@ const Signup = () => {
                                 fontWeight: 'bold'
                             }}
                             key={index}
-                            type="text"
+                            type="number"
                             maxLength="1"
                             value={digit}
                             onChange={(e) => handleInputChange(index, e)}
