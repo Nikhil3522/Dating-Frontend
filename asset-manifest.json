@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/Dating-Frontend/static/css/main.d436864e.css",
+    "main.js": "/Dating-Frontend/static/js/main.565a3c22.js",
+    "static/js/787.cda612ba.chunk.js": "/Dating-Frontend/static/js/787.cda612ba.chunk.js",
+    "static/media/banner1.png": "/Dating-Frontend/static/media/banner1.b7273e1f04cc21ae9fb9.png",
+    "index.html": "/Dating-Frontend/index.html",
+    "main.d436864e.css.map": "/Dating-Frontend/static/css/main.d436864e.css.map",
+    "main.565a3c22.js.map": "/Dating-Frontend/static/js/main.565a3c22.js.map",
+    "787.cda612ba.chunk.js.map": "/Dating-Frontend/static/js/787.cda612ba.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d436864e.css",
+    "static/js/main.565a3c22.js"
+  ]
+}
