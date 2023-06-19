@@ -88,6 +88,83 @@
   font-weight: 700;
 }
 
+.optionBox{
+  border: 1px solid  rgb(255,91,61);
+  background-color: antiquewhite;
+  width: 295px;
+  height: 56px;
+  font-size: 20px;
+  border-radius: 15px;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.optionBox p {
+  margin-top: 13px;
+}
+
+.selectOption{
+  background: rgb(255,91,61);
+  background: linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%);
+  color: white;
+  width: 295px;
+  height: 56px;
+  font-size: 20px;
+  border-radius: 15px;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.selectOption p{
+  padding-top: 12px;
+}
+
+.interestOptionDiv{
+  display: flex;
+  flex-wrap: wrap;
+  width: 80%;
+  margin: auto;
+}
+
+.interestOptionBox{
+  /* background: rgb(255,91,61);
+  background: linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%); */
+  /* color: white; */
+  border: 1px solid  rgb(255,91,61);
+  background-color: antiquewhite;
+  width: 47%;
+  height: 35px;
+  font-size: 16px;
+  font-family: cursive;
+  border-radius: 15px;
+  margin: auto;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.selectIntOptionBox{
+  background: rgb(255,91,61);
+  background: linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%);
+  color: white;
+  /* border: 1px solid  rgb(255,91,61); */
+  background-color: antiquewhite;
+  width: 47%;
+  height: 35px;
+  font-size: 16px;
+  font-family: cursive;
+  border-radius: 15px;
+  margin: auto;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.interestOptionBox p, .selectIntOptionBox p {
+  margin-top: 7px;
+}
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
