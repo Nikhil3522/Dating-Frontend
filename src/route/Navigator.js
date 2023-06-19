@@ -3,7 +3,7 @@ import {Welcome, Login, Signup, UserDetails} from '../page';
 
 const Navigator = () => {
     return (
-        <BrowserRouter>
+        <BrowserRouter basename="/Dating-Frontend">
             <Routes>
                 <Route path="/" element={<Welcome />}/>
                 <Route path="/login" element={<Login />}/>
