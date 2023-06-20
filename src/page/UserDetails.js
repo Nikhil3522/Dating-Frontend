@@ -15,6 +15,55 @@ const UserDetails = () => {
     const [gender, setGender] = useState(null);
     const [interest, setInterest] = useState([]);
     const [college, setCollege] = useState(null);
+    const [latitude, setLatitude] = useState(null);
+    const [longitude, setLongitude] = useState(null);
+    const [city, setCity] = useState('');
+    const [selectedImage, setSelectedImage] = useState([null, null, null, null, null, null]);
+
+    const handleImageChange = (event, index) => {
+        const file = event.target.files[0];
+        const updatedSelectedImage = [...selectedImage];
+        updatedSelectedImage[index] = URL.createObjectURL(file);
+        setSelectedImage(updatedSelectedImage);
+    };
+
+    useEffect(() => {
+        console.log("fsda", selectedImage);
+    }, [selectedImage])
+
+    useEffect(() => {
+        // Get user's location
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              setLatitude(position.coords.latitude);
+              setLongitude(position.coords.longitude);
+            },
+            (error) => {
+              console.error('Error getting user location:', error);
+            }
+          );
+        } else {
+          console.error('Geolocation is not supported by this browser.');
+        }
+      }, []);
+    
+      useEffect(() => {
+        // Reverse geocoding to get city name
+        if (latitude && longitude) {
+          const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+    
+          fetch(url)
+            .then(response => response.json())
+            .then(data => {
+              const city = data.address.city || data.address.town || data.address.village || '';
+              setCity(city);
+            })
+            .catch(error => {
+              console.error('Error retrieving city name:', error);
+            });
+        }
+      }, [latitude, longitude]);
 
     useEffect(() => {
         console.log("gender", college);
@@ -89,7 +138,7 @@ const UserDetails = () => {
                         </div>
 
                         <div className="inputDiv">
-                            <p className="inputTitle" style={{"width": "110px"}}>Date of Birth</p>
+                            <p className="inputTitle" style={{"width": "102px"}}>Date of Birth</p>
                             <input 
                                 type="date"
                                 className="inputField"
@@ -98,7 +147,7 @@ const UserDetails = () => {
                         </div>
 
                         <div className="inputDiv">
-                            <p className="inputTitle" style={{"width": "110px"}}>College</p>
+                            <p className="inputTitle" style={{"width": "50px"}}>College</p>
                             <select 
                                 type="select"
                                 className="inputField"
@@ -130,13 +179,116 @@ const UserDetails = () => {
                 </div> :
                 state === 3 ? 
                 <div>
-                    <div className="inputDiv">
-                        <p className="inputTitle" style={{"width": "40px"}}>City</p>
-                        <input 
-                            type="text"
-                            className="inputField"
-                            // onChange={(e) => setName(e.target.value)}
-                        />
+                    <div>
+                    <div className='imageContainer'>
+                        <div className='imageBox'>
+                            {selectedImage[0] ? (
+                                <img src={selectedImage[0]} alt="Selected" width="130px"/>
+                            ) : (
+                                
+                                    <label htmlFor="imageUpload">
+                                    <span className='plusIcon'>+</span>
+                                    <input
+                                        style={{display: 'none'}}
+                                        id="imageUpload"
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={(e) => handleImageChange(e, 0)}
+                                    />
+                                    </label>
+                                
+                            )}
+                        </div>
+
+                        <div className='imageBox'>
+                            {selectedImage[1] ? (
+                                <img src={selectedImage[1]} alt="Selected" width="130px"/>
+                            ) : (
+                                    <label htmlFor="imageUpload">
+                                    <span className='plusIcon'>+</span>
+                                    <input
+                                        style={{display: 'none'}}
+                                        id="imageUpload"
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={(e) => handleImageChange(e, 1)}
+                                    />
+                                    </label>
+                            )}
+                        </div>
+
+                        <div className='imageBox'>
+                            {selectedImage[2] ? (
+                                <img src={selectedImage[2]} alt="Selected" width="130px"/>
+                            ) : (
+                                    <label htmlFor="imageUpload">
+                                    <span className='plusIcon'>+</span>
+                                    <input
+                                        style={{display: 'none'}}
+                                        id="imageUpload"
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={(e) => handleImageChange(e, 2)}
+                                    />
+                                    </label>
+                            )}
+                        </div>
+
+                        <div className='imageBox'>
+                            {selectedImage[3] ? (
+                                <img src={selectedImage[3]} alt="Selected" width="130px"/>
+                            ) : (
+                                
+                                    <label htmlFor="imageUpload">
+                                    <span className='plusIcon'>+</span>
+                                    <input
+                                        style={{display: 'none'}}
+                                        id="imageUpload"
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={(e) => handleImageChange(e, 3)}
+                                    />
+                                    </label>
+                                
+                            )}
+                        </div>
+
+                        <div className='imageBox'>
+                            {selectedImage[4] ? (
+                                <img src={selectedImage[4]} alt="Selected" width="130px"/>
+                            ) : (
+                                    <label htmlFor="imageUpload">
+                                    <span className='plusIcon'>+</span>
+                                    <input
+                                        style={{display: 'none'}}
+                                        id="imageUpload"
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={(e) => handleImageChange(e, 4)}
+                                    />
+                                    </label>
+                            )}
+                        </div>
+
+                        <div className='imageBox'>
+                            {selectedImage[5] ? (
+                                <img src={selectedImage[5]} alt="Selected" width="130px"/>
+                            ) : (
+                                    <label htmlFor="imageUpload">
+                                    <span className='plusIcon'>+</span>
+                                    <input
+                                        style={{display: 'none'}}
+                                        id="imageUpload"
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={(e) => handleImageChange(e, 5)}
+                                    />
+                                    </label>
+                            )}
+                        </div>
+            
+                            </div>
+                        
                     </div>
                 </div> :
                 null
