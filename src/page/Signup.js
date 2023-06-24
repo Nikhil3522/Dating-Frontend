@@ -1,9 +1,13 @@
-import {useState, useEffect} from "react";
+import React, {useState, useEffect} from "react";
+import { useNavigate } from 'react-router-dom';
 import ButtonComponent from '../component/ButtonComponent';
 import Aos from "aos";
 import "aos/dist/aos.css";
+import axios from 'axios';
 
 const Signup = () => {
+    const navigate = useNavigate();
+
     const [name, setName]= useState("");
     const [email, setEmail]= useState("");
     const [password, setPassword]= useState("");
@@ -11,6 +15,7 @@ const Signup = () => {
     const [alert, setAlert] = useState("");
     const [step, setStep] = useState(1);
     const [otp, setOtp] = useState(["", "", "", ""]);
+    const [loader, setLoader] = useState(false);
 
     useEffect(() => {
         setTimeout(() =>{
@@ -20,9 +25,23 @@ const Signup = () => {
 
     const onSubmit = () => {
         if(step === 2){
-            console.log("sdaf", otp);
-        }
-        if(name != "" && email != "" && password != "" && confirmPassword != ""){
+
+            setLoader(true);
+
+            axios.post(process.env.REACT_APP_API_URL + '/signup', {
+                "name": name,
+                "email": email,
+                "password": password
+            }).then(response => {
+                console.log(response.data);
+            }).catch(error => {
+                console.error(error);
+            });
+
+            setLoader(false);
+            navigate('/userdetails');
+
+        }else if(name != "" && email != "" && password != "" && confirmPassword != ""){
             if(password === confirmPassword){
                 setStep(2);
             }else{
@@ -104,7 +123,7 @@ const Signup = () => {
                 <div>
                     <p style={{
                         fontSize: '20px'
-                    }}>Type the verification Code <br/> we've sent on {email}.</p>
+                    }}>Type the verification Code <br/> we've sent on <b>{email}</b>.</p>
 
                     <div>
                         {otp.map((digit, index) => (
@@ -138,7 +157,7 @@ const Signup = () => {
             <p className="errorBox">{alert}</p>
             <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', textAlign: 'center', marginBottom: '50px' }}>
                 <div data-aos="zoom-in-up" onClick={() => onSubmit()} style={{ display: 'inline-block' }}>
-                    <ButtonComponent title="Next" />
+                    <ButtonComponent title="Next" loader={loader}/>
                 </div>
             </div>
 
