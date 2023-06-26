@@ -8,6 +8,7 @@ import art from '../assets/images/art.png';
 import football from '../assets/images/football.png';
 import music from '../assets/images/music.png';
 import run from '../assets/images/run.png';
+import axios from 'axios';
 
 const UserDetails = () => {
     const [state, setState] = useState(1);
@@ -19,17 +20,36 @@ const UserDetails = () => {
     const [longitude, setLongitude] = useState(null);
     const [city, setCity] = useState('');
     const [selectedImage, setSelectedImage] = useState([null, null, null, null, null, null]);
+    const [age, setAge] = useState(null);
+    const [userEmail, setUserEmail] = useState(null);
+    const [name, setName]= useState("");
+    const [password, setPassword]= useState("");
+    const [loader, setLoader] = useState(false);
+
+    useEffect(() => {
+        setTimeout(() =>{
+            setAlert("");
+        }, 7000)
+    }, [alert])
 
     const handleImageChange = (event, index) => {
         const file = event.target.files[0];
         const updatedSelectedImage = [...selectedImage];
-        updatedSelectedImage[index] = URL.createObjectURL(file);
+        // updatedSelectedImage[index] = URL.createObjectURL(file);
+        updatedSelectedImage[index] = file;
         setSelectedImage(updatedSelectedImage);
     };
 
     useEffect(() => {
-        console.log("fsda", selectedImage);
-    }, [selectedImage])
+        const userEmail = localStorage.getItem('userEmail');
+        const userName = localStorage.getItem('userName');
+        const userPassword = localStorage.getItem('userPassword');
+
+        setUserEmail(userEmail);
+        setName(userName);
+        setPassword(userPassword);
+        // localStorage.removeItem('userEmail');
+    }, [])
 
     useEffect(() => {
         // Get user's location
@@ -66,15 +86,69 @@ const UserDetails = () => {
       }, [latitude, longitude]);
 
     useEffect(() => {
-        console.log("gender", college);
-    }, [college])
-
-    useEffect(() => {
         Aos.init({duration: 600})
     }, []);
 
-    const onSubmit = () => {
-        console.log("fsa");
+    const onSubmit = async () => {
+
+        if(state <= 2){
+            setState(state + 1);
+        }else if(state == 3){
+            setLoader(true);
+            for(let i=0; i<6; i++){
+
+                if( selectedImage[i]){
+                    const formData = new FormData();
+                    formData.append('image', selectedImage[i]);
+
+                    await fetch(process.env.REACT_APP_API_URL + '/imageUpload',{
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                        .then(data => {
+                        // Handle the response data
+                        const imageName = data.image;
+                        // Update the element with the image name in selectedImage array
+                        selectedImage[i] = imageName;
+                        })
+                    .catch(error => {
+                        console.error(error);
+                    });
+                }
+            }
+              
+            setTimeout(()=>{
+                saveData();
+            }, 1000);
+            
+        }
+    }
+
+    const saveData = () => {
+        axios.post(process.env.REACT_APP_API_URL + '/signup2',{
+            "password": password,
+            "email": userEmail,
+            "name": name,
+            "age": age,
+            "image": selectedImage,
+            "avatar": `${selectedImage[0]}`,
+            "college": college,
+            "relationship_goals": "long term",
+            "languages": ["Hindi", "Engltish"],
+            "gender": gender,
+            "interest": interest,
+            "city": city,
+            "location" :{
+                "long": longitude,
+                "lat": latitude
+            },
+            "permission": 1
+        }).then(response => {
+            // console.log(response.data);
+        }).catch(error => {
+            console.error(error);
+        });
     }
 
     const toggleInterest = (title) => {
@@ -120,12 +194,11 @@ const UserDetails = () => {
                     <h3 style={{marginTop: '5px', color: 'rgb(255,91,61)'}}>Skip</h3>
                 </div>
             </div>
-            User details
             {
                 state === 1 ?
                     <div>
                         <div>
-                            <h1>I am a </h1>
+                            <h1>I am a {userEmail}</h1>
 
                                 <div className={ gender !== 'M' ? `optionBox` : `selectOption`} onClick={() => setGender("M")}>
                                     <p>Man</p>
@@ -138,11 +211,12 @@ const UserDetails = () => {
                         </div>
 
                         <div className="inputDiv">
-                            <p className="inputTitle" style={{"width": "102px"}}>Date of Birth</p>
+                            <p className="inputTitle" style={{"width": "30px"}}>Age</p>
                             <input 
-                                type="date"
+                                type="number"
+                                min={18}
                                 className="inputField"
-                                // onChange={(e) => setName(e.target.value)}
+                                onChange={(e) => setAge(e.target.value)}
                             />
                         </div>
 
@@ -183,7 +257,7 @@ const UserDetails = () => {
                     <div className='imageContainer'>
                         <div className='imageBox'>
                             {selectedImage[0] ? (
-                                <img src={selectedImage[0]} alt="Selected" width="130px"/>
+                                <img src={URL.createObjectURL(selectedImage[0])} alt="Selected" width="130px"/>
                             ) : (
                                 
                                     <label htmlFor="imageUpload">
@@ -202,7 +276,7 @@ const UserDetails = () => {
 
                         <div className='imageBox'>
                             {selectedImage[1] ? (
-                                <img src={selectedImage[1]} alt="Selected" width="130px"/>
+                                <img src={URL.createObjectURL(selectedImage[1])} alt="Selected" width="130px"/>
                             ) : (
                                     <label htmlFor="imageUpload">
                                     <span className='plusIcon'>+</span>
@@ -219,7 +293,7 @@ const UserDetails = () => {
 
                         <div className='imageBox'>
                             {selectedImage[2] ? (
-                                <img src={selectedImage[2]} alt="Selected" width="130px"/>
+                                <img src={URL.createObjectURL(selectedImage[2])} alt="Selected" width="130px"/>
                             ) : (
                                     <label htmlFor="imageUpload">
                                     <span className='plusIcon'>+</span>
@@ -236,7 +310,7 @@ const UserDetails = () => {
 
                         <div className='imageBox'>
                             {selectedImage[3] ? (
-                                <img src={selectedImage[3]} alt="Selected" width="130px"/>
+                                <img src={URL.createObjectURL(selectedImage[3])} alt="Selected" width="130px"/>
                             ) : (
                                 
                                     <label htmlFor="imageUpload">
@@ -255,7 +329,7 @@ const UserDetails = () => {
 
                         <div className='imageBox'>
                             {selectedImage[4] ? (
-                                <img src={selectedImage[4]} alt="Selected" width="130px"/>
+                                <img src={URL.createObjectURL(selectedImage[4])} alt="Selected" width="130px"/>
                             ) : (
                                     <label htmlFor="imageUpload">
                                     <span className='plusIcon'>+</span>
@@ -272,7 +346,7 @@ const UserDetails = () => {
 
                         <div className='imageBox'>
                             {selectedImage[5] ? (
-                                <img src={selectedImage[5]} alt="Selected" width="130px"/>
+                                <img src={URL.createObjectURL(selectedImage[5])} alt="Selected" width="130px"/>
                             ) : (
                                     <label htmlFor="imageUpload">
                                     <span className='plusIcon'>+</span>
@@ -296,8 +370,8 @@ const UserDetails = () => {
 
             <p className="errorBox">{alert}</p>
             <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', textAlign: 'center', marginBottom: '50px' }}>
-                <div data-aos="zoom-in-up" onClick={() => setState(state + 1)} style={{ display: 'inline-block' }}>
-                    <ButtonComponent title="Next" />
+                <div onClick={() => onSubmit()} style={{ display: 'inline-block' }}>
+                    <ButtonComponent title="Next" loader={loader}/>
                 </div>
             </div>
         </div>
