@@ -23,16 +23,19 @@ const Signup = () => {
         }, 7000)
     }, [alert])
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         if(step === 2){
 
             setLoader(true);
 
-            axios.post(process.env.REACT_APP_API_URL + '/signup', {
+            await axios.post(process.env.REACT_APP_API_URL + '/signup', {
                 "name": name,
                 "email": email,
                 "password": password
             }).then(response => {
+                localStorage.setItem('userEmail', `${email}`);
+                localStorage.setItem('userName', `${name}`);
+                localStorage.setItem('userPassword', `${password}`);
                 console.log(response.data);
             }).catch(error => {
                 console.error(error);
@@ -42,14 +45,31 @@ const Signup = () => {
             navigate('/userdetails');
 
         }else if(name != "" && email != "" && password != "" && confirmPassword != ""){
-            if(password === confirmPassword){
-                setStep(2);
-            }else{
-                setAlert("Password and Confirm Password is not same");
+            if(!isValidEmail(email)){
+                setAlert("Please enter a valid email address.");
+            }else if (password === confirmPassword) {
+                if (password.length >= 6) {
+                  if (/\d/.test(password)) {
+                    setAlert("");
+                    setStep(2);
+                  } else {
+                    setAlert("Password needs to contain at least one digit.");
+                  }
+                } else {
+                  setAlert("Password needs to have 6 or more characters.");
+                }
+            } else {
+                setAlert("Password and Confirm Password do not match.");
             }
         }else{
             setAlert("Please fill all the fields.")
         }
+    }
+
+    function isValidEmail(email) {
+        // Regular expression pattern for email validation
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailPattern.test(email);
     }
 
     const handleInputChange = (index, event) => {
