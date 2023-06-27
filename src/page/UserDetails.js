@@ -19,7 +19,7 @@ const UserDetails = () => {
     const [latitude, setLatitude] = useState(null);
     const [longitude, setLongitude] = useState(null);
     const [city, setCity] = useState('');
-    const [selectedImage, setSelectedImage] = useState([null, null, null, null, null, null]);
+    const [selectedImage, setSelectedImage] = useState([]);
     const [age, setAge] = useState(null);
     const [userEmail, setUserEmail] = useState(null);
     const [name, setName]= useState("");
@@ -32,13 +32,11 @@ const UserDetails = () => {
         }, 7000)
     }, [alert])
 
-    const handleImageChange = (event, index) => {
+    const handleImageChange = (event) => {
         const file = event.target.files[0];
-        const updatedSelectedImage = [...selectedImage];
-        // updatedSelectedImage[index] = URL.createObjectURL(file);
-        updatedSelectedImage[index] = file;
+        const updatedSelectedImage = [...selectedImage, file];
         setSelectedImage(updatedSelectedImage);
-    };
+    }
 
     useEffect(() => {
         const userEmail = localStorage.getItem('userEmail');
@@ -92,10 +90,34 @@ const UserDetails = () => {
     const onSubmit = async () => {
 
         if(state <= 2){
+            if(state === 1){
+                if(!gender){
+                    setAlert("Please choose your gender.")
+                    return;
+                }else if(!age){
+                    setAlert("Please enter your age.");
+                    return;
+                }else if(!college){
+                    setAlert("Please choose your college/university.");
+                    return;
+                }
+            }else if(state === 2){
+                if(interest.length < 2){
+                    setAlert("Please choose at least 2 Interests.");
+                    return;
+                }
+            }
+
             setState(state + 1);
         }else if(state == 3){
+            const imageLength = selectedImage.length;
+            if(imageLength < 1){
+                setAlert("Please upload at least 1 image.");
+                return;
+            }
+
             setLoader(true);
-            for(let i=0; i<6; i++){
+            for(let i=0; i<imageLength; i++){
 
                 if( selectedImage[i]){
                     const formData = new FormData();
@@ -198,7 +220,7 @@ const UserDetails = () => {
                 state === 1 ?
                     <div>
                         <div>
-                            <h1>I am a {userEmail}</h1>
+                            <h1>I am </h1>
 
                                 <div className={ gender !== 'M' ? `optionBox` : `selectOption`} onClick={() => setGender("M")}>
                                     <p>Man</p>
@@ -216,6 +238,7 @@ const UserDetails = () => {
                                 type="number"
                                 min={18}
                                 className="inputField"
+                                value={age}
                                 onChange={(e) => setAge(e.target.value)}
                             />
                         </div>
@@ -225,6 +248,7 @@ const UserDetails = () => {
                             <select 
                                 type="select"
                                 className="inputField"
+                                value={college}
                                 onChange={(e) => setCollege(e.target.value)}
                             >
                                 <option value="Galgotias University">Galgotias University</option>
