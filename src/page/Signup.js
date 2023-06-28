@@ -23,12 +23,27 @@ const Signup = () => {
         }, 7000)
     }, [alert])
 
+    const sendOTP = () => {
+        console.log("sd");
+
+        axios.post(process.env.REACT_APP_API_URL + '/mailverify', {
+            mailId: email,
+        }).then(response => {
+            console.log("response");
+        }).catch(error => {
+            setAlert("Something went wrong!")
+        });
+    }
+
     const onSubmit = async () => {
         if(step === 2){
 
             setLoader(true);
 
+            const numberOtp = Number(otp.join(""));
+
             await axios.post(process.env.REACT_APP_API_URL + '/signup', {
+                "otp": numberOtp,
                 "name": name,
                 "email": email,
                 "password": password
@@ -36,13 +51,16 @@ const Signup = () => {
                 localStorage.setItem('userEmail', `${email}`);
                 localStorage.setItem('userName', `${name}`);
                 localStorage.setItem('userPassword', `${password}`);
-                console.log(response.data);
+                console.log("fds", response);
+                navigate('/userdetails');
+                
             }).catch(error => {
-                console.error(error);
+                // console.error("err", error);
+                setAlert("Wrong OTP")
             });
 
             setLoader(false);
-            navigate('/userdetails');
+            
 
         }else if(name != "" && email != "" && password != "" && confirmPassword != ""){
             if(!isValidEmail(email)){
@@ -51,6 +69,7 @@ const Signup = () => {
                 if (password.length >= 6) {
                   if (/\d/.test(password)) {
                     setAlert("");
+                    sendOTP();
                     setStep(2);
                   } else {
                     setAlert("Password needs to contain at least one digit.");
