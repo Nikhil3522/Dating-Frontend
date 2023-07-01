@@ -247,7 +247,21 @@
     margin-left: -20px;
     padding-top: 0;
     bottom: 0px;
+  }
 
+  .navbarDiv{
+    background: rgb(255,91,61);
+    background: linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%);
+    position: absolute;
+    bottom: 0;
+    height: 60px;
+    width: 100%;
+    display: flex;
+  }
+
+  .navbarDiv div{
+    margin-top: 7px;
+    width: 25%;
   }
 
 @keyframes App-logo-spin {
