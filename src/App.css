@@ -164,6 +164,91 @@
   margin-top: 7px;
 }
 
+.imageContainer{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.imageBox{
+  border: 3px solid rgb(255,91,61);
+  width: 130px;
+  height: 130px;
+  margin: 5px;
+  border-radius: 20px;
+}
+
+.imageBox img{
+  border-radius: 20px;
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+}
+
+.plusIcon{
+  font-size: 85px;
+  color: rgb(255, 91, 61);
+}
+
+.card{
+  position:relative;
+  width: 400px;
+  padding: 20px;
+  border: 2px solid red;
+  max-width: 85vw;
+  height: 70vh;
+  border-radius: 10px;
+  background-position: center;
+  background-size: cover;
+  margin-top: -80px;
+  }
+  
+  .card h3{
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    margin: 10px;
+  }
+  
+  .tinderCard_container{
+    display: flex;
+    justify-content: center;
+    margin-top: 10vh;
+    background-color: red;
+    max-width: 400px;
+    margin-left: -49%;
+  }
+  
+  .swipe{
+    position: absolute;    
+  }
+
+  .personName{
+    text-align: left;
+    margin-left: 10px;
+    margin-bottom: 35px;
+    /* background-color: red; */
+  }
+
+  .distance{
+    position: absolute;
+    margin-top: 5px;
+    color: black;
+    /* background-color: green; */
+    /* padding-top: 10px; */
+  }
+
+  .personDiv{
+    background-color: rgba(128, 128, 128, 0.3);
+    position: absolute;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    width: 100%;
+    margin-left: -20px;
+    padding-top: 0;
+    bottom: 0px;
+
+  }
 
 @keyframes App-logo-spin {
   from {
