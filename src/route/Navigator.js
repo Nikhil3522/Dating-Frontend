@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import {Welcome, Login, Signup, UserDetails, Home} from '../page';
+import {Welcome, Login, Signup, UserDetails, Home, Like} from '../page';
 import ProtectedRoute from "./ProtectedRoute";
 
 const Navigator = () => {
@@ -11,6 +11,8 @@ const Navigator = () => {
                 <Route path="/signup" element={<Signup />}/>
                 <Route path="/userdetails" element={<UserDetails />}/>
                 <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>}/>
+                <Route path="/like" element={<ProtectedRoute><Like /></ProtectedRoute>}/>
+
             </Routes>
         </BrowserRouter>
     )
