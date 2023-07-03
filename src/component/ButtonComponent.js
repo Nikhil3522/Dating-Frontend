@@ -1,7 +1,13 @@
+import loader from '../assets/gif/loader.gif';
+
 function ButtonComponent(props){
     return(
         <div className="buttonDiv">
-            <p>{props.title}</p>
+            {props.loader ? 
+                <img src={loader} height="50px"/>
+            :
+                <p>{props.title}</p>
+            }
         </div>
         
     )
