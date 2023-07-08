@@ -1,0 +1,50 @@
+/* .profileIconDiv{
+    border: 5px solid red;
+    width: 180px;
+    margin: auto;
+    border-radius: 50%;
+
+} */
+
+.profilePictureIcon{
+    /* border-radius: 25px; */
+    border-radius: 20px;
+}
+
+.editIcon{
+    width: 30px;
+    position: absolute;
+    margin-left: -35px;
+    margin-top: -5px;
+    background-color: antiquewhite;
+    border-radius: 50%;
+    padding: 5px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+/* .profileCompeteIndicater{
+    border: 1px solid red;
+    width: 80%;
+    margin: auto;
+    margin-bottom: 10px;
+    height: 20px;
+    border-radius: 10px;
+} */
+
+.verifiedDiv{
+    border: 1px solid red;
+    width: 80%;
+    border-radius: 10px;
+    margin: auto;
+    padding: 0;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    background: rgb(255,91,61);
+    background: linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%);
+    color: white;
+}
+
+.verifiedTag{
+    margin-top: -7px;
+    margin-left: 10px;
+    position: absolute;
+}

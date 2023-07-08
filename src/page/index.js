@@ -4,6 +4,8 @@ import Signup from "./Signup";
 import UserDetails from "./UserDetails";
 import Home from "./Home";
 import Like from "./Like";
+import Message from "./Message";
+import Profile from "./Profile";
 
 export {
     Login,
@@ -11,5 +13,7 @@ export {
     Signup,
     UserDetails,
     Home,
-    Like
+    Like,
+    Message,
+    Profile
 };
