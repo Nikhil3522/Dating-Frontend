@@ -14,9 +14,8 @@ const Home = () => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'http://localhost:8000/home',
+            url: process.env.REACT_APP_API_URL + '/home',
             withCredentials: true,
-            
           };
           
         await axios.request(config)
@@ -31,14 +30,14 @@ const Home = () => {
 
 
     return (
-        <>
-<div className="tinderCard_container">
-{data && data.userList.map((person, index) =>
-  <ProfileCard person={person} key={index}/>
-)}
-</div>
-<NavigationBar />
-</>
+      <>
+        <div className="tinderCard_container">
+        {data && data.userList.map((person, index) =>
+          <ProfileCard person={person} key={index}/>
+        )}
+        </div>
+        <NavigationBar />
+      </>
     )
 }
 

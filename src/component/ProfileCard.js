@@ -3,8 +3,26 @@ import TinderCard from "react-tinder-card";
 import back from '../assets/icons/back.png';
 import next from  '../assets/icons/next.png';
 import up from '../assets/icons/up.png';
+import axios from 'axios';
+
 
 const ProfileCard = (props) => {
+    const likeProfile = (userId) => {
+        let config ={
+          method: 'get',
+          maxBodyLength: Infinity,
+          url: process.env.REACT_APP_API_URL + `/like/${userId}`,
+          withCredentials: true,
+        }
+  
+        axios.request(config)
+        .then((response) => {
+          console.log("like the profile", response);
+        })
+        .catch((error) => {
+          console.log("error in liking the profile", error);
+        })
+    }
     const person = props.person;
 
     const [imageIndex, setImageIndex] = useState(0);
@@ -14,8 +32,11 @@ const ProfileCard = (props) => {
     }, [imageIndex])
 
 
-    const swiped=(direction,nameToDelete)=>{
-        console.log(`i'm in swiped`,nameToDelete, direction);
+    const swiped=(direction, person)=>{
+        if(direction === 'right'){
+            likeProfile(person.userId);
+        }
+        // console.log(`i'm in swiped`,nameToDelete, direction);
         // setLastDirection(direction);
     }
     
@@ -46,7 +67,7 @@ const ProfileCard = (props) => {
                 
                 className="swipe"
                 preventSwipe={["up", "down"]}
-                onSwipe={(dir) => swiped(dir, person.name)}
+                onSwipe={(dir) => swiped(dir, props.person)}
                 onCardLeftScreen={() => outOfFrame(person.name)}
             >
                 <div
