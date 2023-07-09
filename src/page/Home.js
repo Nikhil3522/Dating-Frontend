@@ -4,12 +4,42 @@ import axios from 'axios';
 import '../App.css';
 import NavigationBar from "../component/NavigationBar";
 import ProfileCard from "../component/ProfileCard";
+import { useEffect } from "react";
+import verified from '../assets/icons/verified.png';
+import back from '../assets/icons/back.png';
+import next from  '../assets/icons/next.png';
+import college from '../assets/icons/college.png';
+import city from '../assets/icons/city.png';
+import down from '../assets/icons/down.png';
 
 const Home = () => {
 
     const [data, setData] = useState(null);
+    const [viewProfile, setViewProfile] = useState(-1);
+    const [imageIndex, setImageIndex] = useState(0);
 
-    useState(async () => {
+    const changeViewProfileIndex = (index) => {
+      console.log("index", index);
+      setViewProfile(index);
+      let pop_N_times = data.length - index - 1;
+      while(pop_N_times > 0){
+        data.pop();
+        console.log("pop", pop_N_times);
+        pop_N_times--;
+      }
+      return;
+      var tempData = data;
+      var tempData2 = [];
+      console.log("tempData", tempData);
+
+      for(let i=data.length-2; i>=0; i--){
+        tempData2.push(data[i]);
+      }
+
+      setData(tempData2);
+    }
+
+    useEffect(() => {
 
         let config = {
             method: 'get',
@@ -18,9 +48,9 @@ const Home = () => {
             withCredentials: true,
           };
           
-        await axios.request(config)
+        axios.request(config)
           .then((response) => {
-            setData(response.data);
+            setData(response.data.userList.reverse());
           })
           .catch((error) => {
             console.log("errpr", error);
@@ -32,9 +62,69 @@ const Home = () => {
     return (
       <>
         <div className="tinderCard_container">
-        {data && data.userList.map((person, index) =>
-          <ProfileCard person={person} key={index}/>
-        )}
+          {viewProfile !== -1 ? 
+          <div className="detailProfileDiv " >
+            
+            <img 
+              className="profileImages" 
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtS7dmYGlbT6up08GA0gSsRbSGbZ_gaCZ50w&usqp=CAU"
+            />
+            <img
+              onClick={() => setViewProfile(-1)} 
+              style={{marginLeft: '-60px'}} 
+              src={down} 
+              width="60px"
+            />
+            <div className="imageBarIndicator" style={{ width: '100%', marginTop: '-3px'}}>
+              {
+                data[viewProfile].image.map((item, index) => (
+                    <div key={index} style={{width: `${100/data[viewProfile].image.length}%`, backgroundColor: `${index === imageIndex ? 'white': 'gray'}`}} ></div>
+                ))
+              }
+            </div> 
+             
+            <h1>{data[viewProfile].name}, {data[viewProfile].age}
+             {/* {data[viewProfile].verified && <img src={verified} width="30px" style={{marginTop: '7px', position: 'absolute'}} /> } */}
+            </h1>
+            <h3 style={{textAlign: 'left', marginLeft: '50px'}}>
+              <img style={{marginLeft:'-40px', position:'absolute'}} src={college} width="35px"/>: {data[viewProfile].college}
+            </h3>
+            <h3 style={{textAlign: 'left', marginLeft: '50px'}}>
+              <img style={{marginLeft:'-40px', position:'absolute'}} src={city} width="35px"/>: {data[viewProfile].city}
+            </h3>
+            {data[viewProfile].bio &&
+              <div>
+                <h3 style={{textAlign: 'left', margin: '5px'}}>About Me</h3>
+                <p style={{textAlign: 'Left', padding:'10px', backgroundColor: 'whitesmoke'}}>{data[viewProfile].bio}</p>
+              </div>
+            }
+            <div>
+              <h3 style={{textAlign: 'left', margin: '5px'}}>Interests</h3>
+              <div className='interestOptionDiv'>
+              {data[viewProfile].interest.map((item, index)=> (
+                <div className="interestOptionBox">
+                  <img src={item} width="30px" height="30px"/>
+                  <p>{item}</p>
+                </div>
+              ))}
+              </div>
+            </div>
+
+            <div style={{display: 'flex', justifyContent: 'space-around', marginTop: '30px'}}>
+              <div style={{border: '1px solid red', minWidth:'40%', minHeight: '40px', borderRadius: '10px', backgroundColor: 'red', color: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px'}}>
+                <h2 style={{lineHeight: '5px'}}>NOPE</h2>
+              </div>
+              <div style={{border: '1px solid green', minWidth:'40%', minHeight: '40px', borderRadius: '10px', backgroundColor: 'green', color: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px'}}>
+                <h2 style={{lineHeight: '5px'}}>LIKE</h2>
+              </div>
+            </div>
+
+          </div> :
+          
+        data && data.map((person, index) =>
+          <ProfileCard person={person} key={index} changeViewProfileIndex={() => changeViewProfileIndex(index)}/>
+        )
+      }
         </div>
         <NavigationBar />
       </>

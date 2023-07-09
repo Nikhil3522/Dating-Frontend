@@ -96,7 +96,7 @@ const ProfileCard = (props) => {
                         <h3 className="distance" style={{ color: "black" }}>
                             {person.radius === 0 ? 1 : person.radius} Km
                         </h3>
-                        <img onTouchStart={() => console.log("Up")} className="upIcon" src={up} width="45px"/>
+                        <img onTouchStart={() => props.changeViewProfileIndex(props.key)} className="upIcon" src={up} width="45px"/>
                     </div>
                 </div>
             </TinderCard>
