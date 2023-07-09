@@ -11,6 +11,9 @@ import next from  '../assets/icons/next.png';
 import college from '../assets/icons/college.png';
 import city from '../assets/icons/city.png';
 import down from '../assets/icons/down.png';
+import SwipeDetector from "../component/SwipeDetector";
+import React, { useRef } from 'react';
+
 
 const Home = () => {
 
@@ -19,24 +22,12 @@ const Home = () => {
     const [imageIndex, setImageIndex] = useState(0);
 
     const changeViewProfileIndex = (index) => {
-      console.log("index", index);
       setViewProfile(index);
       let pop_N_times = data.length - index - 1;
       while(pop_N_times > 0){
         data.pop();
-        console.log("pop", pop_N_times);
         pop_N_times--;
       }
-      return;
-      var tempData = data;
-      var tempData2 = [];
-      console.log("tempData", tempData);
-
-      for(let i=data.length-2; i>=0; i--){
-        tempData2.push(data[i]);
-      }
-
-      setData(tempData2);
     }
 
     useEffect(() => {
@@ -53,9 +44,47 @@ const Home = () => {
             setData(response.data.userList.reverse());
           })
           .catch((error) => {
-            console.log("errpr", error);
+            // console.log("errpr", error);
         });
     }, [])
+
+
+    const handleSwipeLeft = () => {
+      if( imageIndex < (data[viewProfile].image.length-1)){
+        setImageIndex(imageIndex + 1);
+      }
+    };
+  
+    const handleSwipeRight = () => {
+      if(imageIndex > 0){
+        setImageIndex(imageIndex - 1);
+      }
+    };
+
+
+    const touchStartX = useRef(0);
+    const touchEndX = useRef(0);
+  
+    const handleTouchStart = (event) => {
+      touchStartX.current = event.touches[0].clientX;
+    };
+  
+    const handleTouchEnd = (event) => {
+      touchEndX.current = event.changedTouches[0].clientX;
+      handleSwipe();
+    };
+  
+    const handleSwipe = () => {
+      const distance = touchEndX.current - touchStartX.current;
+  
+      if (distance > 0) {
+        // Swiped right
+        handleSwipeRight();
+      } else if (distance < 0) {
+        // Swiped left
+        handleSwipeLeft();
+      }
+    };
 
 
 
@@ -64,8 +93,14 @@ const Home = () => {
         <div className="tinderCard_container">
           {viewProfile !== -1 ? 
           <div className="detailProfileDiv " >
-            
+            {/* <SwipeDetector
+              onSwipeLeft={handleSwipeLeft}
+              onSwipeRight={handleSwipeRight}
+            /> */}
             <img 
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              style={{ touchAction: 'pan-y' }}
               className="profileImages" 
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtS7dmYGlbT6up08GA0gSsRbSGbZ_gaCZ50w&usqp=CAU"
             />
