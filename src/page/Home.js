@@ -14,13 +14,18 @@ import down from '../assets/icons/down.png';
 import SwipeDetector from "../component/SwipeDetector";
 import React, { useRef } from 'react';
 import location from '../assets/icons/location.png';
-
+import Aos from "aos";
+import "aos/dist/aos.css";
 
 const Home = () => {
 
     const [data, setData] = useState(null);
     const [viewProfile, setViewProfile] = useState(-1);
     const [imageIndex, setImageIndex] = useState(0);
+
+    useEffect(() => {
+      Aos.init({duration: 400})
+    }, []);
 
     const changeViewProfileIndex = (index) => {
       setViewProfile(index);
@@ -110,6 +115,7 @@ const Home = () => {
               style={{marginLeft: '-60px'}} 
               src={down} 
               width="60px"
+              data-aos="flip-down"
             />
             <div className="imageBarIndicator" style={{ width: '100%', marginTop: '-3px'}}>
               {
@@ -119,7 +125,7 @@ const Home = () => {
               }
             </div> 
              
-            <h1>{data[viewProfile].name}, {data[viewProfile].age}
+            <h1 data-aos="zoom-out-down">{data[viewProfile].name}, {data[viewProfile].age}
              {/* {data[viewProfile].verified && <img src={verified} width="30px" style={{marginTop: '7px', position: 'absolute'}} /> } */}
             </h1>
             <h3 style={{textAlign: 'left', marginLeft: '50px'}}>
@@ -150,10 +156,10 @@ const Home = () => {
             </div>
 
             <div style={{display: 'flex', justifyContent: 'space-around', marginTop: '30px'}}>
-              <div style={{border: '1px solid red', minWidth:'40%', minHeight: '40px', borderRadius: '10px', backgroundColor: 'red', color: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px'}}>
+              <div data-aos="fade-right" style={{border: '1px solid red', minWidth:'40%', minHeight: '40px', borderRadius: '10px', backgroundColor: 'red', color: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px'}}>
                 <h2 style={{lineHeight: '5px'}}>NOPE</h2>
               </div>
-              <div style={{border: '1px solid green', minWidth:'40%', minHeight: '40px', borderRadius: '10px', backgroundColor: 'green', color: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px'}}>
+              <div data-aos="fade-left" style={{border: '1px solid green', minWidth:'40%', minHeight: '40px', borderRadius: '10px', backgroundColor: 'green', color: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px'}}>
                 <h2 style={{lineHeight: '5px'}}>LIKE</h2>
               </div>
             </div>
