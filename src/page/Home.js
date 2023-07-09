@@ -13,6 +13,7 @@ import city from '../assets/icons/city.png';
 import down from '../assets/icons/down.png';
 import SwipeDetector from "../component/SwipeDetector";
 import React, { useRef } from 'react';
+import location from '../assets/icons/location.png';
 
 
 const Home = () => {
@@ -126,6 +127,9 @@ const Home = () => {
             </h3>
             <h3 style={{textAlign: 'left', marginLeft: '50px'}}>
               <img style={{marginLeft:'-40px', position:'absolute'}} src={city} width="35px"/>: {data[viewProfile].city}
+            </h3>
+            <h3 style={{textAlign: 'left', marginLeft: '50px'}}>
+              <img style={{marginLeft:'-40px', position:'absolute'}} src={location} width="35px"/>: {data[viewProfile].radius === 0 ? 1 : data[viewProfile].radius} Km
             </h3>
             {data[viewProfile].bio &&
               <div>
