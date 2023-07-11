@@ -6,6 +6,7 @@ import Home from "./Home";
 import Like from "./Like";
 import Message from "./Message";
 import Profile from "./Profile";
+import ProfileEdit from './ProfileEdit';
 
 export {
     Login,
@@ -15,5 +16,6 @@ export {
     Home,
     Like,
     Message,
-    Profile
+    Profile,
+    ProfileEdit
 };

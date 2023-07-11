@@ -83,6 +83,10 @@
   border: none;
 }
 
+.inputField:select{
+  border: none;
+}
+
 .errorBox{
   color: rgb(255,91,61);
   font-weight: 700;
@@ -214,13 +218,34 @@
     display: flex;
     justify-content: center;
     margin-top: 10vh;
-    background-color: red;
+    /* background-color: red; */
     max-width: 400px;
     margin-left: -49%;
   }
   
   .swipe{
     position: absolute;    
+  }
+
+  .imageBarIndicator{
+    min-height: 5px;
+    width: 100%;
+    border-radius: 10px;
+    margin-top: -15px;
+    display: flex;
+  }
+
+  .profileImages{
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+  }
+
+  .imageBarIndicator div{
+    border: 1px solid;
+    border-radius: 5px;
+    min-height: 5px;
   }
 
   .personName{
@@ -249,10 +274,29 @@
     bottom: 0px;
   }
 
+  .upIcon{
+    position: absolute;
+    margin-top: -60px;
+    margin-left: 100px;
+  }
+
+  .detailProfileDiv{
+    min-width: 93%;
+    margin-top: -80px;
+    min-height: 100vh;
+    margin-left: 370px;
+    border: 1px solid red;
+    border-radius: 10px;
+    background-color: antiquewhite;
+    padding-bottom: 30px;
+    margin-bottom: 100px;
+
+  }
+
   .navbarDiv{
     background: rgb(255,91,61);
     background: linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%);
-    position: absolute;
+    position: fixed;
     bottom: 0;
     height: 60px;
     width: 100%;
@@ -262,6 +306,13 @@
   .navbarDiv div{
     margin-top: 7px;
     width: 25%;
+  }
+
+  /* Edit Profile */
+
+  .editProfileInput{
+    border: none;
+    border-bottom: 2px solid red;
   }
 
 @keyframes App-logo-spin {
