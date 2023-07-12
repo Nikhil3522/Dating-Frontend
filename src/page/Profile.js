@@ -4,8 +4,11 @@ import edit from '../assets/icons/edit.png';
 import verified from '../assets/icons/verified.png';
 import { useEffect, useState } from "react";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+    const navigate = useNavigate();
+
     const [data, setData] = useState(null);
 
     useState(async () => {
@@ -40,7 +43,7 @@ const Profile = () => {
                         <div className="profileIconDiv">
                             <img className="profilePictureIcon" src="https://i.pinimg.com/736x/ac/11/59/ac1159303e009a8bd1361fe86a435aa0.jpg" width="170px" />
                             <img
-                                onClick={() => console.log("fds")}
+                                onClick={() => navigate('/profile/edit')}
                                 src={edit} 
                                 className="editIcon"
                             />

@@ -315,6 +315,46 @@
     border-bottom: 2px solid red;
   }
 
+  .floatDiv{
+    padding-top: 10px;
+    background-color: pink;
+    /* opacity: 0.5; */
+    width: 100%;
+    height: 350px; 
+    /* animation-name: FloatDiv-up;
+  animation-duration: 1s; */
+  /* animation: FloatDiv-up infinite 2s linear; */
+    animation-name: FloatDiv-up;
+    animation-duration: 0.2s;
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    position: absolute; 
+    z-index: 2; 
+    border-top-right-radius: 65px; 
+    border-top-left-radius: 65px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    display: none;
+  }
+
+  .floatDiv-subcontainer{
+    width: 30%;
+    margin-bottom: 15px;
+    border: 1px solid red;
+    border-radius: 10px;
+    background-color: antiquewhite;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  }
+
+@keyframes FloatDiv-up{
+  from {
+    margin-top: 0vh;
+  }
+  to{
+    margin-top: -40vh;
+  }
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
