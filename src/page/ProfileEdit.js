@@ -11,6 +11,7 @@ import art from '../assets/images/art.png';
 import football from '../assets/images/football.png';
 import music from '../assets/images/music.png';
 import run from '../assets/images/run.png';
+import back from '../assets/images/back.png';
 
 const ProfileEdit = () => {
     const [data , setData] = useState(null);
@@ -58,7 +59,7 @@ const ProfileEdit = () => {
     ]
 
     const changeRG = (value) => {
-        var tempData = data;
+        var tempData = {...data};
         tempData.relationship_goals = value;
         setData(tempData);
         setFloatDivDisplay(false);
@@ -88,22 +89,23 @@ const ProfileEdit = () => {
     }, [data]);
 
     const toggleInterest = (title) => {
+        var tempData = {...data};
           
         if (data.interest.includes(title)) {
-            var tempData = data;
             tempData.interest = tempData.interest.filter(item => item !== title);
             setData(tempData);
         } else if(data.interest.length <5 ){
-            var tempData = data;
             tempData.interest.push(title);
             setData(tempData); 
         } 
         
     };
 
-    useEffect(() => {
-        console.log("data2", data);
-    }, data);
+    const editCity = (cityName) => {
+        var tempData = { ...data };
+        tempData.city = cityName;
+        setData(tempData);
+    }
 
     return (
         <>
@@ -216,8 +218,8 @@ const ProfileEdit = () => {
                             type="text"
                             // min={18}
                             className="inputField"
-                            value={data ? data.city : ''}
-                            // onChange={(e) => setAge(e.target.value)}
+                            value={data.city}
+                            onChange={(e) => editCity(e.target.value)}
                         />
                     </div>
                     <div className="inputDiv">
@@ -266,7 +268,7 @@ const ProfileEdit = () => {
                             // defaultValue={[LanguageOptions[0], LanguageOptions[1]]}
                             isMulti
                             options={LanguageOptions}
-                            
+                            onChange={(e) => console.log(e)}
                         />
                     </div>
 
@@ -279,7 +281,11 @@ const ProfileEdit = () => {
                     
                 </div> : 
                 <div>
-                    <h1>Your Interests <span style={{fontSize: '20px'}}>{data.interest.length}/5</span></h1>
+                    <div style={{display: 'flex', justifyContent: 'space-around'}}>
+                        <img onClick={() => setState(1)} src={back} width="35px" height="35px" style={{marginTop: '25px'}} />
+                        <h1>Your Interests <span style={{fontSize: '20px'}}>{data.interest.length}/5</span></h1>
+                    </div>
+                    
                     <div className='interestOptionDiv'>
                         {
                             interests.map((item, index) => (
@@ -289,6 +295,9 @@ const ProfileEdit = () => {
                                 </div>
                             ))
                         }
+                    </div>
+                    <div style={{marginTop: '50px', marginBottom: '50px'}} onClick={() => setState(1)}>
+                        <ButtonComponent title="Next"/>
                     </div>
             </div>}
             </>
