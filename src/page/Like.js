@@ -9,6 +9,10 @@ const Like = () => {
     const [like, setLike] = useState([]);
 
     useEffect(() => {
+        fetchLikeData();
+    }, []);
+
+    const fetchLikeData = () => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
@@ -22,19 +26,25 @@ const Like = () => {
             setLike(response.data.data.like)
           })
           .catch((error) => {
-            console.log("errpr", error);
+            // console.log("errpr", error);
         });
-    }, []);
-
-
+    }
 
     return (
         <div>
-            <div className="likeContainer">
-                {like.map((item, index) => (
-                    <LikeRequestProfile key={index} profileId={item}/>
-                ))}
-            </div>
+            <h3>{like.length} Likes</h3>
+            {
+                like.length === 0 ? 
+                <div>
+                    <h2>When someone swipes right on you, you'll be able to find them right here</h2>
+                </div> 
+                :
+                <div className="likeContainer">
+                    {like.map((item, index) => (
+                        <LikeRequestProfile key={index} profileId={item} fetchLikeData={fetchLikeData}/>
+                    ))}
+                </div>
+            }
             <NavigationBar />
         </div>
     )
