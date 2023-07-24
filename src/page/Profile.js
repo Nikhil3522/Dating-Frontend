@@ -18,24 +18,42 @@ const Profile = () => {
             maxBodyLength: Infinity,
             url: 'http://localhost:8000/myDetails',
             withCredentials: true,
-            
-          };
-          
+
+        };
+
         await axios.request(config)
-          .then((response) => {
-            setData(response.data);
-          })
-          .catch((error) => {
-            console.log("errpr", error);
-        });
+            .then((response) => {
+                setData(response.data);
+            })
+            .catch((error) => {
+                console.log("errpr", error);
+            });
     }, []);
+
+    const logout = () => {
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: 'http://localhost:8000/logout',
+            withCredentials: true,
+
+        };
+
+        axios.request(config)
+            .then((response) => {
+                navigate('/login');
+            })
+            .catch((error) => {
+                console.log("error in logout", error);
+            });
+    }
 
     return (
         <div className="profile-container">
             {
-                data ? 
-                <>
-                    <div className="wave wave1"></div>
+                data ?
+                    <>
+                        <div className="wave wave1"></div>
                         <div className="wave wave2"></div>
                         <div className="wave wave3"></div>
                         <div className="wave wave4"></div>
@@ -44,10 +62,10 @@ const Profile = () => {
                             <img className="profilePictureIcon" src="https://i.pinimg.com/736x/ac/11/59/ac1159303e009a8bd1361fe86a435aa0.jpg" width="170px" />
                             <img
                                 onClick={() => navigate('/profile/edit')}
-                                src={edit} 
+                                src={edit}
                                 className="editIcon"
                             />
-                            <div style={{marginTop: '-20px'}}>
+                            <div style={{ marginTop: '-20px' }}>
                                 <h2>{data.data.name}, {data.data.age} {data.data.verified && <img className="verifiedTag" src={verified} width="40px" height="40px" />}</h2>
                             </div>
                         </div>
@@ -62,11 +80,15 @@ const Profile = () => {
                                 <h3>Get Verified <img className="verifiedTag" src={verified} width="40px" height="40px" /></h3>
                             </div>
                         }
+
+                        <div className="verifiedDiv" style={{ marginTop: '15px' }} onClick={logout}>
+                            <h3>Logout</h3>
+                        </div>
                         <div>
                         </div>
-                </> : 'loading...'
+                    </> : 'loading...'
             }
-            
+
             <NavigationBar />
         </div>
     )
