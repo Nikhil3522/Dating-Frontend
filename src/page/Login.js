@@ -3,8 +3,12 @@ import ButtonComponent from "../component/ButtonComponent";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import localForage from 'localforage';
 
 const Login = () => {
+    const navigate = useNavigate();
+
     const [loader, setLoader] = useState(false);
     const [alert, setAlert] = useState("");
     const [email, setEmail] = useState(null);
@@ -24,6 +28,7 @@ const Login = () => {
             method: 'POST',
             maxBodyLength: Infinity,
             url: process.env.REACT_APP_API_URL + '/login',
+            withCredentials: true,
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -31,9 +36,9 @@ const Login = () => {
         }
 
         axios.request(config)
-        .then((response) => {
-            let temp = JSON.stringify(response.data.message);
-            setAlert(temp);
+        .then(async (response) => {
+            await localForage.setItem('userLogin', {id: Date.now(), value: true});
+            navigate('/home');
         })
         .catch((error) => {
             console.log(error);

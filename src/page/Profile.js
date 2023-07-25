@@ -5,6 +5,7 @@ import verified from '../assets/icons/verified.png';
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import localforage from "localforage";
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -40,7 +41,8 @@ const Profile = () => {
         };
 
         axios.request(config)
-            .then((response) => {
+            .then(async (response) => {
+                await localforage.setItem('userLogin', {id: Date.now(), value: false});
                 navigate('/login');
             })
             .catch((error) => {
