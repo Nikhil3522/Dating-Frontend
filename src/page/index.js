@@ -7,6 +7,8 @@ import Like from "./Like";
 import Message from "./Message";
 import Profile from "./Profile";
 import ProfileEdit from './ProfileEdit';
+import ChatWindow from "./ChatWindow";
+import Verified from "./Verified";
 
 export {
     Login,
@@ -17,5 +19,7 @@ export {
     Like,
     Message,
     Profile,
-    ProfileEdit
+    ProfileEdit,
+    ChatWindow,
+    Verified 
 };
