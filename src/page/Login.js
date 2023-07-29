@@ -37,8 +37,15 @@ const Login = () => {
 
         axios.request(config)
         .then(async (response) => {
-            await localForage.setItem('userLogin', {id: Date.now(), value: true});
-            navigate('/home');
+            console.log("response", response.data.message);
+            if(response.data.message === "User LoggedIN!"){
+                await localForage.setItem('userLogin', {id: Date.now(), value: true});
+                navigate('/home');
+            }else if(response.data.message === "Wrong Email or Passwod!" ){
+                setAlert("Wrong Email or Password");
+            }else{
+                setAlert("Something went wrong! Please try again after sometime.");
+            }
         })
         .catch((error) => {
             console.log(error);
@@ -65,6 +72,8 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)}
                 />
             </div>
+
+            <p><a href="/forget-password">Forget password?</a> · <a href="/signup">Sign up</a></p>
 
             <p className="errorBox">{alert}</p>
             <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', textAlign: 'center', marginBottom: '50px' }}>

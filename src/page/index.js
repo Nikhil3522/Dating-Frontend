@@ -9,6 +9,7 @@ import Profile from "./Profile";
 import ProfileEdit from './ProfileEdit';
 import ChatWindow from "./ChatWindow";
 import Verified from "./Verified";
+import ForgetPassword from "./ForgetPassword";
 
 export {
     Login,
@@ -21,5 +22,6 @@ export {
     Profile,
     ProfileEdit,
     ChatWindow,
-    Verified 
+    Verified,
+    ForgetPassword
 };
