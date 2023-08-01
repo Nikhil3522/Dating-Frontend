@@ -1,14 +1,15 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import {Welcome, Login, Signup, UserDetails, Home, Like, Message, Profile, ProfileEdit, ChatWindow, Verified} from '../page';
+import {Welcome, Login, Signup, UserDetails, Home, Like, Message, Profile, ProfileEdit, ChatWindow, Verified, ForgetPassword} from '../page';
 import ProtectedRoute from "./ProtectedRoute";
 
 const Navigator = () => {
     return (
-        <BrowserRouter basename="/">
+        <BrowserRouter basename="/Dating-Frontend">
             <Routes>
                 <Route path="/" element={<Welcome />}/>
                 <Route path="/login" element={<Login />}/>
                 <Route path="/signup" element={<Signup />}/>
+                <Route path="/forget-password" element={<ForgetPassword />}/>
                 <Route path="/userdetails" element={<UserDetails />}/>
                 <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>}/>
                 <Route path="/like" element={<ProtectedRoute><Like /></ProtectedRoute>}/>
