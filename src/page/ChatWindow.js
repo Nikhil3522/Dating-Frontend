@@ -4,6 +4,7 @@ import emoji from '../assets/icons/emoji.png';
 import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 import localForage from 'localforage';
+import axios from 'axios';
 
 const ChatWindow = () => {
     const { profileId } = useParams();
@@ -18,8 +19,35 @@ const ChatWindow = () => {
     });
 
     useEffect(() => {
+        getMessage();
         getData();
     }, [])
+
+    const getMessage = () => {
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: process.env.REACT_APP_API_URL +`/chat/get-messages/:${profileId}`,
+            withCredentials: true,
+        };
+
+        axios.request(config)
+          .then((response) => {
+            const temp = response.data.messages;
+            temp.map(async (item) => {
+                const timeFormat = convertTimeFormat(item.createdAt);
+                let tempMessage = {
+                    sender: item.sender,
+                    content: item.content,
+                    time: timeFormat
+                } 
+                setMessageData(prevMessageData => [...prevMessageData, tempMessage]);
+            })
+          })
+          .catch((error) => {
+            console.log("errpr", error);
+        });
+    }
 
     // useEffect(() => {
     //     if(ObjectId && currentUserId) connectSocket();
@@ -43,7 +71,17 @@ const ChatWindow = () => {
     useEffect(() => {
 
         socket.on('message', (data) => {
-           if(data.from == profileId) console.log("new Msg", data);
+           if(data.from == profileId) {
+            console.log("new Msg", data);
+            // {from: 22, message: 'd', time: '11:15 PM'}
+            const renamedObject = {
+                sender: data.from,
+                content: data.message,
+                time: data.time
+            };
+
+            setMessageData(prevMessageData => [renamedObject, ...prevMessageData]);
+           }
           });
     
           socket.on('error', (error) => {
@@ -83,6 +121,17 @@ const ChatWindow = () => {
         }
     };
 
+    const convertTimeFormat = (time) => {
+        const timestamp = time;
+        const date = new Date(timestamp);
+
+        // Convert to IST
+        const ISTOptions = { timeZone: "Asia/Kolkata", hour12: true, hour: "2-digit", minute: "2-digit" };
+        const ISTTime = date.toLocaleString("en-US", ISTOptions);
+
+        return ISTTime;
+    }
+
     const getTime = () => {
         const timestamp = Date.now();
         const istTimeString = new Date(timestamp).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
@@ -107,7 +156,16 @@ const ChatWindow = () => {
         const time = getTime();
         // socket.emit('message', {room: chatRoom, message, from: currentUserId});
         // const recipientUsername = 'recipientUsername';
-        socket.emit('message', {from: currentUserId, to: profileId, message: message, time: time });
+        const inputData = {from: currentUserId, to: profileId, message: message, time: time }
+
+        socket.emit('message', inputData);
+        const renamedObject = {
+            sender: inputData.from,
+            content: inputData.message,
+            time: inputData.time
+        };
+        setMessageData(prevMessageData => [renamedObject, ...prevMessageData]);
+        
     
         // Add the sent message to the local state for real-time display
         // setMessages((prevMessages) => [
