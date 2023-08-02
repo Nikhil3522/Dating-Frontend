@@ -83,10 +83,31 @@ const ChatWindow = () => {
         }
     };
 
-    const emitMessage = () => {
+    const getTime = () => {
+        const timestamp = Date.now();
+        const istTimeString = new Date(timestamp).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+      
+        // Extract the hours and minutes from the IST string representation
+        const [istDate, istTime] = istTimeString.split(', ');
+        const [istHours, istMinutes] = istTime.split(':');
+      
+        // Convert the hours to 12-hour format and determine AM/PM
+        const isPM = parseInt(istHours, 10) >= 12;
+        const formattedHours = String(parseInt(istHours, 10) % 12 || 12).padStart(2, '0');
+        const formattedMinutes = String(parseInt(istMinutes, 10)).padStart(2, '0');
+        const ampm = isPM ? 'AM' : 'PM';
+      
+        // Concatenate hours, minutes, and AM/PM indication in the desired format (e.g., 'hh:mm AM/PM')
+        const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
+        return formattedTime;
+    }
+
+    const emitMessage = async () => {
+        
+        const time = getTime();
         // socket.emit('message', {room: chatRoom, message, from: currentUserId});
         // const recipientUsername = 'recipientUsername';
-        socket.emit('message', {from: currentUserId, to: profileId, message: message });
+        socket.emit('message', {from: currentUserId, to: profileId, message: message, time: time });
     
         // Add the sent message to the local state for real-time display
         // setMessages((prevMessages) => [
@@ -128,7 +149,8 @@ const ChatWindow = () => {
             <div style={{ padding: '10px', display: 'flex', flexDirection: 'column-reverse', overflowY: 'scroll' }}>
                 {messageData.map((msg, index) => (
                     <div key={index} className='msg-content' style={{width: calculateMessageWidth(msg.content),  alignSelf: msg.sender == currentUserId ? 'flex-end': 'flex-start', borderTopRightRadius: msg.sender !== currentUserId ? '10px' : '0',borderTopLeftRadius: msg.sender == currentUserId ? '10px' : '0' }}>
-                        {msg.content}
+                        <p style={{marginTop: '0', marginBottom: '0'}}>{msg.content}</p>
+                        <p style={{lineHeight: '2px', marginTop: '7px', marginBottom: '3px', fontSize: '13px', textAlign: msg.sender == currentUserId ? 'right': 'left'}}>{msg.time}</p>
                     </div>
                 ))}
             </div>
