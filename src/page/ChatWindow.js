@@ -19,15 +19,27 @@ const ChatWindow = () => {
     });
 
     useEffect(() => {
+        console.log("currentUserId", currentUserId)
+    }, [currentUserId])
+
+    useEffect(() => {
         getMessage();
         getData();
     }, [])
+
+    useEffect(() => {
+        return () => {
+            socket.emit('user_disconnecting', currentUserId);
+            // socket.disconnect();
+        };
+      }, [currentUserId]);
+      
 
     const getMessage = () => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: process.env.REACT_APP_API_URL +`/chat/get-messages/:${profileId}`,
+            url: process.env.REACT_APP_API_URL +`/chat/get-messages/${profileId}`,
             withCredentials: true,
         };
 
