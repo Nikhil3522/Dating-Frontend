@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import send from '../assets/icons/send.png';
 import emoji from '../assets/icons/emoji.png';
+import tick from '../assets/icons/tick.png';
+import doubleTick from '../assets/icons/double-tick.png';
 import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 import localForage from 'localforage';
@@ -13,14 +15,11 @@ const ChatWindow = () => {
     const [message, setMessage] = useState('');
     const [messageData, setMessageData] = useState([]);
     const [chatRoom, setChatRoom] = useState(null);
+    const [pageNumber, setPageNumber] = useState(1);
 
     const socket = io('http://localhost:8900', {
         withCredentials: true,
     });
-
-    useEffect(() => {
-        console.log("currentUserId", currentUserId)
-    }, [currentUserId])
 
     useEffect(() => {
         getMessage();
@@ -39,7 +38,7 @@ const ChatWindow = () => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: process.env.REACT_APP_API_URL +`/chat/get-messages/${profileId}`,
+            url: process.env.REACT_APP_API_URL +`/chat/get-messages/${profileId}/${pageNumber}`,
             withCredentials: true,
         };
 
@@ -51,7 +50,8 @@ const ChatWindow = () => {
                 let tempMessage = {
                     sender: item.sender,
                     content: item.content,
-                    time: timeFormat
+                    time: timeFormat,
+                    seen: item.seen
                 } 
                 setMessageData(prevMessageData => [...prevMessageData, tempMessage]);
             })
@@ -218,9 +218,17 @@ const ChatWindow = () => {
         <div style={{display: 'flex', flexDirection: 'column',justifyContent: 'space-between', height: '85vh'}}>
             <div style={{ padding: '10px', display: 'flex', flexDirection: 'column-reverse', overflowY: 'scroll' }}>
                 {messageData.map((msg, index) => (
+                    msg.date ? 
+                    <>
+                        <p>{msg.date}</p>
+                    </>
+                    :
                     <div key={index} className='msg-content' style={{width: calculateMessageWidth(msg.content),  alignSelf: msg.sender == currentUserId ? 'flex-end': 'flex-start', borderTopRightRadius: msg.sender !== currentUserId ? '10px' : '0',borderTopLeftRadius: msg.sender == currentUserId ? '10px' : '0' }}>
                         <p style={{marginTop: '0', marginBottom: '0'}}>{msg.content}</p>
-                        <p style={{lineHeight: '2px', marginTop: '7px', marginBottom: '3px', fontSize: '13px', textAlign: msg.sender == currentUserId ? 'right': 'left'}}>{msg.time}</p>
+                        <div style={{display: 'flex', justifyContent: 'space-between', width: '90%', margin: 'auto'}}>
+                            { msg.sender == currentUserId  && <img src={msg.seen === true ? doubleTick : tick} width={"20px"}/>}
+                            <p style={{lineHeight: '2px', marginTop: '10px', marginBottom: '3px', fontSize: '13px', textAlign: msg.sender == currentUserId ? 'right': 'left'}}>{msg.time}</p>
+                        </div>
                     </div>
                 ))}
             </div>
