@@ -163,28 +163,25 @@ const ChatWindow = () => {
         return formattedTime;
     }
 
+    useEffect(() => {
+        socket.on('messageback', (data) => {
+            const renamedObject = {
+                sender: data.from,
+                content: data.message,
+                time: data.time,
+                seen: data.seen
+            };
+            setMessageData(prevMessageData => [renamedObject, ...prevMessageData]);
+          });
+    }, [])
+
     const emitMessage = async () => {
         
         const time = getTime();
-        // socket.emit('message', {room: chatRoom, message, from: currentUserId});
-        // const recipientUsername = 'recipientUsername';
         const inputData = {from: currentUserId, to: profileId, message: message, time: time }
 
         socket.emit('message', inputData);
-        const renamedObject = {
-            sender: inputData.from,
-            content: inputData.message,
-            time: inputData.time
-        };
-        setMessageData(prevMessageData => [renamedObject, ...prevMessageData]);
-        
-    
-        // Add the sent message to the local state for real-time display
-        // setMessages((prevMessages) => [
-        //   ...prevMessages,
-        //   { from: currentUserId, message: message },
-        // ]);
-    
+
         // Clear the input field after sending the message
         setMessage('');
         const textarea = document.getElementById('messageTextarea');
