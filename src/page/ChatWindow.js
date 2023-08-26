@@ -3,23 +3,35 @@ import send from '../assets/icons/send.png';
 import emoji from '../assets/icons/emoji.png';
 import tick from '../assets/icons/tick.png';
 import doubleTick from '../assets/icons/double-tick.png';
+import backPage from '../assets/icons/backPage.png';
+import threeDot from '../assets/icons/threeDot.png';
 import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 import localForage from 'localforage';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ChatWindow = () => {
+    const navigate = useNavigate();
+
     const { profileId } = useParams();
+    const { index } = useParams();
     const [ObjectId, setObjectId] = useState(null);
     const [currentUserId, setCurrentUserId] = useState(null);
     const [message, setMessage] = useState('');
     const [messageData, setMessageData] = useState([]);
     const [chatRoom, setChatRoom] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
+    const [userName, setUsername] = useState(null);
 
     const socket = io('http://localhost:8900', {
         withCredentials: true,
     });
+
+    useEffect(() => {
+        var profileName = JSON.parse(localStorage.getItem('matchProfileName'));
+        profileName.map((item) => item.index == index && setUsername(item.name))
+    })
 
     useEffect(() => {
         getMessage();
@@ -212,6 +224,21 @@ const ChatWindow = () => {
       };
 
     return (
+        <>
+        <div className="title" style={{ backgroundColor: 'blue', background: 'linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%)', width: '94%', position: 'absolute', top: '0', display: 'flex', justifyContent: 'space-between', paddingLeft: '10px', paddingRight: '10px'}}>
+            <div style={{display: 'flex'}}>
+                <img onClick={() => navigate('/message')} src={backPage} width="70px" height="70px"/>
+                <div style={{color: 'white', marginLeft: '20px'}}>
+                    <p style={{lineHeight: '5px', fontSize: '20px'}}>{userName && userName}</p>
+                    <div style={{lineHeight: '5px', display: 'flex'}}>
+                        <div style={{width:"15px", marginTop:'-5px', marginRight: '5px', minHeight:"15px", backgroundColor: "lightgreen", borderRadius: '50%'}}></div>Online
+                    </div>
+                </div>
+            </div>
+            <div>
+                <img src={threeDot} height={"30px"} style={{marginTop: '20px'}}/>
+            </div>
+        </div>
         <div style={{display: 'flex', flexDirection: 'column',justifyContent: 'space-between', height: '85vh'}}>
             <div style={{ padding: '10px', display: 'flex', flexDirection: 'column-reverse', overflowY: 'scroll' }}>
                 {messageData.map((msg, index) => (
@@ -268,11 +295,12 @@ const ChatWindow = () => {
                     onChange={handleInputChange}
                     placeholder="MESSAGE..."
                 ></textarea>
-                <img onClick={emitMessage} style={{ backgroundColor: 'lightGreen', borderRadius: '15px', maxHeight: '40px',minHeight: '40px', marginTop: '10px' }} src={send}  />
+                <img onClick={() => message && emitMessage()} style={{ backgroundColor: 'lightGreen', borderRadius: '15px', maxHeight: '40px',minHeight: '40px', marginTop: '10px' }} src={send}  />
 
                 {/* <img style={{ backgroundColor: 'lightGreen', borderTopRightRadius: '15px', borderBottomRightRadius: '15px' }} src={send} height="40px"/> */}
             </div>
         </div>
+        </>
     )
 }
 

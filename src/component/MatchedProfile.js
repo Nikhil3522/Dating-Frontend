@@ -10,6 +10,7 @@ const MatchedProfile = (props) => {
 
     useEffect(() => {
         convertTimeFormat();
+        // console.log("mp", props.index);
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
@@ -20,6 +21,30 @@ const MatchedProfile = (props) => {
         axios.request(config)
           .then((response) => {
             setUserData(response.data.data);
+
+            const temp = {
+                index: props.index,
+                name: response.data.data.name
+            };
+            
+            const storedValue = localStorage.getItem('matchProfileName');
+            let updatedStoredValue;
+            
+            if (storedValue) {
+                const storedValueArray = JSON.parse(storedValue);
+                const hasExistingIndex = storedValueArray.some(item => item.index === props.index);
+            
+                if (!hasExistingIndex) {
+                    updatedStoredValue = [...storedValueArray, temp];
+                } else {
+                    updatedStoredValue = storedValueArray;
+                }
+            } else {
+                updatedStoredValue = [temp];
+            }
+            
+            localStorage.setItem('matchProfileName', JSON.stringify(updatedStoredValue));
+            
             getLastMessage();
           })
           .catch((error) => {
@@ -67,14 +92,14 @@ const MatchedProfile = (props) => {
                     {/* <div style={{ backgroundColor: 'lightGreen', width: '20px', height: '16px', borderRadius: '50%', marginTop: '60px', marginLeft: '-12px' }}></div> */}
                     <div style={{ width: '100%' }}>
                         <h2 style={{ lineHeight: '10px' }}>{userData.name}</h2>
-                        <p style={{ lineHeight: '10px' }}>{lastMsg.content}</p>
+                        <p style={{ lineHeight: '10px' }}>{lastMsg ? lastMsg.content : null}</p>
                     </div>
 
                     <div style={{display: 'flex', flexDirection: 'column'}}>
 
                     
 
-                    <p style={{marginBottom: '0', width: '70px'}}>{convertTimeFormat(lastMsg.createdAt)}</p>
+                    <p style={{marginBottom: '0', width: '70px'}}>{lastMsg && convertTimeFormat(lastMsg.createdAt)}</p>
                     {numberOfUnseenMsg > 0 && lastMsg.sender == props.profileId &&
                         <p className="unseenMsg">{numberOfUnseenMsg}</p>
                     }

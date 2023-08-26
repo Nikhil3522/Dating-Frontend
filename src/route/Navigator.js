@@ -4,7 +4,7 @@ import ProtectedRoute from "./ProtectedRoute";
 
 const Navigator = () => {
     return (
-        <BrowserRouter basename="/Dating-Frontend">
+        <BrowserRouter basename="/">
             <Routes>
                 <Route path="/" element={<Welcome />}/>
                 <Route path="/login" element={<Login />}/>
@@ -16,7 +16,7 @@ const Navigator = () => {
                 <Route path="/message" element={<ProtectedRoute><Message /></ProtectedRoute>}/>
                 <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>}/>
                 <Route path="/profile/edit" element={<ProtectedRoute><ProfileEdit /></ProtectedRoute>}/>
-                <Route path="/message/:profileId" element={<ProtectedRoute><ChatWindow /></ProtectedRoute>}/>
+                <Route path="/message/:profileId/:index" element={<ProtectedRoute><ChatWindow /></ProtectedRoute>}/>
                 <Route path="/verified" element={<ProtectedRoute> <Verified /> </ProtectedRoute>}/>
             </Routes>
         </BrowserRouter>
