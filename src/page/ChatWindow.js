@@ -248,7 +248,9 @@ const ChatWindow = () => {
                     </>
                     :
                     <div key={index} className='msg-content' style={{width: calculateMessageWidth(msg.content),  alignSelf: msg.sender == currentUserId ? 'flex-end': 'flex-start', borderTopRightRadius: msg.sender !== currentUserId ? '10px' : '0',borderTopLeftRadius: msg.sender == currentUserId ? '10px' : '0' }}>
-                        <p style={{marginTop: '0', marginBottom: '0'}}>{msg.content}</p>
+                        {msg.content.split('\n').map((line, index) => (
+                            <p key={index} style={{ marginTop: '0', marginBottom: '0' }}>{line}</p>
+                        ))}
                         <div style={{display: 'flex', justifyContent: 'space-between', width: '90%', margin: 'auto'}}>
                             { msg.sender == currentUserId  && <img src={msg.seen === true ? doubleTick : tick} width={"20px"}/>}
                             <p style={{lineHeight: '2px', marginTop: '10px', marginBottom: '3px', fontSize: '13px', textAlign: msg.sender == currentUserId ? 'right': 'left'}}>{msg.time}</p>
