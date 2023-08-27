@@ -22,16 +22,16 @@ const ChatWindow = () => {
     const [messageData, setMessageData] = useState([]);
     const [chatRoom, setChatRoom] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
-    const [userName, setUsername] = useState(null);
+    // const [userName, setUsername] = useState(null);
 
     const socket = io('http://localhost:8900', {
         withCredentials: true,
     });
 
-    useEffect(() => {
-        var profileName = JSON.parse(localStorage.getItem('matchProfileName'));
-        profileName.map((item) => item.index == index && setUsername(item.name))
-    })
+    // useEffect(() => {
+    //     var profileName = JSON.parse(localStorage.getItem('matchProfileName'));
+    //     profileName && profileName.map((item) => item.index == index && setUsername(item.name))
+    // })
 
     useEffect(() => {
         getMessage();
@@ -229,7 +229,7 @@ const ChatWindow = () => {
             <div style={{display: 'flex'}}>
                 <img onClick={() => navigate('/message')} src={backPage} width="70px" height="70px"/>
                 <div style={{color: 'white', marginLeft: '20px'}}>
-                    <p style={{lineHeight: '5px', fontSize: '20px'}}>{userName && userName}</p>
+                    <p style={{lineHeight: '5px', fontSize: '20px'}}>{index && index}</p>
                     <div style={{lineHeight: '5px', display: 'flex'}}>
                         <div style={{width:"15px", marginTop:'-5px', marginRight: '5px', minHeight:"15px", backgroundColor: "lightgreen", borderRadius: '50%'}}></div>Online
                     </div>
