@@ -16,6 +16,7 @@ const ChatWindow = () => {
 
     const { profileId } = useParams();
     const { index } = useParams();
+    const { avatar } = useParams();
     const [ObjectId, setObjectId] = useState(null);
     const [currentUserId, setCurrentUserId] = useState(null);
     const [message, setMessage] = useState('');
@@ -53,6 +54,8 @@ const ChatWindow = () => {
             url: process.env.REACT_APP_API_URL +`/chat/get-messages/${profileId}/${pageNumber}`,
             withCredentials: true,
         };
+
+        console.log("url", config.url)
 
         axios.request(config)
           .then((response) => {
@@ -228,10 +231,13 @@ const ChatWindow = () => {
         <div className="title" style={{ backgroundColor: 'blue', background: 'linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%)', width: '94%', position: 'absolute', top: '0', display: 'flex', justifyContent: 'space-between', paddingLeft: '10px', paddingRight: '10px'}}>
             <div style={{display: 'flex'}}>
                 <img onClick={() => navigate('/message')} src={backPage} width="70px" height="70px"/>
-                <div style={{color: 'white', marginLeft: '20px'}}>
-                    <p style={{lineHeight: '5px', fontSize: '20px'}}>{index && index}</p>
-                    <div style={{lineHeight: '5px', display: 'flex'}}>
-                        <div style={{width:"15px", marginTop:'-5px', marginRight: '5px', minHeight:"15px", backgroundColor: "lightgreen", borderRadius: '50%'}}></div>Online
+                <div style={{ display: 'flex', marginLeft: '5px'}}>
+                    <img src="https://i.pinimg.com/originals/71/6f/3e/716f3e0ded9ed9f6f3428b4b2b7a1ad2.jpg" width="60px" height="60px" style={{ borderRadius: '50%', marginTop: '5px' }}/>
+                    <div style={{color: 'white', marginLeft: '5px'}}>
+                        <p style={{lineHeight: '5px', fontSize: '20px'}}>{index && index}</p>
+                        <div style={{lineHeight: '5px', display: 'flex'}}>
+                            <div style={{width:"15px", marginTop:'-5px', marginRight: '5px', minHeight:"15px", backgroundColor: "lightgreen", borderRadius: '50%'}}></div>Online
+                        </div>
                     </div>
                 </div>
             </div>

@@ -27,7 +27,7 @@ const Message = () => {
 
             return axios.request(config)
                 .then((response) => {
-                    sortedArray[index] = { ...sortedArray[index], name: response.data.data.name };
+                    sortedArray[index] = { ...sortedArray[index], name: response.data.data.name, avatar: response.data.data.avatar };
                 })
                 .catch((error) => {
                     console.log("error", error);
@@ -59,7 +59,8 @@ const Message = () => {
                 content: null,
                 numberOfUnseenMessages: null,
                 sender: null,
-                name: null
+                name: null,
+                avatar: null,
             }));
 
             const ObjectId = response.data.data._id;
@@ -203,7 +204,7 @@ const Message = () => {
             <h4>Chat</h4>
             <div>
                 {loader === false && matchProfile.map((profile, index) => (
-                    <div key={index} onClick={() => navigate(`/message/${profile.index}/${profile.name}`)}>
+                    <div key={index} onClick={() => navigate(`/message/${profile.index}/${profile.name}/${profile.avatar}`)}>
                         <div style={{ width: '90%', margin: 'auto', marginBottom: '25px', display: 'flex', justifyContent: 'space-between' }}>
                             <img style={{ borderRadius: '15px' }} src="https://tse2.mm.bing.net/th?id=OIP.p7gZV4Td4lKOtIgk0pH_1QHaLH&pid=Api&P=0&h=180" height="80px" />
                             {/* Online indication of user */}

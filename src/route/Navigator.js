@@ -16,7 +16,7 @@ const Navigator = () => {
                 <Route path="/message" element={<ProtectedRoute><Message /></ProtectedRoute>}/>
                 <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>}/>
                 <Route path="/profile/edit" element={<ProtectedRoute><ProfileEdit /></ProtectedRoute>}/>
-                <Route path="/message/:profileId/:index" element={<ProtectedRoute><ChatWindow /></ProtectedRoute>}/>
+                <Route path="/message/:profileId/:index/:avatar" element={<ProtectedRoute><ChatWindow /></ProtectedRoute>}/>
                 <Route path="/verified" element={<ProtectedRoute> <Verified /> </ProtectedRoute>}/>
             </Routes>
         </BrowserRouter>
