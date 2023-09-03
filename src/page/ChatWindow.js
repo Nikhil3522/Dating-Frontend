@@ -44,8 +44,16 @@ const ChatWindow = () => {
             socket.emit('user_disconnecting', currentUserId);
             // socket.disconnect();
         };
-      }, [currentUserId]);
+    }, [currentUserId]);
+
+    function convertDateFormat(isoDate) {
+        const date = new Date(isoDate);
+        const year = date.getFullYear().toString().substr(-2); // Get the last two digits of the year
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-indexed
+        const day = date.getDate().toString().padStart(2, '0');
       
+        return `${month}/${day}/${year}`;
+    }
 
     const getMessage = () => {
         let config = {
@@ -55,21 +63,34 @@ const ChatWindow = () => {
             withCredentials: true,
         };
 
-        console.log("url", config.url)
-
         axios.request(config)
           .then((response) => {
-            const temp = response.data.messages;
+            var temp = response.data.messages;
+            var tempDate = null;
+            var finalTemp = [];
+            // temp = temp.reverse();
             temp.map(async (item) => {
                 const timeFormat = convertTimeFormat(item.createdAt);
+                const dateFormat = convertDateFormat(item.createdAt);
+
+                if(tempDate !== dateFormat){
+                    finalTemp.push({date: dateFormat});
+                    // setMessageData(prevMessageData => [...prevMessageData, {date: dateFormat}]);
+                    tempDate = dateFormat 
+                }
+                console.log(dateFormat)
                 let tempMessage = {
                     sender: item.sender,
                     content: item.content,
                     time: timeFormat,
                     seen: item.seen
                 } 
-                setMessageData(prevMessageData => [...prevMessageData, tempMessage]);
+                finalTemp.push(tempMessage);
+                // setMessageData(prevMessageData => [...prevMessageData, tempMessage]);
             })
+
+            rearrangeMessagesByDate(finalTemp);
+
           })
           .catch((error) => {
             console.log("errpr", error);
@@ -134,6 +155,36 @@ const ChatWindow = () => {
         // Creting Room
         socket.emit('create', {room: roomId, userId:ObjectId, withUserId: profileId});
         
+    }
+
+    const rearrangeMessagesByDate = (msgData) => {
+
+        var indexArr = [];
+        
+        for(let i=0; i< msgData.length; i++){
+            if(msgData[i].date){
+                indexArr.push(i);
+            }
+        }
+        
+        var preEle = null;
+        
+        for(let i=0; i<indexArr.length; i++){
+            if(preEle === null && i===0){
+                preEle = msgData[indexArr[i]];
+                msgData.splice(indexArr[i], 1);
+                for( let j=1; j<indexArr.length; j++){
+                    indexArr[j] -= 1;
+                }
+            }else{
+                var tempPreEle = preEle;
+                preEle = msgData[indexArr[i]];
+                msgData[indexArr[i]] = tempPreEle;
+            }
+        }
+        
+        msgData.push(preEle);
+        setMessageData(msgData);
     }
 
     const getData = async () => {
