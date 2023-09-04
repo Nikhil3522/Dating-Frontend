@@ -5,6 +5,7 @@ import tick from '../assets/icons/tick.png';
 import doubleTick from '../assets/icons/double-tick.png';
 import backPage from '../assets/icons/backPage.png';
 import threeDot from '../assets/icons/threeDot.png';
+import BlockComponent from '../component/BlockComponent';
 import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 import localForage from 'localforage';
@@ -23,6 +24,7 @@ const ChatWindow = () => {
     const [messageData, setMessageData] = useState([]);
     const [chatRoom, setChatRoom] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
+    const [displayBlockComp, setDisplayBlockComp] = useState(false);
     // const [userName, setUsername] = useState(null);
 
     const socket = io('http://localhost:8900', {
@@ -277,9 +279,15 @@ const ChatWindow = () => {
         return `${width}px`;
       };
 
+    const hideBlockComp = () => {
+        setDisplayBlockComp(false);
+
+    }
+
     return (
         <>
         <div className="title" style={{ backgroundColor: 'blue', background: 'linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%)', width: '94%', position: 'absolute', top: '0', display: 'flex', justifyContent: 'space-between', paddingLeft: '10px', paddingRight: '10px'}}>
+            { displayBlockComp && <BlockComponent hideBlockComp={hideBlockComp}/> }
             <div style={{display: 'flex'}}>
                 <img onClick={() => navigate('/message')} src={backPage} width="70px" height="70px"/>
                 <div style={{ display: 'flex', marginLeft: '5px'}}>
@@ -293,11 +301,16 @@ const ChatWindow = () => {
                 </div>
             </div>
             <div>
-                <img src={threeDot} height={"30px"} style={{marginTop: '20px'}}/>
+                <img 
+                    onClick={() => setDisplayBlockComp(!displayBlockComp)}
+                    src={threeDot} 
+                    height={"30px"} 
+                    style={{marginTop: '20px'}}
+                />
             </div>
         </div>
         <div style={{display: 'flex', flexDirection: 'column',justifyContent: 'space-between', height: '85vh'}}>
-            <div style={{ padding: '10px', display: 'flex', flexDirection: 'column-reverse', overflowY: 'scroll' }}>
+            <div style={{ padding: '10px', display: 'flex', flexDirection: 'column-reverse', overflowY: displayBlockComp ? 'hidden':'scroll' }}>
                 {messageData.map((msg, index) => (
                     msg.date ? 
                     <>
