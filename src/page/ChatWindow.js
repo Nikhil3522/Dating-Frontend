@@ -287,7 +287,7 @@ const ChatWindow = () => {
     return (
         <>
         <div className="title" style={{ backgroundColor: 'blue', background: 'linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%)', width: '94%', position: 'absolute', top: '0', display: 'flex', justifyContent: 'space-between', paddingLeft: '10px', paddingRight: '10px'}}>
-            { displayBlockComp && <BlockComponent hideBlockComp={hideBlockComp}/> }
+            { displayBlockComp && <BlockComponent hideBlockComp={hideBlockComp} profileId={profileId}/> }
             <div style={{display: 'flex'}}>
                 <img onClick={() => navigate('/message')} src={backPage} width="70px" height="70px"/>
                 <div style={{ display: 'flex', marginLeft: '5px'}}>
@@ -311,7 +311,7 @@ const ChatWindow = () => {
         </div>
         <div style={{display: 'flex', flexDirection: 'column',justifyContent: 'space-between', height: '85vh'}}>
             <div style={{ padding: '10px', display: 'flex', flexDirection: 'column-reverse', overflowY: displayBlockComp ? 'hidden':'scroll' }}>
-                {messageData.map((msg, index) => (
+                {messageData[0] !== null && messageData.map((msg, index) => (
                     msg.date ? 
                     <>
                         <p>{msg.date}</p>
