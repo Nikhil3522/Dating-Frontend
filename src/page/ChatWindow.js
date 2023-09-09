@@ -204,7 +204,8 @@ const ChatWindow = () => {
         }
         
         msgData.push(preEle);
-        setMessageData(msgData);
+        // setMessageData(msgData);
+        setMessageData((prevMessageData) => [...prevMessageData, ...msgData]);
     }
 
     const getData = async () => {
@@ -302,6 +303,17 @@ const ChatWindow = () => {
 
     }
 
+    // const handleScroll = (e) => {
+    //     const div = e.target;
+
+        // console.log("window", window.innerHeight);
+
+        // const scrolledFromTop = div.scrollTop;
+        // if (scrolledFromTop === 0 && div.scrollHeight > div.clientHeight) {
+        //     console.log("div.scrollTop")
+        // }
+    // }
+
     return (
         <>
         <div className="title" style={{ backgroundColor: 'blue', background: 'linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%)', width: '94%', maxWidth: '600px', position: 'absolute', top: '0', display: 'flex', justifyContent: 'space-between', paddingLeft: '10px', paddingRight: '10px'}}>
@@ -328,7 +340,10 @@ const ChatWindow = () => {
             </div>
         </div>
         <div style={{display: 'flex', flexDirection: 'column',justifyContent: 'space-between', height: '85vh'}}>
-            <div style={{ padding: '10px', display: 'flex', flexDirection: 'column-reverse', overflowY: displayBlockComp ? 'hidden':'scroll' }}>
+            <div 
+                // onScroll={handleScroll} 
+                style={{ padding: '10px', display: 'flex', flexDirection: 'column-reverse', overflowY: displayBlockComp ? 'hidden':'scroll' }}
+            >
                 {messageData[0] !== null && messageData.map((msg, index) => (
                     msg.date ? 
                     <>
