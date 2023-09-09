@@ -109,56 +109,14 @@ const Message = () => {
 
     const sortProfile = (filteredMessages) => {
 
-        var originalArray = [];
-
-
-        for (let i = 0; i < filteredMessages.length; i++) {
-            originalArray[i] = {
-                index: filteredMessages[i]['index'],
-                time: formatTimestamp(filteredMessages[i]['createdAt']),
-                content: filteredMessages[i]['content'],
-                numberOfUnseenMessages: filteredMessages[i]['numberOfUnseenMessages'],
-                sender: filteredMessages[i]['sender']
-            };
-        }
-
-        const hhmmFormatArray = [];
-        const mmddyyFormatArray = [];
-
-        originalArray.forEach(item => {
-            if (item.time.includes(':')) {
-                hhmmFormatArray.push(item);
-            } else {
-                mmddyyFormatArray.push(item);
-            }
+        const sortedProfiles = filteredMessages.sort((a, b) => {
+            const timeA = new Date(a.createdAt).getTime();
+            const timeB = new Date(b.createdAt).getTime();
+            return timeB - timeA; // Sort in descending order (most recent first)
         });
-
-        hhmmFormatArray.sort((a, b) => a.time.localeCompare(b.time));
-        mmddyyFormatArray.sort((a, b) => a.time.localeCompare(b.time));
-
-        const sortedArray = hhmmFormatArray.concat(mmddyyFormatArray);
-
-        var indexStartDate = -1;
-
-
-        sortedArray.forEach((item, index) => {
-            if (item.time.includes('/') && indexStartDate === -1) {
-                indexStartDate = index;
-                return;
-            }
-        });
-
-        if (indexStartDate !== -1) {
-            const reversedPortion1 = sortedArray.slice(0, indexStartDate).reverse();
-            sortedArray.splice(0, indexStartDate + 1, ...reversedPortion1);
-
-            const reversedPortion2 = sortedArray.slice(indexStartDate + 1).reverse();
-            sortedArray.splice(indexStartDate + 1, sortedArray.length - indexStartDate - 1, ...reversedPortion2);
-        } else {
-            sortedArray.reverse();
-        }
-
-        getUserDetail(sortedArray);
+        
+        getUserDetail(sortedProfiles);
+        
         setLoader(false);
     }
 
@@ -184,13 +142,12 @@ const Message = () => {
         )
             .then((messages) => {
                 // Filter out null values
-
                 const newArray = messages.map((item, index) => ({
                     index: temp[index].index, // Access tempId here
-                    content: item.lastMessage[0].content,
-                    createdAt: item.lastMessage[0].createdAt,
+                    content: item.lastMessage.length > 0 ? item.lastMessage[0].content : null,
+                    createdAt: item.lastMessage.length > 0 ? item.lastMessage[0].createdAt : null,
                     numberOfUnseenMessages: item.numberOfUnseenMessages,
-                    sender: item.lastMessage[0].sender,
+                    sender: item.lastMessage.length > 0 ? item.lastMessage[0].sender : null,
                 }));
 
                 let filteredMessages = newArray.filter((message) => message !== null);
@@ -218,7 +175,7 @@ const Message = () => {
 
 
 
-                                <p style={{ marginBottom: '0', width: '70px' }}>{profile.time}</p>
+                                <p style={{ marginBottom: '0', width: '70px' }}>{formatTimestamp(profile['createdAt'])}</p>
                                 {profile.numberOfUnseenMessages > 0 && profile.sender == profile.index &&
                                     <p className="unseenMsg">{profile.numberOfUnseenMessages}</p>
                                 }
