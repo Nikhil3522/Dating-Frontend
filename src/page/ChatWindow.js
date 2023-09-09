@@ -344,21 +344,22 @@ const ChatWindow = () => {
                 // onScroll={handleScroll} 
                 style={{ padding: '10px', display: 'flex', flexDirection: 'column-reverse', overflowY: displayBlockComp ? 'hidden':'scroll' }}
             >
-                {messageData[0] !== null && messageData.map((msg, index) => (
-                    msg.date ? 
-                    <>
-                        <p>{msg.date}</p>
-                    </>
-                    :
-                    <div key={index} className='msg-content' style={{width: calculateMessageWidth(msg.content),  alignSelf: msg.sender == currentUserId ? 'flex-end': 'flex-start', borderTopRightRadius: msg.sender !== currentUserId ? '10px' : '0',borderTopLeftRadius: msg.sender == currentUserId ? '10px' : '0' }}>
-                        {msg.content.split('\n').map((line, index) => (
+                {messageData.map((msg, index) => (
+                    msg && msg.date ? (
+                        <p key={index}>{msg.date}</p>
+                    ) : (
+                        msg && ( // Check if msg is not null or undefined
+                        <div key={index} className='msg-content' style={{ width: calculateMessageWidth(msg.content), alignSelf: msg.sender == currentUserId ? 'flex-end' : 'flex-start', borderTopRightRadius: msg.sender !== currentUserId ? '10px' : '0', borderTopLeftRadius: msg.sender == currentUserId ? '10px' : '0' }}>
+                            {msg.content.split('\n').map((line, index) => (
                             <p key={index} style={{ marginTop: '0', marginBottom: '0' }}>{line}</p>
-                        ))}
-                        <div style={{display: 'flex', justifyContent: 'space-between', width: '90%', margin: 'auto'}}>
-                            { msg.sender == currentUserId  && <img src={msg.seen === true ? doubleTick : tick} width={"20px"}/>}
-                            <p style={{lineHeight: '2px', marginTop: '10px', marginBottom: '3px', fontSize: '13px', textAlign: msg.sender == currentUserId ? 'right': 'left'}}>{msg.time}</p>
+                            ))}
+                            <div style={{ display: 'flex', justifyContent: 'space-between', width: '90%', margin: 'auto' }}>
+                            {msg.sender == currentUserId && <img src={msg.seen === true ? doubleTick : tick} width={"20px"} />}
+                            <p style={{ lineHeight: '2px', marginTop: '10px', marginBottom: '3px', fontSize: '13px', textAlign: msg.sender == currentUserId ? 'right' : 'left' }}>{msg.time}</p>
+                            </div>
                         </div>
-                    </div>
+                        )
+                    )
                 ))}
             </div>
 
