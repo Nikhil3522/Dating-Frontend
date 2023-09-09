@@ -31,6 +31,24 @@ const ChatWindow = () => {
         withCredentials: true,
     });
 
+    useEffect(() => {
+    
+        socket.on('changeOnlineStatus', (data) => {
+            // When the event is received, update messageData
+            setMessageData((prevMessageData) => {
+              const updatedMessageData = prevMessageData.map((item) => {
+                if (item.seen === false) {
+                  return { ...item, seen: true };
+                } else {
+                  return item;
+                }
+              });
+              return updatedMessageData;
+            });
+          });
+    
+      }, [messageData]);
+
     // useEffect(() => {
     //     var profileName = JSON.parse(localStorage.getItem('matchProfileName'));
     //     profileName && profileName.map((item) => item.index == index && setUsername(item.name))
@@ -286,17 +304,17 @@ const ChatWindow = () => {
 
     return (
         <>
-        <div className="title" style={{ backgroundColor: 'blue', background: 'linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%)', width: '94%', position: 'absolute', top: '0', display: 'flex', justifyContent: 'space-between', paddingLeft: '10px', paddingRight: '10px'}}>
+        <div className="title" style={{ backgroundColor: 'blue', background: 'linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%)', width: '94%', maxWidth: '600px', position: 'absolute', top: '0', display: 'flex', justifyContent: 'space-between', paddingLeft: '10px', paddingRight: '10px'}}>
             { displayBlockComp && <BlockComponent hideBlockComp={hideBlockComp} profileId={profileId}/> }
             <div style={{display: 'flex'}}>
                 <img onClick={() => navigate('/message')} src={backPage} width="70px" height="70px"/>
                 <div style={{ display: 'flex', marginLeft: '5px'}}>
                     <img src="https://i.pinimg.com/originals/71/6f/3e/716f3e0ded9ed9f6f3428b4b2b7a1ad2.jpg" width="60px" height="60px" style={{ borderRadius: '50%', marginTop: '5px' }}/>
                     <div style={{color: 'white', marginLeft: '5px'}}>
-                        <p style={{lineHeight: '5px', fontSize: '20px'}}>{index && index}</p>
-                        <div style={{lineHeight: '5px', display: 'flex'}}>
+                        <p style={{lineHeight: '25px', fontSize: '20px'}}>{index && index}</p>
+                        {/* <div style={{lineHeight: '5px', display: 'flex'}}>
                             <div style={{width:"15px", marginTop:'-5px', marginRight: '5px', minHeight:"15px", backgroundColor: "lightgreen", borderRadius: '50%'}}></div>Online
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
