@@ -6,6 +6,7 @@ import doubleTick from '../assets/icons/double-tick.png';
 import backPage from '../assets/icons/backPage.png';
 import threeDot from '../assets/icons/threeDot.png';
 import BlockComponent from '../component/BlockComponent';
+import ProfilePage from '../component/ProfilePage';
 import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 import localForage from 'localforage';
@@ -25,6 +26,8 @@ const ChatWindow = () => {
     const [chatRoom, setChatRoom] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
     const [displayBlockComp, setDisplayBlockComp] = useState(false);
+    const [profilePageShow, setProfilePageShow] = useState(false);
+    const [showProfileId, setShowProfileId] = useState(null);
     // const [userName, setUsername] = useState(null);
 
     const socket = io('http://localhost:8900', {
@@ -303,6 +306,10 @@ const ChatWindow = () => {
 
     }
 
+    const hideProfilePage = () => {
+        setProfilePageShow(false);
+    }
+
     // const handleScroll = (e) => {
     //     const div = e.target;
 
@@ -315,12 +322,16 @@ const ChatWindow = () => {
     // }
 
     return (
+        profilePageShow === false ? 
         <>
         <div className="title" style={{ backgroundColor: 'blue', background: 'linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%)', width: '94%', maxWidth: '600px', position: 'absolute', top: '0', display: 'flex', justifyContent: 'space-between', paddingLeft: '10px', paddingRight: '10px'}}>
             { displayBlockComp && <BlockComponent hideBlockComp={hideBlockComp} profileId={profileId}/> }
             <div style={{display: 'flex'}}>
                 <img onClick={() => navigate('/message')} src={backPage} width="70px" height="70px"/>
-                <div style={{ display: 'flex', marginLeft: '5px'}}>
+                <div style={{ display: 'flex', marginLeft: '5px'}} onClick={() => {
+                    setProfilePageShow(true)
+                    setShowProfileId(profileId)
+                    }}>
                     <img src="https://i.pinimg.com/originals/71/6f/3e/716f3e0ded9ed9f6f3428b4b2b7a1ad2.jpg" width="60px" height="60px" style={{ borderRadius: '50%', marginTop: '5px' }}/>
                     <div style={{color: 'white', marginLeft: '5px'}}>
                         <p style={{lineHeight: '25px', fontSize: '20px'}}>{index && index}</p>
@@ -406,7 +417,8 @@ const ChatWindow = () => {
                 {/* <img style={{ backgroundColor: 'lightGreen', borderTopRightRadius: '15px', borderBottomRightRadius: '15px' }} src={send} height="40px"/> */}
             </div>
         </div>
-        </>
+        </> : 
+        <ProfilePage profileId={showProfileId} hideProfilePage={hideProfilePage}/>
     )
 }
 
