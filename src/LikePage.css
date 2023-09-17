@@ -20,24 +20,36 @@
 }
 
 .buttonContainer{
+    position: absolute;
     display: flex;
-    justify-content: space-between;
-    margin-top: -110px;
+    justify-content: space-evenly;
+    /* margin-top: -110px; */
     margin-bottom: 40px;
+    background-color: #000;
+    color: #fff;
+    opacity: .7;
+    margin-top: -47px;
+    height: 43px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    width: 170px;
+}
+
+.buttonContainer div{   
+    margin-top: 5px;
+    width: 50%;
+    margin-bottom: 5px;
 }
 
 
 .likeRequInfo{
     position: absolute;
-    margin-top: -36px;
-    background: rgb(255,91,61);
-    background: linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%);
-    opacity: 0.7;
-    /* z-index: 1; */
+    margin-top: -83px;
     width: 170px;
+    font-size: 15px;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
-
+    text-shadow: 1px 1px #FF0000;
 }
 
 .likeRequInfo h2{

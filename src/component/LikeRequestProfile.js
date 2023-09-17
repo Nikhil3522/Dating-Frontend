@@ -53,27 +53,29 @@ const LikeRequestProfile = (props) => {
                 height="220px"
             />
 
+            <div className="likeRequInfo">
+                <h2>{userData.name}, {userData.age}</h2>
+            </div>
+
             <div className="buttonContainer">
-                <div className="button" onClick={(e) => {
+                <div className="button" style={{borderRight: '1px solid white'}} onClick={(e) => {
                     e.stopPropagation(); // Prevent click event from propagating
                     props.showAlertFunction(props.profileId);
                 }}>
                     {/* Reject Button */}
-                    <img src={no} width="65px"/>
+                    <img src={no} width="35px"/>
                 </div>
 
-                <div className="button" onClick={(e) => {
+                <div className="button" style={{borderLeft: '1px solid white'}} onClick={(e) => {
                     e.stopPropagation(); // Prevent click event from propagating
                     acceptLike()
                 }}>
                     {/* Accept Button */}
-                    <img src={yes} width="55px"/>
+                    <img src={yes} width="30px"/>
                 </div>
             </div>
 
-            <div className="likeRequInfo">
-                <h2>{userData.name}, {userData.age}</h2>
-            </div>
+   
         </>
     )}
 </div>
