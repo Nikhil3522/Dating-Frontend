@@ -4,9 +4,12 @@ import back from '../assets/icons/back.png';
 import next from  '../assets/icons/next.png';
 import up from '../assets/icons/up.png';
 import axios from 'axios';
+import like from '../assets/icons/like.png';
+import cross from '../assets/icons/cross.png';
 
 
 const ProfileCard = (props) => {
+    const [visible, setVisible] = useState(false);
     const likeProfile = (userId) => {
         let config ={
           method: 'get',
@@ -62,6 +65,7 @@ const ProfileCard = (props) => {
         <div 
             // onClick={onSubmit} 
             // onTouchStart={() => onSubmit(person.name)}
+            style={{display: visible ? 'none': 'block'}}
         >
             <TinderCard
                 
@@ -74,7 +78,7 @@ const ProfileCard = (props) => {
                     className="card"
                     style={{
                         backgroundImage:
-                        "url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtS7dmYGlbT6up08GA0gSsRbSGbZ_gaCZ50w&usqp=CAU)"
+                        "url(https://w0.peakpx.com/wallpaper/227/122/HD-wallpaper-california-sunset-street-sunset-thumbnail.jpg)"
                     }}
                 >
                     <div className="imageBarIndicator">
@@ -99,6 +103,17 @@ const ProfileCard = (props) => {
                         <img onTouchStart={() => props.changeViewProfileIndex(props.key)} className="upIcon" src={up} width="45px"/>
                     </div>
                 </div>
+                <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
+                    <div onTouchStart={() => setVisible(true)}>
+                        <img src={cross} height="50px"/>
+                    </div><div onTouchStart={() => {
+                        likeProfile(person.userId);
+                        setVisible(true);
+                    }}>
+                        <img src={like} height="50px"/>
+                    </div>
+                </div>
+         
             </TinderCard>
         </div>
     )
