@@ -40,10 +40,12 @@ const ChatWindow = () => {
             // When the event is received, update messageData
             setMessageData((prevMessageData) => {
               const updatedMessageData = prevMessageData.map((item) => {
-                if (item.seen === false) {
-                  return { ...item, seen: true };
-                } else {
-                  return item;
+                if(item){
+                    if (item.seen === false) {
+                        return { ...item, seen: true };
+                    } else {
+                        return item;
+                    }
                 }
               });
               return updatedMessageData;
