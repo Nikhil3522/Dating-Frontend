@@ -103,7 +103,12 @@ const Message = () => {
             const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
             const day = dateObj.getDate().toString().padStart(2, '0');
 
-            return `${month}/${day}/${year}`;
+            const finalDate = `${month}/${day}/${year}`;
+
+            if(finalDate === '01/01/70'){
+                return null;
+            }
+            return finalDate;
         }
     }
 
