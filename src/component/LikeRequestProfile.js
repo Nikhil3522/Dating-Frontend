@@ -60,7 +60,7 @@ const LikeRequestProfile = (props) => {
             <div className="buttonContainer">
                 <div className="button" style={{borderRight: '1px solid white'}} onClick={(e) => {
                     e.stopPropagation(); // Prevent click event from propagating
-                    props.showAlertFunction(props.profileId);
+                    props.showAlertFunction(props.profileId, userData.name);
                 }}>
                     {/* Reject Button */}
                     <img src={no} width="35px"/>

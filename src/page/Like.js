@@ -12,6 +12,7 @@ const Like = () => {
     const [showProfileId, setShowProfileId] = useState(null);
     const [showAlert, setShowAlert] = useState(false);
     const [rejectUserId, setRejectUserId] = useState(null);
+    const [rejectUserName, setRejectUserName] = useState(null);
 
     useEffect(() => {
         fetchLikeData();
@@ -44,8 +45,9 @@ const Like = () => {
         setProfilePageShow(false);
     }
 
-    const showAlertFunction = (id) => {
+    const showAlertFunction = (id, name) => {
         setRejectUserId(id);
+        setRejectUserName(name)
         setShowAlert(true);
     }
 
@@ -60,8 +62,10 @@ const Like = () => {
         axios.request(config)
         .then((response) => {
             setRejectUserId(null);
+            setRejectUserName(null);
             setShowAlert(false);
-            fetchLikeData();
+            window.location.reload();
+            // fetchLikeData();
             // console.log("response", response)
         })
         .catch((error) => {
@@ -74,7 +78,7 @@ const Like = () => {
         <div>
             { showAlert &&
                 <div style={{zIndex: 2,display: 'flex', paddingBottom: '45px', flexDirection: 'column', position: 'absolute',borderRadius: '15px', background: 'linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%)', color: 'white', top: '30vh',left: '15vw', width: '70%', boxShadow: 'rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px' }}>
-                    <h3>Are you sure you want to reject this proposal?</h3>
+                    <h3>Are you sure you don't want to match with {rejectUserName}?</h3>
                     <div style={{display: 'flex', width: '80%', justifyContent: 'space-evenly', margin:'auto'}}>
                         <div 
                             onClick={() => rejectLike()}
@@ -85,6 +89,7 @@ const Like = () => {
                         <div 
                             onClick={() => {
                                 setRejectUserId(null);
+                                setRejectUserName(null);
                                 setShowAlert(false);
                             }}
                             style={{backgroundColor: 'white', color: 'red', fontWeight: 'bold', fontSize: '20px', width: '40%', borderRadius: '15px', height: '30px', lineHeight: '30px'}}
