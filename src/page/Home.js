@@ -14,14 +14,26 @@ import down from '../assets/icons/down.png';
 import SwipeDetector from "../component/SwipeDetector";
 import React, { useRef } from 'react';
 import location from '../assets/icons/location.png';
+import customize from '../assets/icons/customize.png';
 import Aos from "aos";
 import "aos/dist/aos.css";
+import RangeSlider from 'react-range-slider-input';
+import 'react-range-slider-input/dist/style.css';
+import ButtonComponent from "../component/ButtonComponent";
+import blackLoader from "../assets/gif/blackLoader.gif";
 
 const Home = () => {
 
     const [data, setData] = useState(null);
     const [viewProfile, setViewProfile] = useState(-1);
     const [imageIndex, setImageIndex] = useState(0);
+    const [showPreferenceDiv, setShowPreferenceDiv] = useState(false);
+    const [minAge, setMinAge] = useState(null);
+    const [maxAge, setMaxAge] = useState(null);
+    const [distance, setDistance] = useState(null);
+    const [preLoader, setPreLoader] = useState(true);
+    const [loader, setLoader] = useState(false);
+
 
     useEffect(() => {
       Aos.init({duration: 400})
@@ -38,22 +50,71 @@ const Home = () => {
 
     useEffect(() => {
 
-        let config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: process.env.REACT_APP_API_URL + '/home',
-            withCredentials: true,
-          };
-          
-        axios.request(config)
-          .then((response) => {
-            setData(response.data.userList.reverse());
-          })
-          .catch((error) => {
-            // console.log("errpr", error);
-        });
+      let config ={
+        methid: 'get',
+        maxBodyLength: Infinity,
+        url: process.env.REACT_APP_API_URL + '/mydetails',
+        withCredentials: true,
+
+      }
+
+      axios.request(config)
+      .then((res) => {
+        console.log("res", res.data.data.recommendationPreferences);
+        setMinAge(res.data.data.recommendationPreferences.ageRange.min);
+        setMaxAge(res.data.data.recommendationPreferences.ageRange.max);
+        setDistance(res.data.data.recommendationPreferences.radius);
+      })
+
+      getData();
     }, [])
 
+    const getData = () => {
+      let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: process.env.REACT_APP_API_URL + '/home',
+        withCredentials: true,
+      };
+      
+      axios.request(config)
+        .then((response) => {
+          setData(response.data.userList.reverse());
+          setPreLoader(false);
+        })
+        .catch((error) => {
+          // console.log("errpr", error);
+      });
+    }
+
+    const savePreference = () => {
+
+      let data = JSON.stringify({
+        recommendationPreferences: {
+          radius: parseInt(distance),
+          ageRange: {
+            min: minAge,
+            max: maxAge
+          }
+        }
+      });
+
+      let config = {
+        method: 'POST',
+        maxBodyLength: Infinity,
+        url: process.env.REACT_APP_API_URL + '/editProfile',
+        withCredentials: true,
+        data: data
+      };
+
+      axios.request(config)
+      .then(() =>{
+        setShowPreferenceDiv(false);
+        getData();
+      }).catch((err) => {
+        console.log("error in saving preference", err);
+      })
+    }
 
     const handleSwipeLeft = () => {
       if( imageIndex < (data[viewProfile].image.length-1)){
@@ -96,7 +157,59 @@ const Home = () => {
 
     return (
       <>
-        <div className="tinderCard_container">
+        <img 
+          style={{position: 'absolute', top: '30px', right: '30px', width: "35px"}} 
+          src={customize}
+          onClick={() => setShowPreferenceDiv(!showPreferenceDiv)}
+        />
+        {
+          showPreferenceDiv ? 
+          <div>
+            
+            <div style={{width: '85%', margin: 'auto'}}>
+              <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                <h3>Age Range</h3>
+                <h3>{minAge} - {maxAge}</h3>
+              </div>
+              <RangeSlider 
+                min={18} 
+                max={40} 
+                defaultValue={[minAge, maxAge]}
+                id="range-slider-red"
+                onInput={(e) => {
+                  setMinAge(e[0]);
+                  setMaxAge(e[1]);
+                }}
+              />
+            </div>
+
+
+            <div style={{width: '85%', margin: 'auto', marginTop: '25px'}}>
+              <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                <h3>Distance Range</h3>
+                <h3>{distance}Km</h3>
+              </div>
+              <input 
+                type="range" 
+                defaultValue={distance} 
+                min={1}
+                max={100}
+                onChange={(e) => setDistance(e.target.value)}
+                style={{width: '100%'}}
+                id="range"
+                
+                className="range-field"
+              />
+            </div>
+
+            <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', textAlign: 'center', marginBottom: '100px' }}>
+                <div onClick={() => savePreference()} style={{ display: 'inline-block' }}>
+                  <ButtonComponent title="Save" loader={loader}/>
+                </div>
+            </div>
+
+          </div> : preLoader ? <img src={blackLoader} height="100px" style={{marginTop: '30vh'}}/> :
+          <div className="tinderCard_container">
           {viewProfile !== -1 ? 
           <div className="detailProfileDiv " >
             {/* <SwipeDetector
@@ -171,6 +284,7 @@ const Home = () => {
         )
       }
         </div>
+        }
         <NavigationBar />
       </>
     )
