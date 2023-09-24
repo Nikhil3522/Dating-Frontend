@@ -2,23 +2,38 @@ import { useNavigate } from 'react-router-dom';
 import msg from '../assets/icons/msg.png';
 import heart from '../assets/icons/heart.png';
 import home from '../assets/icons/home.png';
+import { useState } from 'react';
+import user from '../assets/icons/user.png';
 
 const NavigationBar = () => {
     const navigate = useNavigate();
+    const [DPURL, setDPURL] = useState(null);
+
+    useState(() => {
+        setDPURL(localStorage.getItem('DP'));
+    }, [])
 
     return (
         <div className="navbarDiv">
             <div onClick={() => navigate('/home')}>
-                <img src={home} width="40px"/>
+                <img src={home} width="35px"/>
+                <h6 style={{marginTop: '-4px', color: 'white'}}>HOME</h6>
             </div>
             <div onClick={() => navigate('/like')}>
-                <img src={heart} width="40px"/>
+                <img src={heart} width="35px"/>
+                <h6 style={{marginTop: '-4px', color: 'white'}}>LIKE</h6>
             </div>
             <div onClick={() => navigate('/message')}>
-                <img src={msg} width="40px"/>
+                <img src={msg} width="35px"/>
+                <h6 style={{marginTop: '-4px', color: 'white'}}>CHAT</h6>
             </div>
             <div onClick={() => navigate('/profile')}>
-                u
+                <img 
+                    style={{borderRadius: '50%', height: '35px', width: '35px', objectFit: 'cover'}}
+                    src={DPURL ? DPURL : user}
+                    width="35px"
+                /> 
+                <h6 style={{marginTop: '-4px', color: 'white'}}>PROFILE</h6>
             </div>
         </div>
     )

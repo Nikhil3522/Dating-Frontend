@@ -60,10 +60,10 @@ const Home = () => {
 
       axios.request(config)
       .then((res) => {
-        console.log("res", res.data.data.recommendationPreferences);
         setMinAge(res.data.data.recommendationPreferences.ageRange.min);
         setMaxAge(res.data.data.recommendationPreferences.ageRange.max);
         setDistance(res.data.data.recommendationPreferences.radius);
+        localStorage.setItem('DP', res.data.data.avatar);
       })
 
       getData();
