@@ -3,7 +3,7 @@ import axios from "axios";
 import localForage from 'localforage';
 import { useNavigate } from "react-router-dom";
 import NavigationBar from "../component/NavigationBar";
-
+import blackLoader from "../assets/gif/blackLoader.gif";
 
 const Message = () => {
     const navigate = useNavigate();
@@ -28,6 +28,7 @@ const Message = () => {
             return axios.request(config)
                 .then((response) => {
                     sortedArray[index] = { ...sortedArray[index], name: response.data.data.name, avatar: response.data.data.avatar };
+                    setLoader(false);
                 })
                 .catch((error) => {
                     console.log("error", error);
@@ -122,7 +123,7 @@ const Message = () => {
         
         getUserDetail(sortedProfiles);
         
-        setLoader(false);
+
     }
 
     const getAllData = (temp) => {
@@ -165,7 +166,7 @@ const Message = () => {
         <div>
             <h4>Chat</h4>
             <div>
-                {loader === false && matchProfile.map((profile, index) => (
+                {loader === false ? matchProfile.map((profile, index) => (
                     <div key={index} onClick={() => navigate(`/message/${profile.index}/${profile.name}/${profile.avatar}`)}>
                         <div style={{ width: '90%', margin: 'auto', marginBottom: '25px', display: 'flex', justifyContent: 'space-between' }}>
                             <img style={{ borderRadius: '15px' }} src="https://tse2.mm.bing.net/th?id=OIP.p7gZV4Td4lKOtIgk0pH_1QHaLH&pid=Api&P=0&h=180" height="80px" />
@@ -187,7 +188,8 @@ const Message = () => {
                             </div>
                         </div>
                     </div>
-                ))}
+                )) : 
+                <img src={blackLoader} height="100px" style={{marginTop: '30vh'}}/>}
             </div>
             <NavigationBar />
         </div>
