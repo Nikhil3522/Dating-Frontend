@@ -21,6 +21,7 @@ import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 import ButtonComponent from "../component/ButtonComponent";
 import blackLoader from "../assets/gif/blackLoader.gif";
+import blackClose from "../assets/icons/black-close.png";
 
 const Home = () => {
 
@@ -166,7 +167,7 @@ const Home = () => {
       <>
         <img 
           style={{position: 'absolute', top: '30px', right: '30px', width: "35px"}} 
-          src={customize}
+          src={showPreferenceDiv ? blackClose : customize}
           onClick={() => setShowPreferenceDiv(!showPreferenceDiv)}
         />
         {
