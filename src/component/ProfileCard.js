@@ -30,26 +30,31 @@ const ProfileCard = (props) => {
 
     const [imageIndex, setImageIndex] = useState(0);
 
-    useEffect(() => {
-        console.log("person", imageIndex)
-    }, [imageIndex])
-
-
     const swiped=(direction, person)=>{
         if(direction === 'right'){
             likeProfile(person.userId);
+            props.reCallAPI(person.userId);
         }
-        // console.log(`i'm in swiped`,nameToDelete, direction);
-        // setLastDirection(direction);
     }
     
-    const outOfFrame=(name)=>{
-        console.log(`enough tinder today`);
-        
-    }
+    const outOfFrame=(person)=>{
 
-    const onSubmit = (name) => {
-        console.log("User", name);
+        let config = {
+            method: 'POST',
+            url: process.env.REACT_APP_API_URL + `/nope/${person.userId}`,
+            withCredentials: true,
+            maxBodyLength: Infinity,
+        };
+
+        axios.request(config)
+        .then((res) => {
+            console.log("res", res);
+        })
+        .catch((err) => {
+            console.log("err", err);
+        })
+
+        props.reCallAPI(person.userId);        
     }
 
     const changeImage = (direction) => {
@@ -63,8 +68,6 @@ const ProfileCard = (props) => {
 
     return (
         <div 
-            // onClick={onSubmit} 
-            // onTouchStart={() => onSubmit(person.name)}
             style={{display: visible ? 'none': 'block'}}
         >
             <TinderCard
@@ -72,7 +75,7 @@ const ProfileCard = (props) => {
                 className="swipe"
                 preventSwipe={["up", "down"]}
                 onSwipe={(dir) => swiped(dir, props.person)}
-                onCardLeftScreen={() => outOfFrame(person.name)}
+                onCardLeftScreen={() => outOfFrame(props.person)}
             >
                 <div
                     className="card"
@@ -104,10 +107,15 @@ const ProfileCard = (props) => {
                     </div>
                 </div>
                 <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
-                    <div onTouchStart={() => setVisible(true)}>
+                    <div onTouchStart={() => {
+                        outOfFrame(props.person)
+                        setVisible(true);
+                    }}>
                         <img src={cross} height="50px"/>
-                    </div><div onTouchStart={() => {
+                    </div>
+                    <div onTouchStart={() => {
                         likeProfile(person.userId);
+                        props.reCallAPI(person.userId);
                         setVisible(true);
                     }}>
                         <img src={like} height="50px"/>

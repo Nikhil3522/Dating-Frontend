@@ -34,6 +34,13 @@ const Home = () => {
     const [preLoader, setPreLoader] = useState(true);
     const [loader, setLoader] = useState(false);
 
+    const reCallAPI = (userId) => {
+      if(data[0].userId == userId){
+        setData(null);
+        setPreLoader(true);
+        getData();
+      }
+    }
 
     useEffect(() => {
       Aos.init({duration: 400})
@@ -280,7 +287,7 @@ const Home = () => {
           </div> :
           
         data && data.map((person, index) =>
-          <ProfileCard person={person} key={index} changeViewProfileIndex={() => changeViewProfileIndex(index)}/>
+          <ProfileCard reCallAPI={reCallAPI} person={person} key={index} changeViewProfileIndex={() => changeViewProfileIndex(index)}/>
         )
       }
         </div>
