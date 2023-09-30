@@ -6,8 +6,11 @@ import '../LikePage.css';
 import LikeRequestProfile from "../component/LikeRequestProfile";
 import ProfilePage from "../component/ProfilePage";
 import blackLoader from "../assets/gif/blackLoader.gif";
+import { useNavigate } from "react-router-dom";
 
 const Like = () => {
+    const navigate = useNavigate();
+
     const [like, setLike] = useState([]);
     const [profilePageShow, setProfilePageShow] = useState(false);
     const [showProfileId, setShowProfileId] = useState(null);
@@ -15,6 +18,8 @@ const Like = () => {
     const [rejectUserId, setRejectUserId] = useState(null);
     const [rejectUserName, setRejectUserName] = useState(null);
     const [preLoader, setPreLoader] = useState(true);
+    const [permission, setPermission] = useState(false);
+    const [likeLength, setLikeLength] = useState(null);
 
     useEffect(() => {
         fetchLikeData();
@@ -24,14 +29,19 @@ const Like = () => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'http://localhost:8000/mydetails',
+            url: 'http://localhost:8000/myLike',
             withCredentials: true,
             
           };
           
         axios.request(config)
           .then((response) => {
-            setLike(response.data.data.like);
+            if(Array.isArray(response.data.data)){
+                setLike(response.data.data);
+            }else{
+                setPermission(true);
+                setLikeLength(response.data.data)
+            }
             setPreLoader(false);
           })
           .catch((error) => {
@@ -80,6 +90,25 @@ const Like = () => {
         profilePageShow === false ? 
         <div>
             {preLoader ? <img src={blackLoader} height="100px" style={{marginTop: '30vh'}}/> :
+            permission ? <>
+                <h3>{likeLength} Likes</h3>
+
+                <div className="likeContainer">
+                    {
+                        Array.from({ length: likeLength }).map((_, index) => (
+                            <div key={index} className="likeRequestProfileCard" onClick={() => navigate('/subscription/gold')}>
+                                <img 
+                                    className="profilePicture" 
+                                    src="https://cdn.jwa.org/sites/default/files/mediaobjects/gal_gadot_2_sdcc_2014_cropped.jpg" 
+                                    width="100%" 
+                                    height="220px"
+                                    style={{filter: 'blur(20px)'}}
+                                />
+                            </div>
+                        ))
+                    }
+                </div>
+            </>:
             <>
                 { showAlert &&
                     <div style={{zIndex: 2,display: 'flex', paddingBottom: '45px', flexDirection: 'column', position: 'absolute',borderRadius: '15px', background: 'linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%)', color: 'white', top: '30vh',left: '15vw', width: '70%', boxShadow: 'rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px' }}>
