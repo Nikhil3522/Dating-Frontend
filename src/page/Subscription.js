@@ -15,8 +15,73 @@ const Subscription = () => {
         }
     }, [packName, navigate]);
 
-    const goldPaymentGateway = async () => {
-        
+    const paymentGateway = async () => {
+        var planAmount = 0;
+        var description;
+
+        if(packName === "gold"){
+            description = "Gold Plan";
+            if(selectPlan === "one"){
+                planAmount = 99;
+                description += " | One Month";
+            }else if(selectPlan === "three"){
+                planAmount = 249;
+                description += " | Three Months";
+            }if(selectPlan === "six"){
+                planAmount = 399;
+                description += " | Six Months";
+            }
+        }else if(packName === "diamond"){
+            description = "Diamond Plan";
+            if(selectPlan === "one"){
+                planAmount = 199;
+                description += " | One Month";
+            }else if(selectPlan === "three"){
+                planAmount = 499;
+                description += " | Three Months";
+            }if(selectPlan === "six"){
+                planAmount = 799;
+                description += " | Six Months";
+            }
+        }
+
+        const response = await fetch(  process.env.REACT_APP_API_URL + '/create-order', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ amount: 100 * planAmount }),
+            credentials: 'include'
+        });
+    
+        const data = await response.json();
+        const orderId = data.order.id;
+        const name = data.user.name;
+        const email = data.user.email;
+
+        // Initialize Razorpay with the order ID
+        const options = {
+          key: process.env.RAZORPAY_KEY_ID,
+          amount: 100 * planAmount,
+          currency: 'INR',
+          name: 'Your Company Name',
+          description: description,
+          order_id: orderId,
+          handler: function (response) {
+            // Handle the success callback here
+            console.log('Payment success', response);
+            // navigate('/message')
+            // You can redirect the user or perform other actions here
+          },
+          prefill: {
+            name: name,
+            email: email,
+            // contact: '1234567890',
+          },
+        };
+    
+        const razorpay = new window.Razorpay(options);
+        razorpay.open();
     }
     
 
@@ -70,7 +135,7 @@ const Subscription = () => {
             </div>
 
             <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', textAlign: 'center', marginBottom: '50px' }}>
-                <div onClick={() => goldPaymentGateway()} style={{ display: 'inline-block' }}>
+                <div onClick={() => paymentGateway()} style={{ display: 'inline-block' }}>
                     <ButtonComponent title="BUY NOW" loader={loader}/>
                 </div>
             </div>
@@ -123,7 +188,7 @@ const Subscription = () => {
             </div>
 
             <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', textAlign: 'center', marginBottom: '50px' }}>
-                <div onClick={() => console.log("fdsa")} style={{ display: 'inline-block' }}>
+                <div onClick={() => paymentGateway()} style={{ display: 'inline-block' }}>
                     <ButtonComponent title="BUY NOW" loader={loader}/>
                 </div>
             </div>
