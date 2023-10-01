@@ -48,3 +48,86 @@
     margin-left: 10px;
     position: absolute;
 }
+
+.subscriptionContainer{
+    padding-bottom: 30px;
+    margin-top: 30px; 
+    display: flex;
+    overflow-x: scroll;
+    width: 100%;
+}
+
+.subscriptionDiv{
+    background: rgb(201,205,255);
+    background: radial-gradient(circle, rgba(201,205,255,0.6) 0%, rgba(255,187,255,0.6) 100%);
+    min-width: 80%;
+    min-height: 300px;
+    border-radius: 15px;
+    margin-left: 10px;
+    padding-bottom: 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.subscriptionDiv:nth-child(1){
+    margin-left: 30px;
+}
+
+.subscriptionDiv:nth-child(2){
+    margin-right: 30px;
+}
+
+.price{
+    font-size: 40px;
+    margin: 0px;
+}
+
+.preDiscountPrice{
+    font-size: 19px;
+    text-decoration-line: line-through;
+    text-decoration-thickness: 0.1px;
+    opacity: 0.7;
+}
+
+.continueBtn{
+    background: linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%);
+    height: 45px;
+    color: white;
+    width: 70%;
+    margin: auto;
+    border-radius: 25px;
+    box-shadow: rgba(99, 99, 99, 0.5) 0px 2px 8px 0px;
+}
+
+.subscriptionMonthDiv{
+    background: rgb(201,205,255);
+    background: radial-gradient(circle, rgba(201,205,255,0.2) 0%, rgba(255,187,255,0.2) 100%);
+    min-width: 60%;
+    min-height: 180px;
+    border-radius: 15px;
+    margin-left: 10px;
+    padding-bottom: 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.list{
+    list-style: circle;
+    text-align: left;
+}
+
+.benefits-container{
+    border: 1px solid gray;
+    width: 90%;
+    margin: auto;
+    border-radius: 10px;
+}
+
+.benefits-container p{
+    font-size: 20px;
+    font-weight: 500;
+    font-family: "Sofia", sans-serif;
+}
+
+.packName{
+    font-family: 'Open Sans', sans-serif;
+    margin-top: 0;
+}
