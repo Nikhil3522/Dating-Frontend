@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import localforage from "localforage";
+import blackLoader from "../assets/gif/blackLoader.gif";
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -116,7 +117,7 @@ const Profile = () => {
 
                         <div>
                         </div>
-                    </> : 'loading...'
+                    </> : <img src={blackLoader} height="100px" style={{marginTop: '30vh'}}/>
             }
 
             <NavigationBar />
