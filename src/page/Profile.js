@@ -88,32 +88,40 @@ const Profile = () => {
                             <h3>Logout</h3>
                         </div>
 
-                        <div style={{paddingBottom: '150px'}}>
-                            <div className="subscriptionContainer">
-                                <div className="subscriptionDiv">
-                                    <h3>Gold Pack</h3>
-                                    <p>Unlimited Likes</p>
-                                    <p>See Who Likes You</p>
-                                    <p className="price">&#8377;99</p>
+                        {
+                            data.data.permission === 1 
+                            ?
+                            <div style={{paddingBottom: '150px'}}>
+                                <div className="subscriptionContainer">
+                                    <div className="subscriptionDiv">
+                                        <h3>Gold Pack</h3>
+                                        <p>Unlimited Likes</p>
+                                        <p>See Who Likes You</p>
+                                        <p className="price">&#8377;99</p>
 
-                                    <div className="continueBtn" style={{ marginTop: '15px' }} onClick={() => navigate('/subscription/gold')}>
-                                        <h3 style={{lineHeight: '45px'}}>CONTINUE</h3>
+                                        <div className="continueBtn" style={{ marginTop: '15px' }} onClick={() => navigate('/subscription/gold')}>
+                                            <h3 style={{lineHeight: '45px'}}>CONTINUE</h3>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div className="subscriptionDiv">
-                                    <h3>Diamond Pack</h3>
-                                    <p>Unlimited Likes</p>
-                                    <p>See Who Likes You</p>
-                                    <p>Priority Likes</p>
-                                    <p className="price">&#8377;199</p>
+                                    <div className="subscriptionDiv">
+                                        <h3>Diamond Pack</h3>
+                                        <p>Unlimited Likes</p>
+                                        <p>See Who Likes You</p>
+                                        <p>Priority Likes</p>
+                                        <p className="price">&#8377;199</p>
 
-                                    <div className="continueBtn" style={{ marginTop: '15px' }} onClick={() => navigate('/subscription/diamond')}>
-                                        <h3 style={{lineHeight: '45px'}}>CONTINUE</h3>
+                                        <div className="continueBtn" style={{ marginTop: '15px' }} onClick={() => navigate('/subscription/diamond')}>
+                                            <h3 style={{lineHeight: '45px'}}>CONTINUE</h3>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            :
+                            <div>
+                                <h2 className="enjoySub">Enjoy The Subscription</h2>
+                            </div>
+                        }
 
                         <div>
                         </div>
