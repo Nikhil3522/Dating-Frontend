@@ -9,8 +9,12 @@ import football from '../assets/images/football.png';
 import music from '../assets/images/music.png';
 import run from '../assets/images/run.png';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import localForage from 'localforage';
 
 const UserDetails = () => {
+    const navigate = useNavigate();
+
     const [state, setState] = useState(1);
     const [alert, setAlert] = useState("");
     const [gender, setGender] = useState(null);
@@ -25,6 +29,7 @@ const UserDetails = () => {
     const [name, setName]= useState("");
     const [password, setPassword]= useState("");
     const [loader, setLoader] = useState(false);
+    const [tempCollege, setTempCollege] = useState(null);
 
     useEffect(() => {
         setTimeout(() =>{
@@ -48,6 +53,40 @@ const UserDetails = () => {
         setPassword(userPassword);
         // localStorage.removeItem('userEmail');
     }, [])
+
+    const login = async () => {
+        let data = JSON.stringify({
+            "email": userEmail,
+            "password": password
+        });
+
+        let config = {
+            method: 'POST',
+            maxBodyLength: Infinity,
+            url: process.env.REACT_APP_API_URL + '/login',
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: data
+        }
+
+        axios.request(config)
+        .then(async (response) => {
+            console.log("response", response.data.message);
+            if(response.data.message === "User LoggedIN!"){
+                await localForage.setItem('userLogin', {id: Date.now(), value: true});
+                navigate('/home');
+            }else if(response.data.message === "Wrong Email or Passwod!" ){
+                setAlert("Wrong Email or Password");
+            }else{
+                setAlert("Something went wrong! Please try again after sometime.");
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
 
     useEffect(() => {
         // Get user's location
@@ -99,6 +138,9 @@ const UserDetails = () => {
                     return;
                 }else if(!college){
                     setAlert("Please choose your college/university.");
+                    return;
+                }else if( college === "Others" && tempCollege === null){
+                    setAlert("Please Enter your college/University Name.");
                     return;
                 }
             }else if(state === 2){
@@ -153,6 +195,7 @@ const UserDetails = () => {
             "email": userEmail,
             "name": name,
             "age": age,
+            "bio": "Hello",
             "image": selectedImage,
             "avatar": `${selectedImage[0]}`,
             "college": college,
@@ -165,9 +208,20 @@ const UserDetails = () => {
                 "long": longitude,
                 "lat": latitude
             },
+            "recommendationPreferences": {
+                "ageRange": {
+                    "min": 18,
+                    "max": 24
+                },
+                "radius": 50
+            },
             "permission": 1
         }).then(response => {
-            // console.log(response.data);
+            if(password !== ""){
+                login();
+            }else{
+                navigate('/login');
+            }
         }).catch(error => {
             console.error(error);
         });
@@ -243,23 +297,40 @@ const UserDetails = () => {
                             />
                         </div>
 
-                        <div className="inputDiv">
-                            <p className="inputTitle" style={{"width": "50px"}}>College</p>
-                            <select 
-                                type="select"
-                                className="inputField"
-                                value={college}
-                                onChange={(e) => setCollege(e.target.value)}
-                            >
-                                <option value="Galgotias University">Galgotias University</option>
-                                <option value="Galgotias College">Galgotias College</option>
-                                <option value="GL Bajaj">GL Bajaj</option>
-                                <option value="IIMT">IIMT</option>
-                                <option value="GNIOT">GNIOT</option>
-                                <option value="Shardha University">Shardha University</option>
-                                <option value="Others">Others</option>
-                            </select>
-                        </div>
+                        {
+                            college === "Others" ? 
+                            <div className="inputDiv">
+                                <p className="inputTitle" style={{"width": "50px"}}>College</p>
+                                <input 
+                                    type="text"
+                                    className="inputField"
+                                    value={tempCollege}
+                                    onChange={(e) => {
+                                        setTempCollege(e.target.value)
+                                        console.log("college", tempCollege)
+                                    }}
+                                />
+                            </div>
+                            :
+                            <div className="inputDiv">
+                                <p className="inputTitle" style={{"width": "50px"}}>College</p>
+                                <select 
+                                    type="select"
+                                    className="inputField"
+                                    value={college}
+                                    onChange={(e) => setCollege(e.target.value)}
+                                >
+                                    <option>Select</option>
+                                    <option value="Galgotias University">Galgotias University</option>
+                                    <option value="Galgotias College">Galgotias College</option>
+                                    <option value="GL Bajaj">GL Bajaj</option>
+                                    <option value="IIMT">IIMT</option>
+                                    <option value="GNIOT">GNIOT</option>
+                                    <option value="Shardha University">Shardha University</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                            </div>
+                        }
                     </div>
                 : state === 2 ?
                 <div>

@@ -5,6 +5,7 @@ import '../App.css';
 import NavigationBar from "../component/NavigationBar";
 import ProfileCard from "../component/ProfileCard";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import verified from '../assets/icons/verified.png';
 import back from '../assets/icons/back.png';
 import next from  '../assets/icons/next.png';
@@ -24,6 +25,7 @@ import blackLoader from "../assets/gif/blackLoader.gif";
 import blackClose from "../assets/icons/black-close.png";
 
 const Home = () => {
+  const navigate = useNavigate();
 
     const [data, setData] = useState(null);
     const [viewProfile, setViewProfile] = useState(-1);
@@ -68,13 +70,23 @@ const Home = () => {
 
       axios.request(config)
       .then((res) => {
+        console.log("res", res);
+        if(res.data.message === "User not exist"){
+          localStorage.setItem('userEmail', res.data.data.email);
+          localStorage.setItem('userName', res.data.data.name);
+          // localStorage.setItem('userPassword', res.data.data.);
+
+          navigate('/userdetails');
+          return;
+        }
         setMinAge(res.data.data.recommendationPreferences.ageRange.min);
         setMaxAge(res.data.data.recommendationPreferences.ageRange.max);
         setDistance(res.data.data.recommendationPreferences.radius);
         localStorage.setItem('DP', res.data.data.avatar);
+
+        getData();
       })
 
-      getData();
     }, [])
 
     const getData = () => {
@@ -261,7 +273,7 @@ const Home = () => {
             {data[viewProfile].bio &&
               <div>
                 <h3 style={{textAlign: 'left', margin: '5px'}}>About Me</h3>
-                <p style={{textAlign: 'Left', padding:'10px', backgroundColor: 'whitesmoke'}}>{data[viewProfile].bio}</p>
+                <p style={{textAlign: 'Left', padding:'10px', backgroundColor: 'whitesmoke', fontSize: '20px'}}>{data[viewProfile].bio}</p>
               </div>
             }
             <div>
@@ -280,7 +292,7 @@ const Home = () => {
               <div data-aos="fade-right" style={{border: '1px solid red', minWidth:'40%', minHeight: '40px', borderRadius: '10px', backgroundColor: 'red', color: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px'}}>
                 <h2 style={{lineHeight: '5px'}}>NOPE</h2>
               </div>
-              <div data-aos="fade-left" style={{border: '1px solid green', minWidth:'40%', minHeight: '40px', borderRadius: '10px', backgroundColor: 'green', color: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px'}}>
+              <div data-aos="fade-left" onClick={() => setViewProfile(-1)}  style={{border: '1px solid green', minWidth:'40%', minHeight: '40px', borderRadius: '10px', backgroundColor: 'green', color: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px'}}>
                 <h2 style={{lineHeight: '5px'}}>LIKE</h2>
               </div>
             </div>
