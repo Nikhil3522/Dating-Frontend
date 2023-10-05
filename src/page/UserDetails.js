@@ -260,6 +260,23 @@ const UserDetails = () => {
         {title: "Running", img: run},
     ]
 
+    const handleDateChange = (e) => {
+        const selectedDate = new Date(e.target.value);
+        const currentDate = new Date();
+        const eighteenYearsAgo = new Date(currentDate);
+        eighteenYearsAgo.setFullYear(currentDate.getFullYear() - 18);
+
+        if (selectedDate < eighteenYearsAgo) {
+            const ageInMilliseconds = currentDate - selectedDate;
+            const ageInYears = ageInMilliseconds / (365 * 24 * 60 * 60 * 1000);
+            setAge(Math.floor(ageInYears));
+            console.log("sele", Math.floor(ageInYears));
+        } else {
+            setAlert("You must be 18 years or older to proceed.");
+            setAge(null);
+        }
+    }
+
     return(
         <div>
             <div style={{width: '80%', margin: 'auto', display: 'flex', justifyContent: 'space-between', marginTop: '-15px'}}>
@@ -287,13 +304,11 @@ const UserDetails = () => {
                         </div>
 
                         <div className="inputDiv">
-                            <p className="inputTitle" style={{"width": "30px"}}>Age</p>
+                            <p className="inputTitle" style={{"width": "105px"}}>Date of birth</p>
                             <input 
-                                type="number"
-                                min={18}
+                                type="date"
                                 className="inputField"
-                                value={age}
-                                onChange={(e) => setAge(e.target.value)}
+                                onChange={(e) => handleDateChange(e)}
                             />
                         </div>
 
