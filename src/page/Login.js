@@ -5,6 +5,8 @@ import "aos/dist/aos.css";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import localForage from 'localforage';
+import hide from '../assets/icons/hide.png';
+import shown from '../assets/icons/shown.png';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -13,6 +15,7 @@ const Login = () => {
     const [alert, setAlert] = useState("");
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
+    const [passwordSee, setPasswordSee] = useState(false);
 
     useEffect(() => {
         Aos.init({duration: 600})
@@ -66,11 +69,20 @@ const Login = () => {
             </div>
             <div className="inputDiv">
                 <p className="inputTitle" style={{"width": "70px"}}>Password</p>
-                <input 
-                    type="password"
-                    className="inputField"
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+                <div style={{display: 'flex', paddingLeft: '5px', paddingRight: '5px'}}>
+                    <input 
+                        type={passwordSee ? "text" : "password"}
+                        className="inputField"
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <img 
+                        style={{marginTop: '10px'}}
+                        onClick={() => setPasswordSee(!passwordSee)} 
+                        src={passwordSee ? hide: shown} 
+                        width="30px"
+                        height="30px"
+                    />
+                </div>
             </div>
 
             <p><a href="/forget-password">Forget password?</a> · <a href="/signup">Sign up</a></p>

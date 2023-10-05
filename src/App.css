@@ -3,6 +3,9 @@
   /* background: rgb(255,91,61);
   background: linear-gradient(283deg, rgba(255,91,61,0.3086484593837535) 0%, rgba(253,45,114,0.30024509803921573) 83%); */
   min-height: 100vh;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .App-logo {
@@ -52,6 +55,37 @@
   width: 180px;
 }
 
+
+#range-slider-red .range-slider__range {
+  background: linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%);
+  transition: height 0.3s;
+}
+
+#range-slider-red .range-slider__thumb {
+  background: linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%);
+  transition: transform 0.3s;
+}
+
+.range-field{
+  -webkit-appearance: none;
+  outline: none;
+  height: 10px;
+  background: #d1d1d1;
+  border-radius: 20px;
+  box-shadow: inset 0 0 5px rgba(0,0,0,1);
+  overflow: hidden;
+}
+
+.range-field::-webkit-slider-thumb{
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%);
+  box-shadow: -410px 0 0 400px rgba(255, 91, 61, 1);
+}
+
+
 .inputDiv{
   border: 1px solid gray;
   width: 80%;
@@ -59,6 +93,10 @@
   margin: auto;
   border-radius: 10px;
   margin-top: 25px;
+}
+
+.inputDiv input{
+  outline: none;
 }
 
 .inputTitle{
@@ -222,6 +260,60 @@
     max-width: 400px;
     margin-left: -49%;
   }
+
+  @media only screen and (min-width: 320px) {
+    .tinderCard_container{
+      margin-left: -40%;
+    }
+  }
+
+  @media only screen and (min-width: 340px) {
+    .tinderCard_container{
+      margin-left: -45%;
+    }
+  }
+
+  @media only screen and (min-width: 360px) {
+    .tinderCard_container{
+      margin-left: -47%;
+    }
+  }
+
+  @media only screen and (min-width: 380px) {
+    .tinderCard_container{
+      margin-left: -49%;
+    }
+  }
+
+  @media only screen and (min-width: 400px) {
+    .tinderCard_container{
+      margin-left: -46%;
+    }
+  }
+
+  @media only screen and (min-width: 420px) {
+    .tinderCard_container{
+      margin-left: -44%;
+    }
+  }
+
+  @media only screen and (min-width: 430px) {
+    .tinderCard_container{
+      margin-left: -42%;
+    }
+  }
+
+  @media only screen and (min-width: 440px) {
+    .tinderCard_container{
+      margin-left: -40%;
+    }
+  }
+
+  @media only screen and (min-width: 460px) {
+    .tinderCard_container{
+      margin-left: -38%;
+    }
+  }
   
   .swipe{
     position: absolute;    
@@ -301,6 +393,7 @@
     height: 60px;
     width: 100%;
     display: flex;
+    max-width: 600px;
   }
 
   .navbarDiv div{
@@ -344,6 +437,35 @@
     border-radius: 10px;
     background-color: antiquewhite;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  }
+
+  .verification-container{
+    width: 90%;
+    margin: auto;
+    text-align: justify;
+  }
+
+  .msg-content {
+    background: rgb(255, 91, 61);
+    background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
+    border-radius: 10px;
+    margin-top: 7px;
+    padding: 7px;
+    color: white;
+    font-size: 18px;
+    word-wrap: break-word; /* Allows long words to break and wrap within the container */
+  }
+  
+  .unseenMsg{
+    background-color: lightgreen;
+    width: 30px;
+    border-radius: 50%;
+    height: 30px;
+    color: white;
+    font-weight: bold;
+    font-size: larger;
+    margin-top: 0;
+    margin: auto;
   }
 
 @keyframes FloatDiv-up{

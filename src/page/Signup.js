@@ -1,12 +1,18 @@
 import React, {useState, useEffect} from "react";
 import { useNavigate } from 'react-router-dom';
 import ButtonComponent from '../component/ButtonComponent';
+import hide from '../assets/icons/hide.png';
+import shown from '../assets/icons/shown.png';
 import Aos from "aos";
 import "aos/dist/aos.css";
 import axios from 'axios';
 
 const Signup = () => {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        Aos.init({duration: 600})
+    }, []);
 
     const [name, setName]= useState("");
     const [email, setEmail]= useState("");
@@ -16,6 +22,8 @@ const Signup = () => {
     const [step, setStep] = useState(1);
     const [otp, setOtp] = useState(["", "", "", ""]);
     const [loader, setLoader] = useState(false);
+    const [passwordSee, setPasswordSee] = useState(false);
+    const [confirmPassSee, setConfirmPassSee] = useState(false);
 
     useEffect(() => {
         setTimeout(() =>{
@@ -143,19 +151,39 @@ const Signup = () => {
                     </div>
                     <div className="inputDiv">
                         <p className="inputTitle" style={{"width": "70px"}}>Password</p>
-                        <input 
-                            type="password"
-                            className="inputField"
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
+                        <div style={{display: 'flex', paddingLeft: '5px', paddingRight: '5px'}}>
+                            <input 
+                                type={passwordSee ? "text" : "password"}
+                                className="inputField"
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <img 
+                                style={{marginTop: '10px'}}
+                                onClick={() => setPasswordSee(!passwordSee)} 
+                                src={passwordSee ? hide: shown} 
+                                width="30px"
+                                height="30px"
+                            />
+                        </div>
                     </div>
                     <div className="inputDiv">
                         <p className="inputTitle" style={{"width": "140px"}}>Confirm Password</p>
-                        <input 
-                            type="password"
-                            className="inputField"
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                        />
+                        <div style={{display: 'flex', paddingLeft: '5px', paddingRight: '5px'}}>
+                            <input 
+                            style={{outline: "none"}}
+                                type={confirmPassSee ? "text" : "password"}
+                                className="inputField"
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
+                            <img 
+                                style={{marginTop: '10px'}}
+                                onClick={() => setConfirmPassSee(!confirmPassSee)} 
+                                src={confirmPassSee ? hide: shown} 
+                                width="30px"
+                                height="30px"
+                            />
+                        </div>
+
                     </div>
                 </div> 
                 :
