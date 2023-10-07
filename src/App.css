@@ -275,7 +275,22 @@
 
   @media only screen and (min-width: 360px) {
     .tinderCard_container{
-      margin-left: -47%;
+      margin-left: -54%;
+    }
+  }
+
+  @media only screen and (min-width: 370px) {
+    .tinderCard_container{
+      margin-left: -51%;
+    }
+
+    /* .card{
+      height: 67vh;
+    } */
+  }
+  @media only screen and (max-height: 750px) {
+    .card{
+      height: 67vh;
     }
   }
 
