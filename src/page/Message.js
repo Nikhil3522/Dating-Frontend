@@ -187,7 +187,17 @@ const Message = () => {
             }
         }
 
-        navigate(`/message/${encrypted}/'${profile.name}'/${profile.avatar}`)
+        while(1){
+            var encryptedAvatar = await encrypt(profile.avatar);
+
+            if (regex.test(encryptedAvatar)) {
+                encryptedAvatar = await encrypt(profile.avatar);
+            } else {
+                break;
+            }
+        }
+
+        navigate(`/message/${encrypted}/${profile.name}/${encryptedAvatar}`)
     }
 
     return (

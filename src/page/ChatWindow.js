@@ -19,7 +19,7 @@ const ChatWindow = () => {
 
     const { profileId } = useParams();
     const { index } = useParams();
-    const { avatar } = useParams();
+    var { avatar } = useParams();
     const [ObjectId, setObjectId] = useState(null);
     const [currentUserId, setCurrentUserId] = useState(null);
     const [message, setMessage] = useState('');
@@ -34,6 +34,17 @@ const ChatWindow = () => {
     const socket = io('http://localhost:8900', {
         withCredentials: true,
     });
+
+    useEffect(() => {
+        const secretPass = "XkhZG4fW2t2W";
+
+        const bytes = CryptoJS.AES.decrypt(avatar, secretPass);
+        const data = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+
+        avatar = data;
+        console.log("avatar", avatar);
+
+    }, [])
 
     const decryptData = async (text) => {
         const secretPass = "XkhZG4fW2t2W";
