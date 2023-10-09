@@ -4,6 +4,7 @@ import localForage from 'localforage';
 import { useNavigate } from "react-router-dom";
 import NavigationBar from "../component/NavigationBar";
 import blackLoader from "../assets/gif/blackLoader.gif";
+import CryptoJS from "crypto-js";
 
 const Message = () => {
     const navigate = useNavigate();
@@ -162,12 +163,39 @@ const Message = () => {
             });
     };
 
+    const encrypt = async (text) => {
+        const secretPass = "XkhZG4fW2t2W";
+  
+        const data = CryptoJS.AES.encrypt(
+            JSON.stringify(text),
+            secretPass
+        ).toString(CryptoJS.enc.Base64URL);
+      
+        return data;
+    };
+
+    const redirectTo = async (profile) =>{
+
+        const regex = /\//;
+        while(1){
+            var encrypted = await encrypt(profile.index);
+
+            if (regex.test(encrypted)) {
+                encrypted = await encrypt(profile.index);
+            } else {
+                break;
+            }
+        }
+
+        navigate(`/message/${encrypted}/'${profile.name}'/${profile.avatar}`)
+    }
+
     return (
         <div>
             <h4>Chat</h4>
             <div>
                 {loader === false ? matchProfile.map((profile, index) => (
-                    <div key={index} onClick={() => navigate(`/message/${profile.index}/${profile.name}/${profile.avatar}`)}>
+                    <div key={index} onClick={() => redirectTo(profile)}>
                         <div style={{ width: '90%', margin: 'auto', marginBottom: '25px', display: 'flex', justifyContent: 'space-between' }}>
                             <img style={{ borderRadius: '15px' }} src="https://tse2.mm.bing.net/th?id=OIP.p7gZV4Td4lKOtIgk0pH_1QHaLH&pid=Api&P=0&h=180" height="80px" />
                             {/* Online indication of user */}

@@ -12,6 +12,7 @@ import io from 'socket.io-client';
 import localForage from 'localforage';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import CryptoJS from "crypto-js";
 
 const ChatWindow = () => {
     const navigate = useNavigate();
@@ -33,6 +34,14 @@ const ChatWindow = () => {
     const socket = io('http://localhost:8900', {
         withCredentials: true,
     });
+
+    const decryptData = async (text) => {
+        const secretPass = "XkhZG4fW2t2W";
+
+        const bytes = CryptoJS.AES.decrypt(text, secretPass);
+        const data = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+        return data;
+    };
 
     useEffect(() => {
     
@@ -80,11 +89,13 @@ const ChatWindow = () => {
         return `${month}/${day}/${year}`;
     }
 
-    const getMessage = () => {
+    const getMessage = async () => {
+
+        const decrypted = await decryptData(profileId);
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: process.env.REACT_APP_API_URL +`/chat/get-messages/${profileId}/${pageNumber}`,
+            url: process.env.REACT_APP_API_URL +`/chat/get-messages/${decrypted}/${pageNumber}`,
             withCredentials: true,
         };
 
