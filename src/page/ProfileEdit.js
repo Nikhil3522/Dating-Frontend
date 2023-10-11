@@ -12,6 +12,20 @@ import football from '../assets/images/football.png';
 import music from '../assets/images/music.png';
 import run from '../assets/images/run.png';
 import back from '../assets/images/back.png';
+import videoGame from '../assets/images/videoGame.png';
+import yoga from '../assets/images/yoga.png';
+import volleyball from '../assets/images/volleyball.png';
+import vlogging from '../assets/images/vlogging.png';
+import tennis from '../assets/images/tennis.png';
+import roadTrip from '../assets/images/roadTrip.png';
+import cricket from '../assets/images/cricket.png';
+import drink from '../assets/images/drink.png';
+import guitar from '../assets/images/guitar.png';
+import photography from '../assets/images/photography.png';
+import meditation from '../assets/images/meditation.png';
+import gym from '../assets/images/gym.png';
+import golf from '../assets/images/golf.png';
+import basketball from '../assets/images/basketball.png';
 import { config } from "@react-spring/web";
 import { useNavigate } from "react-router-dom";
 
@@ -24,6 +38,7 @@ const ProfileEdit = () => {
     const [flatDivDisplay, setFloatDivDisplay] = useState(false);
     const [state, setState] = useState(1);
     const [about, setAbout] = useState('');
+    const [defaultValueLanguage, setDefaultValueLanguage] = useState([]);
     const [loader, setLoader] = useState(false);
 
     const LanguageOptions = [
@@ -45,23 +60,23 @@ const ProfileEdit = () => {
     const interests = [
         { title: "Shopping", img: shopping },
         { title: "Run", img: run },
-        { title: "Video Games", img: run },
-        { title: "Yoga", img: run },
+        { title: "Video Games", img: videoGame },
+        { title: "Yoga", img: yoga },
         { title: "Music", img: music },
         { title: "Art", img: art },
-        { title: "Cricket", img: run },
+        { title: "Cricket", img: cricket },
         { title: "Football", img: football },
-        { title: "Drink", img: run },
-        { title: "Vlogging", img: run },
-        { title: "Guitar", img: run },
-        { title: "Photography", img: run },
-        { title: "Meditation", img: run },
-        { title: "Tennis", img: run },
-        { title: "Volleyball", img: run },
-        { title: "Gym", img: run },
-        { title: "Golf", img: run },
-        { title: "Basketball", img: run },
-        { title: "Roadtrip", img: run },
+        { title: "Drink", img: drink },
+        { title: "Vlogging", img: vlogging },
+        { title: "Guitar", img: guitar },
+        { title: "Photography", img: photography },
+        { title: "Meditation", img: meditation },
+        { title: "Tennis", img: tennis },
+        { title: "Volleyball", img: volleyball },
+        { title: "Gym", img: gym },
+        { title: "Golf", img: golf },
+        { title: "Basketball", img: basketball },
+        { title: "Roadtrip", img: roadTrip },
         { title: "Running", img: run },
     ]
 
@@ -78,6 +93,16 @@ const ProfileEdit = () => {
         await axios.request(config)
             .then((response) => {
                 setData(response.data.data);
+
+                var temp = [];
+
+                response.data.data.languages.map((item) => {
+                    temp.push({ value: item, label: item })
+                });
+
+                console.log("temp", temp);
+
+                setDefaultValueLanguage(temp);
             })
             .catch((error) => {
                 console.log("errpr", error);
@@ -183,7 +208,7 @@ const ProfileEdit = () => {
         let config = {
             method: "POST",
             maxBodyLength: Infinity,
-            url: process.env.REACT_APP_API_URL + '/editProfile',
+            url: process.env.REACT_APP_API_URL + '/editProfile2',
             withCredentials: true,
             data: tempData,
         }
@@ -322,7 +347,7 @@ const ProfileEdit = () => {
                                 onChange={(e) => editCity(e.target.value)}
                             />
                         </div>
-                        <div className="inputDiv">
+                        {/* <div className="inputDiv">
                             <p className="inputTitle" style={{ "width": "50px" }}>College</p>
                             <input
                                 type="text"
@@ -331,7 +356,7 @@ const ProfileEdit = () => {
                                 value={data ? data.college : ''}
                             // onChange={(e) => setAge(e.target.value)}
                             />
-                        </div>
+                        </div> */}
                         <div style={{ marginTop: '20px' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', width: '80%', margin: 'auto' }}>
                                 <h3>Interests</h3>
@@ -340,7 +365,7 @@ const ProfileEdit = () => {
                             <div style={{ margin: 'auto', minHeight: '100px', borderRadius: '12px', display: 'flex', flexWrap: 'wrap', width: '80%' }}>
                                 {data.interest.map((item, index) => (
                                     <div key={index} className="interestOptionBox" >
-                                        {/* <img width="30px" height="30px"/> */}
+                                        <img width="30px" height="30px" src={require(`../assets/images/${item.toLowerCase()}.png`)}/>
                                         <p>{item}</p>
                                     </div>
                                 ))}
@@ -361,7 +386,7 @@ const ProfileEdit = () => {
                             <p className="inputTitle" style={{ "width": "75px", }}>Languages</p>
                             <Select
                                 closeMenuOnSelect={false}
-                                // defaultValue={[LanguageOptions[0], LanguageOptions[1]]}
+                                defaultValue={defaultValueLanguage}
                                 isMulti
                                 options={LanguageOptions}
                                 onChange={(e) => editLanguages(e)}
