@@ -10,6 +10,7 @@ import location from '../assets/icons/location.png';
 import Aos from "aos";
 import "aos/dist/aos.css";
 import SwipeDetector from './SwipeDetector';
+import CryptoJS from "crypto-js";
 
 const ProfilePage = (props) => {
     const [profileData, setProfileData] = useState(null);
@@ -20,9 +21,17 @@ const ProfilePage = (props) => {
     }, []);
 
     useEffect(() => {
+        var profileId;
+        if(props.encryptData){
+            const secretPass = "XkhZG4fW2t2W";
+            const bytes = CryptoJS.AES.decrypt(props.profileId, secretPass);
+            profileId = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+        }else{
+            profileId = props.profileId;
+        }
 
         let config = {
-            url: process.env.REACT_APP_API_URL + `/getProfileDetail/${props.profileId}`,
+            url: process.env.REACT_APP_API_URL + `/getProfileDetail/${profileId}`,
             maxBodyLength: Infinity,
             withCredentials: true,
             method: 'POST'

@@ -442,7 +442,7 @@ const ChatWindow = () => {
             </div>
         </div>
         </> : 
-        <ProfilePage profileId={showProfileId} hideProfilePage={hideProfilePage}/>
+        <ProfilePage profileId={showProfileId} encryptData={1} hideProfilePage={hideProfilePage}/>
     )
 }
 
