@@ -23,6 +23,7 @@ import 'react-range-slider-input/dist/style.css';
 import ButtonComponent from "../component/ButtonComponent";
 import blackLoader from "../assets/gif/blackLoader.gif";
 import blackClose from "../assets/icons/black-close.png";
+import localforage from "localforage";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -86,6 +87,12 @@ const Home = () => {
 
         getData();
       })
+      .catch((error) => {
+        if(error.response.status === 401){
+          localforage.setItem('userLogin', {id: Date.now(), value: false});
+          navigate('/login');
+        }
+      })
 
     }, [])
 
@@ -104,6 +111,10 @@ const Home = () => {
         })
         .catch((error) => {
           // console.log("errpr", error);
+        //   if(error.response.status === 401){
+        //     localforage.setItem('userLogin', {id: Date.now(), value: false});
+        //     navigate('/login');
+        // }
       });
     }
 
@@ -231,72 +242,74 @@ const Home = () => {
           </div> : preLoader ? <img src={blackLoader} height="100px" style={{marginTop: '30vh'}}/> :
           <div className="tinderCard_container">
           {viewProfile !== -1 ? 
-          <div className="detailProfileDiv " >
-            {/* <SwipeDetector
-              onSwipeLeft={handleSwipeLeft}
-              onSwipeRight={handleSwipeRight}
-            /> */}
-            <img 
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
-              style={{ touchAction: 'pan-y' }}
-              className="profileImages" 
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtS7dmYGlbT6up08GA0gSsRbSGbZ_gaCZ50w&usqp=CAU"
-            />
-            <img
-              onClick={() => setViewProfile(-1)} 
-              style={{marginLeft: '-60px'}} 
-              src={down} 
-              width="60px"
-              data-aos="flip-down"
-            />
-            <div className="imageBarIndicator" style={{ width: '100%', marginTop: '-3px'}}>
-              {
-                data[viewProfile].image.map((item, index) => (
-                    <div key={index} style={{width: `${100/data[viewProfile].image.length}%`, backgroundColor: `${index === imageIndex ? 'white': 'gray'}`}} ></div>
-                ))
-              }
-            </div> 
-             
-            <h1 data-aos="zoom-out-down">{data[viewProfile].name}, {data[viewProfile].age}
-             {/* {data[viewProfile].verified && <img src={verified} width="30px" style={{marginTop: '7px', position: 'absolute'}} /> } */}
-            </h1>
-            <h3 style={{textAlign: 'left', marginLeft: '50px'}}>
-              <img style={{marginLeft:'-40px', position:'absolute'}} src={college} width="35px"/>: {data[viewProfile].college}
-            </h3>
-            <h3 style={{textAlign: 'left', marginLeft: '50px'}}>
-              <img style={{marginLeft:'-40px', position:'absolute'}} src={city} width="35px"/>: {data[viewProfile].city}
-            </h3>
-            <h3 style={{textAlign: 'left', marginLeft: '50px'}}>
-              <img style={{marginLeft:'-40px', position:'absolute'}} src={location} width="35px"/>: {data[viewProfile].radius === 0 ? 1 : data[viewProfile].radius} Km
-            </h3>
-            {data[viewProfile].bio &&
-              <div>
-                <h3 style={{textAlign: 'left', margin: '5px'}}>About Me</h3>
-                <p style={{textAlign: 'Left', padding:'10px', backgroundColor: 'whitesmoke', fontSize: '20px'}}>{data[viewProfile].bio}</p>
-              </div>
-            }
-            <div>
-              <h3 style={{textAlign: 'left', margin: '5px'}}>Interests</h3>
-              <div className='interestOptionDiv'>
-              {data[viewProfile].interest.map((item, index)=> (
-                <div className="interestOptionBox">
-                  <img src={item} width="30px" height="30px"/>
-                  <p>{item}</p>
+          // <div style={{display: 'flex'}}>
+            <div className="detailProfileDiv " >
+              {/* <SwipeDetector
+                onSwipeLeft={handleSwipeLeft}
+                onSwipeRight={handleSwipeRight}
+              /> */}
+              <img 
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                style={{ touchAction: 'pan-y' }}
+                className="profileImages" 
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtS7dmYGlbT6up08GA0gSsRbSGbZ_gaCZ50w&usqp=CAU"
+              />
+              <img
+                onClick={() => setViewProfile(-1)} 
+                style={{marginLeft: '-60px'}} 
+                src={down} 
+                width="60px"
+                data-aos="flip-down"
+              />
+              <div className="imageBarIndicator" style={{ width: '100%', marginTop: '-3px'}}>
+                {
+                  data[viewProfile].image.map((item, index) => (
+                      <div key={index} style={{width: `${100/data[viewProfile].image.length}%`, backgroundColor: `${index === imageIndex ? 'white': 'gray'}`}} ></div>
+                  ))
+                }
+              </div> 
+              
+              <h1 data-aos="zoom-out-down">{data[viewProfile].name}, {data[viewProfile].age}
+              {/* {data[viewProfile].verified && <img src={verified} width="30px" style={{marginTop: '7px', position: 'absolute'}} /> } */}
+              </h1>
+              <h3 style={{textAlign: 'left', marginLeft: '50px'}}>
+                <img style={{marginLeft:'-40px', position:'absolute'}} src={college} width="35px"/>: {data[viewProfile].college}
+              </h3>
+              <h3 style={{textAlign: 'left', marginLeft: '50px'}}>
+                <img style={{marginLeft:'-40px', position:'absolute'}} src={city} width="35px"/>: {data[viewProfile].city}
+              </h3>
+              <h3 style={{textAlign: 'left', marginLeft: '50px'}}>
+                <img style={{marginLeft:'-40px', position:'absolute'}} src={location} width="35px"/>: {data[viewProfile].radius === 0 ? 1 : data[viewProfile].radius} Km
+              </h3>
+              {data[viewProfile].bio &&
+                <div>
+                  <h3 style={{textAlign: 'left', margin: '5px'}}>About Me</h3>
+                  <p style={{textAlign: 'Left', padding:'10px', backgroundColor: 'whitesmoke', fontSize: '20px'}}>{data[viewProfile].bio}</p>
                 </div>
-              ))}
+              }
+              <div>
+                <h3 style={{textAlign: 'left', margin: '5px'}}>Interests</h3>
+                <div className='interestOptionDiv'>
+                {data[viewProfile].interest.map((item, index)=> (
+                  <div className="interestOptionBox">
+                    <img src={item} width="30px" height="30px"/>
+                    <p>{item}</p>
+                  </div>
+                ))}
+                </div>
               </div>
-            </div>
 
-            <div style={{display: 'flex', justifyContent: 'space-around', marginTop: '30px'}}>
-              <div data-aos="fade-right" style={{border: '1px solid red', minWidth:'40%', minHeight: '40px', borderRadius: '10px', backgroundColor: 'red', color: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px'}}>
-                <h2 style={{lineHeight: '5px'}}>NOPE</h2>
+              <div style={{display: 'flex', justifyContent: 'space-around', marginTop: '30px'}}>
+                <div data-aos="fade-right" style={{border: '1px solid red', minWidth:'40%', minHeight: '40px', borderRadius: '10px', backgroundColor: 'red', color: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px'}}>
+                  <h2 style={{lineHeight: '5px'}}>NOPE</h2>
+                </div>
+                <div data-aos="fade-left" onClick={() => setViewProfile(-1)}  style={{border: '1px solid green', minWidth:'40%', minHeight: '40px', borderRadius: '10px', backgroundColor: 'green', color: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px'}}>
+                  <h2 style={{lineHeight: '5px'}}>LIKE</h2>
+                </div>
               </div>
-              <div data-aos="fade-left" onClick={() => setViewProfile(-1)}  style={{border: '1px solid green', minWidth:'40%', minHeight: '40px', borderRadius: '10px', backgroundColor: 'green', color: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px'}}>
-                <h2 style={{lineHeight: '5px'}}>LIKE</h2>
-              </div>
-            </div>
 
+            {/* </div> */}
           </div> :
           
         data && data.map((person, index) =>
@@ -305,7 +318,10 @@ const Home = () => {
       }
         </div>
         }
-        <NavigationBar />
+
+        {viewProfile === -1 &&
+          <NavigationBar />
+        } 
       </>
     )
 }

@@ -9,7 +9,7 @@ import BlockComponent from '../component/BlockComponent';
 import ProfilePage from '../component/ProfilePage';
 import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
-import localForage from 'localforage';
+import localforage from 'localforage';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import CryptoJS from "crypto-js";
@@ -141,6 +141,10 @@ const ChatWindow = () => {
           })
           .catch((error) => {
             console.log("errpr", error);
+            if(error.response.status === 401){
+                localforage.setItem('userLogin', {id: Date.now(), value: false});
+                navigate('/login');
+            }
         });
     }
 
@@ -237,7 +241,7 @@ const ChatWindow = () => {
 
     const getData = async () => {
         try {
-            const data = await localForage.getItem('myData');
+            const data = await localforage.getItem('myData');
             setObjectId(data[1]['ObjectId']);
             setCurrentUserId(data[1]['userId']);
         socket.emit('setUsername', data[1]['userId']);

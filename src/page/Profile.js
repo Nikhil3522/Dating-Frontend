@@ -29,6 +29,10 @@ const Profile = () => {
             })
             .catch((error) => {
                 console.log("errpr", error);
+                if(error.response.status === 401){
+                    localforage.setItem('userLogin', {id: Date.now(), value: false});
+                    navigate('/login');
+                }
             });
     }, []);
 

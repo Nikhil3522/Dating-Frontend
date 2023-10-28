@@ -7,6 +7,7 @@ import LikeRequestProfile from "../component/LikeRequestProfile";
 import ProfilePage from "../component/ProfilePage";
 import blackLoader from "../assets/gif/blackLoader.gif";
 import { useNavigate } from "react-router-dom";
+import localforage from "localforage";
 
 const Like = () => {
     const navigate = useNavigate();
@@ -46,6 +47,10 @@ const Like = () => {
           })
           .catch((error) => {
             // console.log("errpr", error);
+            if(error.response.status === 401){
+                localforage.setItem('userLogin', {id: Date.now(), value: false});
+                navigate('/login');
+            }
         });
     }
 

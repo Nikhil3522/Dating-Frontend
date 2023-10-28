@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import localForage from 'localforage';
+import localforage from 'localforage';
 import { useNavigate } from "react-router-dom";
 import NavigationBar from "../component/NavigationBar";
 import blackLoader from "../assets/gif/blackLoader.gif";
@@ -72,13 +72,17 @@ const Message = () => {
             try {
                 const newData = { id: Date.now(), ObjectId, userId };
                 const updatedData = ["ObjectId", newData];
-                await localForage.setItem('myData', updatedData);
+                await localforage.setItem('myData', updatedData);
             } catch (error) {
                 console.error('Error saving data:', error);
             }
 
         } catch (error) {
             console.error("Error fetching data:", error);
+            if(error.response.status === 401){
+                localforage.setItem('userLogin', {id: Date.now(), value: false});
+                navigate('/login');
+            }
         }
     };
 
@@ -203,7 +207,7 @@ const Message = () => {
     return (
         <div>
             <h4>Chat</h4>
-            <div>
+            <div style={{paddingBottom: '100px'}}>
                 {loader === false ? matchProfile.map((profile, index) => (
                     <div key={index} onClick={() => redirectTo(profile)}>
                         <div style={{ width: '90%', margin: 'auto', marginBottom: '25px', display: 'flex', justifyContent: 'space-between' }}>

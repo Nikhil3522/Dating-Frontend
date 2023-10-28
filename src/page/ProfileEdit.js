@@ -28,6 +28,7 @@ import golf from '../assets/images/golf.png';
 import basketball from '../assets/images/basketball.png';
 import { config } from "@react-spring/web";
 import { useNavigate } from "react-router-dom";
+import localforage from "localforage";
 
 const ProfileEdit = () => {
 
@@ -106,6 +107,10 @@ const ProfileEdit = () => {
             })
             .catch((error) => {
                 console.log("errpr", error);
+                if(error.response.status === 401){
+                    localforage.setItem('userLogin', {id: Date.now(), value: false});
+                    navigate('/login');
+                }
             });
     }, []);
 
