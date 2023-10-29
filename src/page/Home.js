@@ -24,6 +24,25 @@ import ButtonComponent from "../component/ButtonComponent";
 import blackLoader from "../assets/gif/blackLoader.gif";
 import blackClose from "../assets/icons/black-close.png";
 import localforage from "localforage";
+import shopping from '../assets/images/shopping.png';
+import art from '../assets/images/art.png';
+import football from '../assets/images/football.png';
+import music from '../assets/images/music.png';
+import run from '../assets/images/run.png';
+import videoGame from '../assets/images/videoGame.png';
+import yoga from '../assets/images/yoga.png';
+import volleyball from '../assets/images/volleyball.png';
+import vlogging from '../assets/images/vlogging.png';
+import tennis from '../assets/images/tennis.png';
+import roadTrip from '../assets/images/roadTrip.png';
+import cricket from '../assets/images/cricket.png';
+import drink from '../assets/images/drink.png';
+import guitar from '../assets/images/guitar.png';
+import photography from '../assets/images/photography.png';
+import meditation from '../assets/images/meditation.png';
+import gym from '../assets/images/gym.png';
+import golf from '../assets/images/golf.png';
+import basketball from '../assets/images/basketball.png';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -293,7 +312,7 @@ const Home = () => {
                 <div className='interestOptionDiv'>
                 {data[viewProfile].interest.map((item, index)=> (
                   <div className="interestOptionBox">
-                    <img src={item} width="30px" height="30px"/>
+                    <img src={require(`../assets/images/${item.toLowerCase()}.png`)}width="30px" height="30px"/>
                     <p>{item}</p>
                   </div>
                 ))}
