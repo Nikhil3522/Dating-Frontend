@@ -24,6 +24,10 @@ const ProfileCard = (props) => {
         })
         .catch((error) => {
           console.log("error in liking the profile", error);
+
+          if(error.response.status === 429){
+            props.changeLikeLimitExceedValue(true);
+          }
         })
     }
     const person = props.person;
