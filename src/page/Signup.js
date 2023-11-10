@@ -32,10 +32,11 @@ const Signup = () => {
     }, [alert])
 
     const sendOTP = () => {
-        console.log("sd");
+        // console.log("sd");
 
         axios.post(process.env.REACT_APP_API_URL + '/mailverify', {
             mailId: email,
+            name: name
         }).then(response => {
             console.log("response");
         }).catch(error => {
