@@ -56,7 +56,9 @@ const Verified = () => {
             </div>
             :
             <div>
-                <video ref={videoRef} style={{ maxWidth: '100%' }} />
+                <div style={{ maxWidth: '100%', position: 'relative', paddingTop: '150%' }}>
+                    <video ref={videoRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} />
+                </div>
                 <button onClick={handleStartRecording} disabled={isRecording}>
                     {isRecording ? 'Recording...' : 'Start Recording'}
                 </button>
