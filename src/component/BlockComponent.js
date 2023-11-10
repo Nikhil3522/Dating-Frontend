@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const BlockComponent = (props) => {
     const navigate = useNavigate();
     const [step, setStep] =useState(1);
+    const [reportReason, setReportReason] = useState(null);
 
     useEffect(() => {
         Aos.init({duration: 400})
@@ -118,7 +119,49 @@ const BlockComponent = (props) => {
                             NO
                         </div>
                     </div>
-                </> : null
+                </> : step === 4 &&
+                <>
+                    <h3>Select a reason why you want to report this user.</h3>
+                    {
+                        !reportReason ? 
+                        <>
+                            <div 
+                                onClick={() => setReportReason("Fake Profile")}
+                                style={{fontSize: '17px', borderTop: '1px solid white', borderBottom: '1px solid white', width: '90%', marginLeft: 'auto', marginRight: 'auto', lineHeight: '40px'}}
+                            >
+                                Fake Profile
+                            </div>
+                            <div 
+                                onClick={() => setReportReason("Scammers")}
+                                style={{fontSize: '17px', borderTop: '1px solid white', borderBottom: '1px solid white', width: '90%', marginLeft: 'auto', marginRight: 'auto', lineHeight: '40px'}}
+                            >
+                                Scammers
+                            </div>
+                            <div 
+                                onClick={() => setReportReason("Someone is selling somethings")}
+                                style={{fontSize: '17px', borderTop: '1px solid white', borderBottom: '1px solid white', width: '90%', marginLeft: 'auto', marginRight: 'auto', lineHeight: '40px'}}
+                            >
+                                Someone is selling somethings
+                            </div>
+                            <div 
+                                onClick={() => setReportReason("This user is under 18")}
+                                style={{fontSize: '17px', borderTop: '1px solid white', borderBottom: '1px solid white', width: '90%', marginLeft: 'auto', marginRight: 'auto', lineHeight: '40px'}}
+                            >
+                                This user is under 18
+                            </div>
+                        </> : 
+                        <>
+                            <textarea 
+                                placeholder='Please explain in details'
+                                style={{fontSize: '17px', width: '85%', margin: 'auto', height: '100px', borderRadius: '15px', padding: '10px'}}
+                            >
+                            </textarea>
+
+                            <button style={{width: '60%', margin: 'auto', marginTop: '25px', lineHeight: '30px', border: 'none', borderRadius: '35px'}}>SUBMIT</button>
+                        </>
+                    }
+                    
+                </>
             }
         </div>
     )
