@@ -15,6 +15,48 @@ const Subscription = () => {
         }
     }, [packName, navigate]);
 
+    const verifyPayment =async (res, amount, description) => {
+        console.log("verify payment");
+        const response = {
+            razorpay_order_id: res.razorpay_order_id,
+            razorpay_payment_id: res.razorpay_payment_id,
+            razorpay_signature: res.razorpay_signature
+        }
+        const response2 = await fetch(  process.env.REACT_APP_API_URL + '/api/payment/verify', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ response, amount }),
+            credentials: 'include'
+        });
+        
+
+        const data = await response2.json();
+
+        if(data.signatureIsValid){
+            const response3 = await fetch(  process.env.REACT_APP_API_URL + '/savepayment', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    response,
+                    amount,
+                    packName: description,
+                    month : selectPlan 
+                }),
+                credentials: 'include'
+            });
+
+            const data3 = await response3.json();
+
+            console.log("data3", data3);
+        }else{
+            console.log("Payment is not valid!", data.signatureIsValid);
+        }
+    }
+
     const paymentGateway = async () => {
         var planAmount = 0;
         var description;
@@ -56,6 +98,7 @@ const Subscription = () => {
     
         const data = await response.json();
         const orderId = data.order.id;
+        console.log("order", orderId);
         const name = data.user.name;
         const email = data.user.email;
 
@@ -70,6 +113,7 @@ const Subscription = () => {
           handler: function (response) {
             // Handle the success callback here
             console.log('Payment success', response);
+            verifyPayment(response, planAmount, description);
             // navigate('/message')
             // You can redirect the user or perform other actions here
           },
@@ -80,6 +124,16 @@ const Subscription = () => {
           },
         };
     
+        
+// razorpay_order_id
+// : 
+// "order_MjFqx5amZjbxfa"
+// razorpay_payment_id
+// : 
+// "pay_MjFr45kPkSmxrF"
+// razorpay_signature
+// : 
+// "f95ab7613f32a87fa56d4a27504d9d0cf08b222894da07731dfd5d640311d652"
         const razorpay = new window.Razorpay(options);
         razorpay.open();
     }
