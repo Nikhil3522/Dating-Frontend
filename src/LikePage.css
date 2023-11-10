@@ -1,6 +1,8 @@
 .likeContainer{
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 200px;
+    padding-bottom: 45px;
 }
 
 .likeRequestProfileCard{
