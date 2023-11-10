@@ -10,6 +10,7 @@ import ProfileEdit from './ProfileEdit';
 import ChatWindow from "./ChatWindow";
 import Verified from "./Verified";
 import ForgetPassword from "./ForgetPassword";
+import Subscription from "./Subscription";
 
 export {
     Login,
@@ -23,5 +24,6 @@ export {
     ProfileEdit,
     ChatWindow,
     Verified,
-    ForgetPassword
+    ForgetPassword,
+    Subscription
 };
