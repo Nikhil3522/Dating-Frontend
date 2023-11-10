@@ -1,5 +1,19 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import {Welcome, Login, Signup, UserDetails, Home, Like, Message, Profile, ProfileEdit, ChatWindow, Verified, ForgetPassword} from '../page';
+import {
+        Welcome, 
+        Login, 
+        Signup, 
+        UserDetails, 
+        Home, 
+        Like, 
+        Message,
+        Profile, 
+        ProfileEdit, 
+        ChatWindow, 
+        Verified, 
+        ForgetPassword,
+        Subscription
+    } from '../page';
 import ProtectedRoute from "./ProtectedRoute";
 
 const Navigator = () => {
@@ -18,6 +32,7 @@ const Navigator = () => {
                 <Route path="/profile/edit" element={<ProtectedRoute><ProfileEdit /></ProtectedRoute>}/>
                 <Route path="/message/:profileId/:index/:avatar" element={<ProtectedRoute><ChatWindow /></ProtectedRoute>}/>
                 <Route path="/verified" element={<ProtectedRoute> <Verified /> </ProtectedRoute>}/>
+                <Route path="/subscription/:packName" element={<ProtectedRoute> <Subscription /> </ProtectedRoute>}/>
             </Routes>
         </BrowserRouter>
     )
