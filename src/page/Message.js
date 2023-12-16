@@ -29,7 +29,6 @@ const Message = () => {
             return axios.request(config)
                 .then((response) => {
                     sortedArray[index] = { ...sortedArray[index], name: response.data.data.name, avatar: response.data.data.avatar };
-                    setLoader(false);
                 })
                 .catch((error) => {
                     console.log("error", error);
@@ -38,7 +37,7 @@ const Message = () => {
 
         // Wait for all promises to resolve
         await Promise.all(promises);
-
+        setLoader(false);
         setMatchProfile(sortedArray); // Update the state with the updated array
     };
 
