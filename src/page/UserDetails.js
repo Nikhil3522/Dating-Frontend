@@ -30,6 +30,8 @@ const UserDetails = () => {
     const [password, setPassword]= useState("");
     const [loader, setLoader] = useState(false);
     const [tempCollege, setTempCollege] = useState(null);
+    const [imageLeftForUpload, setImageLeftForUpload] = useState(true);
+    const [finalSubmission, setFinalSubmission] = useState(false);
 
     useEffect(() => {
         setTimeout(() =>{
@@ -73,7 +75,6 @@ const UserDetails = () => {
 
         axios.request(config)
         .then(async (response) => {
-            console.log("response", response.data.message);
             if(response.data.message === "User LoggedIN!"){
                 await localForage.setItem('userLogin', {id: Date.now(), value: true});
                 navigate('/home');
@@ -126,66 +127,74 @@ const UserDetails = () => {
         Aos.init({duration: 600})
     }, []);
 
+    useEffect(() => {
+        if(!imageLeftForUpload && finalSubmission){
+            setLoader(true);
+            saveData();
+        }
+    }, [imageLeftForUpload, finalSubmission])
+
     const onSubmit = async () => {
 
         if(state <= 2){
             if(state === 1){
-                if(!gender){
-                    setAlert("Please choose your gender.")
-                    return;
-                }else if(!age){
-                    setAlert("Please enter your age.");
-                    return;
-                }else if(!college){
-                    setAlert("Please choose your college/university.");
-                    return;
-                }else if( college === "Others" && tempCollege === null){
-                    setAlert("Please Enter your college/University Name.");
+                const imageLength = selectedImage.length;
+                if(imageLength < 1){
+                    setAlert("Please upload at least 1 image.");
                     return;
                 }
+
+                setState(state + 1);
+                for(let i=0; i<imageLength; i++){
+
+                    if( selectedImage[i]){
+                        const formData = new FormData();
+                        formData.append('image', selectedImage[i]);
+
+                        await fetch(process.env.REACT_APP_API_URL + '/imageUpload',{
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                            .then(data => {
+                            // Handle the response data
+                            const imageName = data.image;
+                            // Update the element with the image name in selectedImage array
+                            selectedImage[i] = imageName;
+                            })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                    }
+                }
+
+                setImageLeftForUpload(false);
+
             }else if(state === 2){
                 if(interest.length < 2){
                     setAlert("Please choose at least 2 Interests.");
                     return;
                 }
+                setState(state + 1);
             }
-
-            setState(state + 1);
-        }else if(state == 3){
-            const imageLength = selectedImage.length;
-            if(imageLength < 1){
-                setAlert("Please upload at least 1 image.");
-                return;
-            }
-
-            setLoader(true);
-            for(let i=0; i<imageLength; i++){
-
-                if( selectedImage[i]){
-                    const formData = new FormData();
-                    formData.append('image', selectedImage[i]);
-
-                    await fetch(process.env.REACT_APP_API_URL + '/imageUpload',{
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => response.json())
-                        .then(data => {
-                        // Handle the response data
-                        const imageName = data.image;
-                        // Update the element with the image name in selectedImage array
-                        selectedImage[i] = imageName;
-                        })
-                    .catch(error => {
-                        console.error(error);
-                    });
-                }
-            }
-              
-            setTimeout(()=>{
-                saveData();
-            }, 1000);
             
+        }else if(state == 3){
+
+            if(!gender){
+                setAlert("Please choose your gender.")
+                return;
+            }else if(!age){
+                setAlert("Please enter your age.");
+                return;
+            }else if(!college){
+                setAlert("Please choose your college/university.");
+                return;
+            }else if( college === "Others" && tempCollege === null){
+                setAlert("Please Enter your college/University Name.");
+                return;
+            } 
+
+            setFinalSubmission(true);
         }
     }
 
@@ -228,13 +237,11 @@ const UserDetails = () => {
     }
 
     const toggleInterest = (title) => {
-        
             if (interest.includes(title)) {
                 setInterest(interest.filter(item => item !== title));
             } else if(interest.length <5 ){
                 setInterest([...interest, title]);
             }
-        
     };
 
     const interests = [
@@ -270,7 +277,7 @@ const UserDetails = () => {
             const ageInMilliseconds = currentDate - selectedDate;
             const ageInYears = ageInMilliseconds / (365 * 24 * 60 * 60 * 1000);
             setAge(Math.floor(ageInYears));
-            console.log("sele", Math.floor(ageInYears));
+            // console.log("Age", Math.floor(ageInYears));
         } else {
             setAlert("You must be 18 years or older to proceed.");
             setAge(null);
@@ -289,79 +296,6 @@ const UserDetails = () => {
             </div>
             {
                 state === 1 ?
-                    <div>
-                        <div>
-                            <h1>I am </h1>
-
-                                <div className={ gender !== 'M' ? `optionBox` : `selectOption`} onClick={() => setGender("M")}>
-                                    <p>Man</p>
-                                </div>
-
-                                <div className={ gender !== 'F' ? `optionBox` : `selectOption`} onClick={() => setGender("F")}>
-                                    <p>Women</p>
-                                </div>
-            
-                        </div>
-
-                        <div className="inputDiv">
-                            <p className="inputTitle" style={{"width": "105px"}}>Date of birth</p>
-                            <input 
-                                type="date"
-                                className="inputField"
-                                onChange={(e) => handleDateChange(e)}
-                            />
-                        </div>
-
-                        {
-                            college === "Others" ? 
-                            <div className="inputDiv">
-                                <p className="inputTitle" style={{"width": "50px"}}>College</p>
-                                <input 
-                                    type="text"
-                                    className="inputField"
-                                    value={tempCollege}
-                                    onChange={(e) => {
-                                        setTempCollege(e.target.value)
-                                        console.log("college", tempCollege)
-                                    }}
-                                />
-                            </div>
-                            :
-                            <div className="inputDiv">
-                                <p className="inputTitle" style={{"width": "50px"}}>College</p>
-                                <select 
-                                    type="select"
-                                    className="inputField"
-                                    value={college}
-                                    onChange={(e) => setCollege(e.target.value)}
-                                >
-                                    <option>Select</option>
-                                    <option value="Galgotias University">Galgotias University</option>
-                                    <option value="Galgotias College">Galgotias College</option>
-                                    <option value="GL Bajaj">GL Bajaj</option>
-                                    <option value="IIMT">IIMT</option>
-                                    <option value="GNIOT">GNIOT</option>
-                                    <option value="Shardha University">Shardha University</option>
-                                    <option value="Others">Others</option>
-                                </select>
-                            </div>
-                        }
-                    </div>
-                : state === 2 ?
-                <div>
-                    <h1>Your Interests <span style={{fontSize: '20px'}}>{interest.length}/5</span></h1>
-                    <div className='interestOptionDiv'>
-                        {
-                            interests.map((item, index) => (
-                                <div key={index} className={interest.includes(item.title) ? 'selectIntOptionBox' :'interestOptionBox' } onClick={() => toggleInterest(item.title)}>
-                                    <img src={item.img} width="30px" height="30px"/>
-                                    <p>{item.title}</p>
-                                </div>
-                            ))
-                        }
-                    </div>
-                </div> :
-                state === 3 ? 
                 <div>
                     <div>
                     <div className='imageContainer'>
@@ -470,11 +404,82 @@ const UserDetails = () => {
                                     </label>
                             )}
                         </div>
-            
                             </div>
-                        
+                    </div>
+                </div>
+                : state === 2 ?
+                <div>
+                    <h1>Your Interests <span style={{fontSize: '20px'}}>{interest.length}/5</span></h1>
+                    <div className='interestOptionDiv'>
+                        {
+                            interests.map((item, index) => (
+                                <div key={index} className={interest.includes(item.title) ? 'selectIntOptionBox' :'interestOptionBox' } onClick={() => toggleInterest(item.title)}>
+                                    <img src={item.img} width="30px" height="30px"/>
+                                    <p>{item.title}</p>
+                                </div>
+                            ))
+                        }
                     </div>
                 </div> :
+                state === 3 ? 
+                <div>
+                        <div>
+                            <h1>I am </h1>
+
+                                <div className={ gender !== 'M' ? `optionBox` : `selectOption`} onClick={() => setGender("M")}>
+                                    <p>Man</p>
+                                </div>
+
+                                <div className={ gender !== 'F' ? `optionBox` : `selectOption`} onClick={() => setGender("F")}>
+                                    <p>Women</p>
+                                </div>
+            
+                        </div>
+
+                        <div className="inputDiv">
+                            <p className="inputTitle" style={{"width": "105px"}}>Date of birth</p>
+                            <input 
+                                type="date"
+                                className="inputField"
+                                onChange={(e) => handleDateChange(e)}
+                            />
+                        </div>
+
+                        {
+                            college === "Others" ? 
+                            <div className="inputDiv">
+                                <p className="inputTitle" style={{"width": "50px"}}>College</p>
+                                <input 
+                                    type="text"
+                                    className="inputField"
+                                    value={tempCollege}
+                                    onChange={(e) => {
+                                        setTempCollege(e.target.value)
+                                    }}
+                                />
+                            </div>
+                            :
+                            <div className="inputDiv">
+                                <p className="inputTitle" style={{"width": "50px"}}>College</p>
+                                <select 
+                                    type="select"
+                                    className="inputField"
+                                    value={college}
+                                    onChange={(e) => setCollege(e.target.value)}
+                                >
+                                    <option>Select</option>
+                                    <option value="Galgotias University">Galgotias University</option>
+                                    <option value="Galgotias College">Galgotias College</option>
+                                    <option value="GL Bajaj">GL Bajaj</option>
+                                    <option value="IIMT">IIMT</option>
+                                    <option value="GNIOT">GNIOT</option>
+                                    <option value="Shardha University">Shardha University</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                            </div>
+                        }
+                    </div>
+                    :
                 null
             }
 
