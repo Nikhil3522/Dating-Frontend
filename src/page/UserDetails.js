@@ -8,6 +8,20 @@ import art from '../assets/images/art.png';
 import football from '../assets/images/football.png';
 import music from '../assets/images/music.png';
 import run from '../assets/images/run.png';
+import videoGame from '../assets/images/videoGame.png';
+import yoga from '../assets/images/yoga.png';
+import volleyball from '../assets/images/volleyball.png';
+import vlogging from '../assets/images/vlogging.png';
+import tennis from '../assets/images/tennis.png';
+import roadTrip from '../assets/images/roadTrip.png';
+import cricket from '../assets/images/cricket.png';
+import drink from '../assets/images/drink.png';
+import guitar from '../assets/images/guitar.png';
+import photography from '../assets/images/photography.png';
+import meditation from '../assets/images/meditation.png';
+import gym from '../assets/images/gym.png';
+import golf from '../assets/images/golf.png';
+import basketball from '../assets/images/basketball.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import localForage from 'localforage';
@@ -247,23 +261,23 @@ const UserDetails = () => {
     const interests = [
         {title: "Shopping", img: shopping},
         {title: "Run", img: run},
-        {title: "Video Games", img: run},
-        {title: "Yoga", img: run},
+        {title: "Video Games", img: videoGame},
+        {title: "Yoga", img: yoga},
         {title: "Music", img: music},
         {title: "Art", img: art},
-        {title: "Cricket", img: run},
+        {title: "Cricket", img: cricket},
         {title: "Football", img: football},
-        {title: "Drink", img: run},
-        {title: "Vlogging", img: run},
-        {title: "Guitar", img: run},
-        {title: "Photography", img: run},
-        {title: "Meditation", img: run},
-        {title: "Tennis", img: run},
-        {title: "Volleyball", img: run},
-        {title: "Gym", img: run},
-        {title: "Golf", img: run},
-        {title: "Basketball", img: run},
-        {title: "Roadtrip", img: run},
+        {title: "Drink", img: drink},
+        {title: "Vlogging", img: vlogging},
+        {title: "Guitar", img: guitar},
+        {title: "Photography", img: photography},
+        {title: "Meditation", img: meditation},
+        {title: "Tennis", img: tennis},
+        {title: "Volleyball", img: volleyball},
+        {title: "Gym", img: gym},
+        {title: "Golf", img: golf},
+        {title: "Basketball", img: basketball},
+        {title: "Roadtrip", img: roadTrip},
         {title: "Running", img: run},
     ]
 
@@ -408,7 +422,7 @@ const UserDetails = () => {
                     </div>
                 </div>
                 : state === 2 ?
-                <div>
+                <div style={{paddingBottom: '150px'}}>
                     <h1>Your Interests <span style={{fontSize: '20px'}}>{interest.length}/5</span></h1>
                     <div className='interestOptionDiv'>
                         {
