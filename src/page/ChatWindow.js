@@ -169,9 +169,9 @@ const ChatWindow = () => {
 
     useEffect(() => {
 
-        socket.on('message', (data) => {
-           if(data.from == profileId) {
-            console.log("new Msg", data);
+        socket.on('message', async (data) => {
+            const decrypted = await decryptData(profileId);
+           if(data.from == decrypted) {
             // {from: 22, message: 'd', time: '11:15 PM'}
             const renamedObject = {
                 sender: data.from,
@@ -283,6 +283,7 @@ const ChatWindow = () => {
 
     useEffect(() => {
         socket.on('messageback', (data) => {
+            console.log("fsad", data);
             const renamedObject = {
                 sender: data.from,
                 content: data.message,
@@ -296,7 +297,10 @@ const ChatWindow = () => {
     const emitMessage = async () => {
         
         const time = getTime();
-        const inputData = {from: currentUserId, to: profileId, message: message, time: time }
+        const decrypted = await decryptData(profileId);
+        const inputData = {from: currentUserId, to: decrypted, message: message, time: time }
+
+        console.log("input", inputData);
 
         socket.emit('message', inputData);
 
