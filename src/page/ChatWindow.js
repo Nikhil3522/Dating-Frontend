@@ -42,7 +42,6 @@ const ChatWindow = () => {
         const data = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
         avatar = data;
-        console.log("avatar", avatar);
 
     }, [])
 
@@ -125,7 +124,6 @@ const ChatWindow = () => {
                     // setMessageData(prevMessageData => [...prevMessageData, {date: dateFormat}]);
                     tempDate = dateFormat 
                 }
-                console.log(dateFormat)
                 let tempMessage = {
                     sender: item.sender,
                     content: item.content,
@@ -202,7 +200,7 @@ const ChatWindow = () => {
 
         // socket.emit('loggedin', {user_id: ObjectId});
 
-        console.log("room create")
+        // console.log("room create")
         // Creting Room
         socket.emit('create', {room: roomId, userId:ObjectId, withUserId: profileId});
         
@@ -283,7 +281,6 @@ const ChatWindow = () => {
 
     useEffect(() => {
         socket.on('messageback', (data) => {
-            console.log("fsad", data);
             const renamedObject = {
                 sender: data.from,
                 content: data.message,
@@ -299,8 +296,6 @@ const ChatWindow = () => {
         const time = getTime();
         const decrypted = await decryptData(profileId);
         const inputData = {from: currentUserId, to: decrypted, message: message, time: time }
-
-        console.log("input", inputData);
 
         socket.emit('message', inputData);
 
