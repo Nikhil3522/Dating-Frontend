@@ -56,22 +56,28 @@ const ForgetPassword = () => {
         }
     };
 
-    const sendOTP = () => {
-        axios.post(process.env.REACT_APP_API_URL + '/forgetPasswordOTP', {
+    const sendOTP = async () => {
+        try {
+          const response = await axios.post(process.env.REACT_APP_API_URL + '/forgetPasswordOTP', {
             mailId: email,
-        }).then(response => {
-            console.log("response");
-        }).catch(error => {
-            setAlert("Something went wrong!")
-        });
-    }
+          });
+          if(response.data.emailNotExist){
+            return false;
+          }
+          return true;
+        } catch (error) {
+          setAlert('Something went wrong!');
+          return false;
+        }
+      };
+      
 
     const onSubmit = async () => {
         if(state === 3){
             if(password != "" && confirmPassword != ""){
                 if (password === confirmPassword) {
                     if (password.length >= 6) {
-                      if (/\d/.test(password)) {
+                    if (/\d/.test(password)) {
                         setLoader(true);
                         
                         axios.post(process.env.REACT_APP_API_URL + '/newPassword', {
@@ -85,11 +91,11 @@ const ForgetPassword = () => {
 
                         setLoader(false);
 
-                      } else {
-                        setAlert("Password needs to contain at least one digit.");
-                      }
                     } else {
-                      setAlert("Password needs to have 6 or more characters.");
+                        setAlert("Password needs to contain at least one digit.");
+                    }
+                    } else {
+                    setAlert("Password needs to have 6 or more characters.");
                     }
                 } else {
                     setAlert("Password and Confirm Password do not match.");
@@ -121,9 +127,13 @@ const ForgetPassword = () => {
         }else if (email) {
             if (isValidEmail(email)) {
                 setLoader(true);
-                sendOTP();
-                setAlert(null);
-                setState(2);
+                const emailExist = await sendOTP();
+                if(emailExist){
+                    setAlert(null);
+                    setState(2);
+                }else{
+                    setAlert("There is no account with this email id.");
+                }
                 setLoader(false);
             } else {
                 setAlert("Please enter valid register Email Id")
@@ -206,7 +216,7 @@ const ForgetPassword = () => {
             <p className="errorBox">{alert}</p>
            
             <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', textAlign: 'center', marginBottom: '50px' }}>
-                <div onClick={() => onSubmit()} style={{ display: 'inline-block' }}>
+                <div onClick={() => loader === false && onSubmit()} style={{ display: 'inline-block' }}>
                     <ButtonComponent title="Next" loader={loader}/>
                 </div>
             </div>
