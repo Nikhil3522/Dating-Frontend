@@ -16,24 +16,24 @@ const NavigationBar = () => {
     return (
         <div className="navbarDiv">
             <div onClick={() => navigate('/home')}>
-                <img src={home} width="35px"/>
-                <h6 style={{marginTop: '-4px', color: 'white'}}>HOME</h6>
+                <img src={home} width="30px"/>
+                {/* <h6 style={{marginTop: '-4px', color: 'white'}}>HOME</h6> */}
             </div>
             <div onClick={() => navigate('/like')}>
-                <img src={heart} width="35px"/>
-                <h6 style={{marginTop: '-4px', color: 'white'}}>LIKE</h6>
+                <img src={heart} width="30px"/>
+                {/* <h6 style={{marginTop: '-4px', color: 'white'}}>LIKE</h6> */}
             </div>
             <div onClick={() => navigate('/message')}>
-                <img src={msg} width="35px"/>
-                <h6 style={{marginTop: '-4px', color: 'white'}}>CHAT</h6>
+                <img src={msg} width="30px"/>
+                {/* <h6 style={{marginTop: '-4px', color: 'white'}}>CHAT</h6> */}
             </div>
             <div onClick={() => navigate('/profile')}>
                 <img 
-                    style={{borderRadius: '50%', height: '35px', width: '35px', objectFit: 'cover'}}
+                    style={{borderRadius: '50%', height: '30px', width: '30px', objectFit: 'cover'}}
                     src={DPURL ? DPURL : user}
-                    width="35px"
+                    width="30px"
                 /> 
-                <h6 style={{marginTop: '-4px', color: 'white'}}>PROFILE</h6>
+                {/* <h6 style={{marginTop: '-4px', color: 'white'}}>PROFILE</h6> */}
             </div>
         </div>
     )
