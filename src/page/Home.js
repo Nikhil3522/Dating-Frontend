@@ -291,7 +291,7 @@ const Home = () => {
 
           <>
             <img
-              style={{ position: 'absolute', top: '30px', right: '30px', width: "35px" }}
+              style={{ position: 'absolute', top: '15px', right: '30px', width: "30px" }}
               src={showPreferenceDiv ? blackClose : customize}
               onClick={() => setShowPreferenceDiv(!showPreferenceDiv)}
             />
