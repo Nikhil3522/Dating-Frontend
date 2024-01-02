@@ -13,6 +13,7 @@ import localforage from 'localforage';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import CryptoJS from "crypto-js";
+import chatBG from '../assets/images/chat-bg.jpg';
 
 const ChatWindow = () => {
     const navigate = useNavigate();
@@ -313,7 +314,7 @@ const ChatWindow = () => {
 
     const handleInputChange = (e) => {
         setMessage(e.target.value);
-        adjustTextareaHeight();
+        // adjustTextareaHeight();
     };
 
     const calculateMessageWidth = (content) => {
@@ -377,7 +378,7 @@ const ChatWindow = () => {
                 />
             </div>
         </div>
-        <div style={{display: 'flex', flexDirection: 'column',justifyContent: 'space-between', height: '85vh'}}>
+        <div style={{display: 'flex', flexDirection: 'column',justifyContent: 'space-between', height: '90vh', backgroundImage: `url(${chatBG})`, backgroundSize: '100% 100%'}}>
             <div 
                 // onScroll={handleScroll} 
                 style={{ padding: '10px', display: 'flex', flexDirection: 'column-reverse', overflowY: displayBlockComp ? 'hidden':'scroll' }}
@@ -419,11 +420,11 @@ const ChatWindow = () => {
                     transition: 'bottom 0.3s ease', // Adding transition for smooth animation
                 }}
             >
-                <img style={{ borderRadius: '15px', height: '50px', marginTop: '5px' }} src={emoji}  />
+                {/* <img style={{ borderRadius: '15px', height: '50px', marginTop: '5px' }} src={emoji}  /> */}
                 <textarea
                     id="messageTextarea" // Add an ID to the textarea
                     style={{
-                        width: '75%',
+                        width: '100%',
                         maxHeight: '120px',
                         minHeight: '20px', // Set the minimum height to 30px
                         fontSize: '20px',
