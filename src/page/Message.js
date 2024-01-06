@@ -78,8 +78,8 @@ const Message = () => {
 
         } catch (error) {
             console.error("Error fetching data:", error);
-            if(error.response.status === 401){
-                localforage.setItem('userLogin', {id: Date.now(), value: false});
+            if (error.response.status === 401) {
+                localforage.setItem('userLogin', { id: Date.now(), value: false });
                 navigate('/login');
             }
         }
@@ -110,7 +110,7 @@ const Message = () => {
 
             const finalDate = `${month}/${day}/${year}`;
 
-            if(finalDate === '01/01/70'){
+            if (finalDate === '01/01/70') {
                 return null;
             }
             return finalDate;
@@ -124,9 +124,9 @@ const Message = () => {
             const timeB = new Date(b.createdAt).getTime();
             return timeB - timeA; // Sort in descending order (most recent first)
         });
-        
+
         getUserDetail(sortedProfiles);
-        
+
 
     }
 
@@ -168,19 +168,19 @@ const Message = () => {
 
     const encrypt = async (text) => {
         const secretPass = "XkhZG4fW2t2W";
-  
+
         const data = CryptoJS.AES.encrypt(
             JSON.stringify(text),
             secretPass
         ).toString(CryptoJS.enc.Base64URL);
-      
+
         return data;
     };
 
-    const redirectTo = async (profile) =>{
+    const redirectTo = async (profile) => {
 
         const regex = /\//;
-        while(1){
+        while (1) {
             var encrypted = await encrypt(profile.index);
 
             if (regex.test(encrypted)) {
@@ -190,7 +190,7 @@ const Message = () => {
             }
         }
 
-        while(1){
+        while (1) {
             var encryptedAvatar = await encrypt(profile.avatar);
 
             if (regex.test(encryptedAvatar)) {
@@ -206,31 +206,39 @@ const Message = () => {
     return (
         <div>
             <h4>Chat</h4>
-            <div style={{paddingBottom: '100px'}}>
-                {loader === false ? matchProfile.map((profile, index) => (
-                    <div key={index} onClick={() => redirectTo(profile)}>
-                        <div style={{ width: '90%', margin: 'auto', marginBottom: '25px', display: 'flex', justifyContent: 'space-between' }}>
-                            <img style={{ borderRadius: '15px' }} src="https://tse2.mm.bing.net/th?id=OIP.p7gZV4Td4lKOtIgk0pH_1QHaLH&pid=Api&P=0&h=180" height="80px" />
-                            {/* Online indication of user */}
-                            {/* <div style={{ backgroundColor: 'lightGreen', width: '20px', height: '16px', borderRadius: '50%', marginTop: '60px', marginLeft: '-12px' }}></div> */}
-                            <div style={{ width: '100%' }}>
-                                <h2 style={{ lineHeight: '10px' }}>{profile.name}</h2>
-                                <p style={{ lineHeight: '10px' }}>{profile.content}</p>
+            <div style={{ paddingBottom: '100px' }}>
+                {loader === false ?
+                    matchProfile.length >= 1 ?
+                        matchProfile.map((profile, index) => (
+                            <div key={index} onClick={() => redirectTo(profile)}>
+                                <div style={{ width: '90%', margin: 'auto', marginBottom: '25px', display: 'flex', justifyContent: 'space-between' }}>
+                                    <img style={{ borderRadius: '15px' }} src="https://tse2.mm.bing.net/th?id=OIP.p7gZV4Td4lKOtIgk0pH_1QHaLH&pid=Api&P=0&h=180" height="80px" />
+                                    {/* Online indication of user */}
+                                    {/* <div style={{ backgroundColor: 'lightGreen', width: '20px', height: '16px', borderRadius: '50%', marginTop: '60px', marginLeft: '-12px' }}></div> */}
+                                    <div style={{ width: '100%' }}>
+                                        <h2 style={{ lineHeight: '10px' }}>{profile.name}</h2>
+                                        <p style={{ lineHeight: '10px' }}>{profile.content}</p>
+                                    </div>
+
+                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+
+
+
+                                        <p style={{ marginBottom: '0', width: '70px' }}>{formatTimestamp(profile['createdAt'])}</p>
+                                        {profile.numberOfUnseenMessages > 0 && profile.sender == profile.index &&
+                                            <p className="unseenMsg">{profile.numberOfUnseenMessages}</p>
+                                        }
+                                    </div>
+                                </div>
                             </div>
-
-                            <div style={{ display: 'flex', flexDirection: 'column' }}>
-
-
-
-                                <p style={{ marginBottom: '0', width: '70px' }}>{formatTimestamp(profile['createdAt'])}</p>
-                                {profile.numberOfUnseenMessages > 0 && profile.sender == profile.index &&
-                                    <p className="unseenMsg">{profile.numberOfUnseenMessages}</p>
-                                }
-                            </div>
+                        )) : 
+                        <div>
+                           <p style={{margin: '10px'}}>
+                                Looks like you haven't found a match yet. Keep swiping! Your perfect match is just around the corner!
+                           </p>
                         </div>
-                    </div>
-                )) : 
-                <img src={blackLoader} height="100px" style={{marginTop: '30vh'}}/>}
+                    :
+                    <img src={blackLoader} height="100px" style={{ marginTop: '30vh' }} />}
             </div>
             <NavigationBar />
         </div>
