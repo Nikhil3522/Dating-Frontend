@@ -12,7 +12,8 @@ import {
         ChatWindow, 
         Verified, 
         ForgetPassword,
-        Subscription
+        Subscription,
+        Settings
     } from '../page';
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -33,6 +34,7 @@ const Navigator = () => {
                 <Route path="/message/:profileId/:index/:avatar" element={<ProtectedRoute><ChatWindow /></ProtectedRoute>}/>
                 <Route path="/verified" element={<ProtectedRoute> <Verified /> </ProtectedRoute>}/>
                 <Route path="/subscription/:packName" element={<ProtectedRoute> <Subscription /> </ProtectedRoute>}/>
+                <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>}/>
             </Routes>
         </BrowserRouter>
     )

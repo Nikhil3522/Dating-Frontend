@@ -36,25 +36,6 @@ const Profile = () => {
             });
     }, []);
 
-    const logout = () => {
-        let config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: 'http://localhost:8000/logout',
-            withCredentials: true,
-
-        };
-
-        axios.request(config)
-            .then(async (response) => {
-                await localforage.setItem('userLogin', {id: Date.now(), value: false});
-                navigate('/login');
-            })
-            .catch((error) => {
-                console.log("error in logout", error);
-            });
-    }
-
     return (
         <div className="profile-container">
             {
@@ -88,8 +69,8 @@ const Profile = () => {
                             </div>
                         }
 
-                        <div className="verifiedDiv" style={{ marginTop: '15px' }} onClick={logout}>
-                            <h3>Logout</h3>
+                        <div className="verifiedDiv" style={{ marginTop: '15px' }} onClick={() => navigate('/settings')}>
+                            <h3>Settings & privacy</h3>
                         </div>
 
                         {

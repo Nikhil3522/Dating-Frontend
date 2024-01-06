@@ -11,6 +11,7 @@ import ChatWindow from "./ChatWindow";
 import Verified from "./Verified";
 import ForgetPassword from "./ForgetPassword";
 import Subscription from "./Subscription";
+import Settings from "./Settings";
 
 export {
     Login,
@@ -25,5 +26,6 @@ export {
     ChatWindow,
     Verified,
     ForgetPassword,
-    Subscription
+    Subscription,
+    Settings
 };
