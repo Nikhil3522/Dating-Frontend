@@ -52,7 +52,7 @@
 .title{
   display: flex;
   margin: auto;
-  width: 100px;
+  width: 100%;
 }
 
 
@@ -133,7 +133,7 @@
 .optionBox{
   border: 1px solid  rgb(255,91,61);
   background-color: antiquewhite;
-  width: 295px;
+  width: 40%;
   height: 56px;
   font-size: 20px;
   border-radius: 15px;
@@ -149,7 +149,7 @@
   background: rgb(255,91,61);
   background: linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%);
   color: white;
-  width: 295px;
+  width: 40%;
   height: 56px;
   font-size: 20px;
   border-radius: 15px;
@@ -157,9 +157,9 @@
   margin-top: 20px;
 }
 
-.selectOption p{
+/* .selectOption p{
   padding-top: 12px;
-}
+} */
 
 .interestOptionDiv{
   display: flex;
