@@ -223,13 +223,13 @@ const UserDetails = () => {
             "avatar": `${selectedImage[0]}`,
             "college": college,
             "relationship_goals": "long term",
-            "languages": ["Hindi", "Engltish"],
+            "languages": ["Hindi", "English"],
             "gender": gender,
             "interest": interest,
             "city": city,
             "location" :{
-                "long": longitude,
-                "lat": latitude
+                "long": longitude ? longitude : 28.56886,
+                "lat": latitude ? latitude : 77.32321
             },
             "recommendationPreferences": {
                 "ageRange": {
@@ -301,9 +301,12 @@ const UserDetails = () => {
     return(
         <div>
             <div style={{width: '80%', margin: 'auto', display: 'flex', justifyContent: 'space-between', marginTop: '-15px'}}>
-                <div onClick={() => setState(state - 1)}>
-                    <img src={backLogo} width="40px"/>
-                </div>
+                {
+                    state > 2 &&
+                    <div onClick={() => setState(state - 1)}>
+                        <img src={backLogo} width="40px"/>
+                    </div>
+                }
                 <div style={{display: 'none'}}>
                     <h3 style={{marginTop: '5px', color: 'rgb(255,91,61)'}}>Skip</h3>
                 </div>
@@ -439,15 +442,15 @@ const UserDetails = () => {
                 <div>
                         <div>
                             <h1>I am </h1>
-
+                            <div style={{display: 'flex', justifyContent: 'space-around', marginTop: '0'}}>
                                 <div className={ gender !== 'M' ? `optionBox` : `selectOption`} onClick={() => setGender("M")}>
-                                    <p>Man</p>
+                                    <p>Boy</p>
                                 </div>
 
                                 <div className={ gender !== 'F' ? `optionBox` : `selectOption`} onClick={() => setGender("F")}>
-                                    <p>Women</p>
+                                    <p>Girl</p>
                                 </div>
-            
+                            </div>
                         </div>
 
                         <div className="inputDiv">
@@ -484,10 +487,11 @@ const UserDetails = () => {
                                     <option>Select</option>
                                     <option value="Galgotias University">Galgotias University</option>
                                     <option value="Galgotias College">Galgotias College</option>
+                                    <option value="Shardha University">Shardha University</option>
+                                    <option value="Shardha University">Amity University</option>
                                     <option value="GL Bajaj">GL Bajaj</option>
                                     <option value="IIMT">IIMT</option>
                                     <option value="GNIOT">GNIOT</option>
-                                    <option value="Shardha University">Shardha University</option>
                                     <option value="Others">Others</option>
                                 </select>
                             </div>
