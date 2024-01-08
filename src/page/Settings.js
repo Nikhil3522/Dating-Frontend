@@ -12,7 +12,7 @@ const Settings = () => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'http://localhost:8000/logout',
+            url: process.env.REACT_APP_API_URL + '/logout',
             withCredentials: true,
 
         };

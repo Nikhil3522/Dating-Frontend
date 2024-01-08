@@ -47,7 +47,7 @@ const Message = () => {
             let config = {
                 method: 'get',
                 maxBodyLength: Infinity,
-                url: 'http://localhost:8000/mydetails',
+                url: process.env.REACT_APP_API_URL + '/mydetails',
                 withCredentials: true,
             };
 

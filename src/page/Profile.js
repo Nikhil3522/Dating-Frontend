@@ -18,7 +18,7 @@ const Profile = () => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'http://localhost:8000/myDetails',
+            url: process.env.REACT_APP_API_URL + '/myDetails',
             withCredentials: true,
 
         };

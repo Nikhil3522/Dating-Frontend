@@ -30,7 +30,7 @@ const Like = () => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'http://localhost:8000/myLike',
+            url: process.env.REACT_APP_API_URL + '/myLike',
             withCredentials: true,
             
           };
