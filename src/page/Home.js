@@ -43,6 +43,7 @@ import meditation from '../assets/images/meditation.png';
 import gym from '../assets/images/gym.png';
 import golf from '../assets/images/golf.png';
 import basketball from '../assets/images/basketball.png';
+import UserCard from "../component/UserCard";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -108,6 +109,9 @@ const Home = () => {
       setPreLoader(true);
       getData();
     }
+
+    const updatedData = data.slice(0, -1); // x is the index to remove
+    setData(updatedData);
   }
 
   useEffect(() => {
@@ -342,10 +346,14 @@ const Home = () => {
                   </div>
 
                 </div> : preLoader ? <img src={blackLoader} height="100px" style={{ marginTop: '30vh' }} /> :
-                  <div className="tinderCard_container">
+                  <div 
+                  // className="tinderCard_container"
+                  >
                     {viewProfile !== -1 ?
                       // <div style={{display: 'flex'}}>
-                      <div className="detailProfileDiv " >
+                      <div 
+                      // className="detailProfileDiv "
+                       >
                         {/* <SwipeDetector
                 onSwipeLeft={handleSwipeLeft}
                 onSwipeRight={handleSwipeRight}
@@ -412,16 +420,27 @@ const Home = () => {
                         </div>
 
                         {/* </div> */}
-                      </div> :
+                      </div> : 
 
-                      data && data.map((person, index) =>
-                        <ProfileCard 
+                      data && data.map((person, index) => (
+                        <UserCard
+                          person={person}
+                          z={index}
+                          key={index}
                           reCallAPI={reCallAPI} 
                           changeLikeLimitExceedValue={changeLikeLimitExceedValue}
-                          person={person} key={index} 
                           changeViewProfileIndex={() => changeViewProfileIndex(index)} 
                         />
-                      )
+                      ))
+
+                      // data && data.map((person, index) =>
+                      //   <ProfileCard 
+                      //     reCallAPI={reCallAPI} 
+                      //     changeLikeLimitExceedValue={changeLikeLimitExceedValue}
+                      //     person={person} key={index} 
+                      //     changeViewProfileIndex={() => changeViewProfileIndex(index)} 
+                      //   />
+                      // )
                     }
                   </div>
             }

@@ -1,0 +1,47 @@
+.usercard-main-container{
+    border: 1px solid red;
+    width: 98%;
+    max-width: 600px;
+    height: 80vh;
+    margin-top: 20px;
+    margin-left: 2px;
+    border-radius: 15px;
+    /* background: linear-gradient(283deg, rgba(255,91,61) 0%, rgba(253,45,114) 83%); */
+    color: white;
+}
+
+.img-container{
+    margin-top: 5px;
+    height: 90%;
+}
+
+.info-container{
+    position: absolute;
+    margin-top: -90px;
+    margin-left: 20px;
+    text-shadow: 2px 2px red;
+}
+
+.button-container{
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 18px;
+    margin-top: 5px;
+
+}
+
+.nope-btn{
+    background: red;
+    padding: 10px;
+    border-radius: 7px;
+    width: 100px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+.like-btn{
+    background: green;
+    padding: 10px;
+    border-radius: 7px;
+    width: 100px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
