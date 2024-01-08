@@ -19,7 +19,7 @@ import ProtectedRoute from "./ProtectedRoute";
 
 const Navigator = () => {
     return (
-        <BrowserRouter basename="/">
+        <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Welcome />}/>
                 <Route path="/login" element={<Login />}/>
