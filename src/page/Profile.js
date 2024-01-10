@@ -73,7 +73,7 @@ const Profile = () => {
                             <h3>Settings & privacy</h3>
                         </div>
 
-                        {
+                        {/* {
                             data.data.permission === 1 
                             ?
                             <div style={{paddingBottom: '150px'}}>
@@ -106,7 +106,7 @@ const Profile = () => {
                             <div>
                                 <h2 className="enjoySub">Enjoy The Subscription</h2>
                             </div>
-                        }
+                        } */}
 
                         <div>
                         </div>

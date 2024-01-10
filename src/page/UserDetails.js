@@ -238,7 +238,7 @@ const UserDetails = () => {
                 },
                 "radius": 50
             },
-            "permission": 1
+            "permission": 2
         }).then(response => {
             if(password !== ""){
                 login();
