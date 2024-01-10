@@ -30,7 +30,8 @@ const NavigationBar = () => {
             <div onClick={() => navigate('/profile')}>
                 <img 
                     style={{borderRadius: '50%', height: '30px', width: '30px', objectFit: 'cover'}}
-                    src={DPURL ? DPURL : user}
+                    // src={DPURL ? DPURL : user}
+                    src={user}
                     width="30px"
                 /> 
                 {/* <h6 style={{marginTop: '-4px', color: 'white'}}>PROFILE</h6> */}
