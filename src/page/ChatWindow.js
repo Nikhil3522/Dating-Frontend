@@ -369,14 +369,14 @@ const ChatWindow = () => {
                     </div>
                 </div>
             </div>
-            <div>
+            {/* <div>
                 <img 
                     onClick={() => setDisplayBlockComp(!displayBlockComp)}
                     src={threeDot} 
                     height={"30px"} 
                     style={{marginTop: '20px'}}
                 />
-            </div>
+            </div> */}
         </div>
         <div style={{display: 'flex', flexDirection: 'column',justifyContent: 'space-between', height: '90vh', backgroundImage: `url(${chatBG})`, backgroundSize: '100% 100%'}}>
             <div 
