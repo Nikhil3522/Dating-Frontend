@@ -167,7 +167,7 @@ const ProfilePage = (props) => {
                     </div>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '30px' }}>
+                <div style={{ display: 'none', justifyContent: 'space-around', marginTop: '30px' }}>
                     <div data-aos="fade-right" style={{ border: '1px solid red', minWidth: '40%', minHeight: '40px', borderRadius: '10px', backgroundColor: 'red', color: 'white', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px' }}>
                         <h2 style={{ lineHeight: '5px' }}>NOPE</h2>
                     </div>
