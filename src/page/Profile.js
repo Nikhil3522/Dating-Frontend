@@ -47,7 +47,11 @@ const Profile = () => {
                         <div className="wave wave4"></div>
 
                         <div className="profileIconDiv">
-                            <img className="profilePictureIcon" src="https://i.pinimg.com/736x/ac/11/59/ac1159303e009a8bd1361fe86a435aa0.jpg" width="170px" />
+                            <img 
+                                className="profilePictureIcon" 
+                                src={`https://backend-ioyu.onrender.com/assets/image/${data.data.avatar}`} 
+                                width="170px" 
+                            />
                             <img
                                 onClick={() => navigate('/profile/edit')}
                                 src={edit}

@@ -212,7 +212,12 @@ const Message = () => {
                         matchProfile.map((profile, index) => (
                             <div key={index} onClick={() => redirectTo(profile)}>
                                 <div style={{ width: '90%', margin: 'auto', marginBottom: '25px', display: 'flex', justifyContent: 'space-between' }}>
-                                    <img style={{ borderRadius: '15px' }} src="https://tse2.mm.bing.net/th?id=OIP.p7gZV4Td4lKOtIgk0pH_1QHaLH&pid=Api&P=0&h=180" height="80px" />
+                                    <img 
+                                        style={{ borderRadius: '50%' }} 
+                                        src={`https://backend-ioyu.onrender.com/assets/image/${profile.avatar}`} 
+                                        height="60px"
+                                        width="60px"
+                                    />
                                     {/* Online indication of user */}
                                     {/* <div style={{ backgroundColor: 'lightGreen', width: '20px', height: '16px', borderRadius: '50%', marginTop: '60px', marginLeft: '-12px' }}></div> */}
                                     <div style={{ width: '100%' }}>

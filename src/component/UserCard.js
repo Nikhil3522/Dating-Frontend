@@ -1,11 +1,17 @@
 import '../assets/css/usercard.css';
 import axios from 'axios';
 import up from '../assets/icons/up.png';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import React, { useRef } from 'react';
 
 const UserCard = (props) => {
     const [imageIndex, setImageIndex] = useState(0);
+    const [imageUrl, setImageUrl] = useState(null);
+
+    useEffect(() => {
+        let tempImageName = `${process.env.REACT_APP_PRE_IMAGE_URL}/assets/image/${props.person.image[imageIndex]}`;
+        setImageUrl(tempImageName);
+    }, [imageIndex])
 
     const changeImage = (direction) => {
         if (direction === "next" && imageIndex < (props.person.image.length - 1)) {
@@ -98,7 +104,7 @@ const UserCard = (props) => {
                 onTouchEnd={handleTouchEnd}
             >
                 <img
-                    src="https://tse3.mm.bing.net/th?id=OIP.Z0PLkCGpEDNcan8n3m-OIAHaFk&pid=Api&P=0&h=180"
+                    src={imageUrl}
                     width="95%"
                     height="100%"
                 />

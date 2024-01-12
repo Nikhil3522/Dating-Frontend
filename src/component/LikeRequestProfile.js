@@ -48,7 +48,7 @@ const LikeRequestProfile = (props) => {
             {/* Profile Picture */}
             <img 
                 className="profilePicture" 
-                src="https://cdn.jwa.org/sites/default/files/mediaobjects/gal_gadot_2_sdcc_2014_cropped.jpg" 
+                src={`https://backend-ioyu.onrender.com/assets/image/${userData.avatar}`} 
                 width="100%" 
                 height="220px"
             />
