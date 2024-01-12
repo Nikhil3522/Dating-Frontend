@@ -41,11 +41,11 @@ const ProfilePage = (props) => {
 
     useEffect(() => {
         var profileId;
-        if(props.encryptData){
+        if (props.encryptData) {
             const secretPass = "XkhZG4fW2t2W";
             const bytes = CryptoJS.AES.decrypt(props.profileId, secretPass);
             profileId = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-        }else{
+        } else {
             profileId = props.profileId;
         }
 
@@ -68,15 +68,15 @@ const ProfilePage = (props) => {
 
     const touchStartX = useRef(0);
     const touchEndX = useRef(0);
-    
+
     const handleSwipeLeft = () => {
-        if( imageIndex < (profileData.image.length-1)){
-          setImageIndex(imageIndex + 1);
+        if (imageIndex < (profileData.image.length - 1)) {
+            setImageIndex(imageIndex + 1);
         }
     };
-    
+
     const handleSwipeRight = () => {
-        if(imageIndex > 0){
+        if (imageIndex > 0) {
             setImageIndex(imageIndex - 1);
         }
     };
@@ -86,8 +86,8 @@ const ProfilePage = (props) => {
     };
 
     const handleTouchEnd = (event) => {
-    touchEndX.current = event.changedTouches[0].clientX;
-    handleSwipe();
+        touchEndX.current = event.changedTouches[0].clientX;
+        handleSwipe();
     };
 
     useEffect(() => {
@@ -96,30 +96,30 @@ const ProfilePage = (props) => {
 
     const handleSwipe = () => {
         const distance = touchEndX.current - touchStartX.current;
-    
+
         if (distance > 0) {
-          // Swiped right
-          handleSwipeRight();
+            // Swiped right
+            handleSwipeRight();
         } else if (distance < 0) {
-          // Swiped left
-          handleSwipeLeft();
+            // Swiped left
+            handleSwipeLeft();
         }
-      };
+    };
 
     return (
         profileData &&
         <div className="tinderCard_container">
             <div className="detailProfileDiv " >
                 <SwipeDetector
-                onSwipeLeft={handleSwipeLeft}
-                onSwipeRight={handleSwipeRight}
+                    onSwipeLeft={handleSwipeLeft}
+                    onSwipeRight={handleSwipeRight}
                 />
                 <img
-                      onTouchStart={handleTouchStart}
-                      onTouchEnd={handleTouchEnd}
+                    onTouchStart={handleTouchStart}
+                    onTouchEnd={handleTouchEnd}
                     style={{ touchAction: 'pan-y' }}
                     className="profileImages"
-                    src={`https://backend-ioyu.onrender.com/assets/image/${profileData.image[imageIndex]}`} 
+                    src={`https://backend-ioyu.onrender.com/assets/image/${profileData.image[imageIndex]}`}
                 />
                 <img
                     //   onClick={() => setViewProfile(-1)} 
@@ -132,13 +132,13 @@ const ProfilePage = (props) => {
                 <div className="imageBarIndicator" style={{ width: '100%', marginTop: '-3px' }}>
                     {
                         profileData.image.map((item, index) => (
-                            <div key={index} style={{width: `${100/profileData.image.length}%`, backgroundColor: `${index === imageIndex ? 'white': 'gray'}`}} ></div>
+                            <div key={index} style={{ width: `${100 / profileData.image.length}%`, backgroundColor: `${index === imageIndex ? 'white' : 'gray'}` }} ></div>
                         ))
                     }
                 </div>
 
                 <h1 data-aos="zoom-out-down">{profileData.name}, {profileData.age}
-                    {profileData.verified && <img src={verified} width="30px" style={{marginTop: '7px', position: 'absolute'}} /> }
+                    {profileData.verified && <img src={verified} width="30px" style={{ marginTop: '7px', position: 'absolute' }} />}
                 </h1>
                 <h3 style={{ textAlign: 'left', marginLeft: '50px' }}>
                     <img style={{ marginLeft: '-40px', position: 'absolute' }} src={college} width="35px" />: {profileData.college}
@@ -160,7 +160,7 @@ const ProfilePage = (props) => {
                     <div className='interestOptionDiv'>
                         {profileData.interest.map((item, index) => (
                             <div className="interestOptionBox">
-                                <img src={require(`../assets/images/${item.toLowerCase()}.png`)}width="30px" height="30px"/>
+                                <img src={require(`../assets/images/${item.toLowerCase()}.png`)} width="30px" height="30px" />
                                 <p>{item}</p>
                             </div>
                         ))}
