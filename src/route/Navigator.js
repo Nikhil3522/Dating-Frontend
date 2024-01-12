@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter , Route, Routes } from "react-router-dom";
 import {
         Welcome, 
         Login, 
@@ -19,7 +19,7 @@ import ProtectedRoute from "./ProtectedRoute";
 
 const Navigator = () => {
     return (
-        <BrowserRouter>
+        <HashRouter>
             <Routes >
                 <Route path="/" element={<Welcome />}/>
                 <Route path="/login" element={<Login />}/>
@@ -36,7 +36,7 @@ const Navigator = () => {
                 <Route path="/subscription/:packName" element={<ProtectedRoute> <Subscription /> </ProtectedRoute>}/>
                 <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>}/>
             </Routes>
-        </BrowserRouter>
+        </HashRouter>
     )
 }
 
