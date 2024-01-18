@@ -11,7 +11,7 @@ const PrivateRoute = ({ children }) => {
 
   const test = async () => {
     try {
-      const data = await localforage.getItem('userLogin');
+      const data = await localStorage.getItem('userLogin');
       if (data && data.value) {
         setIsAuthenticated(true);
       } else {
