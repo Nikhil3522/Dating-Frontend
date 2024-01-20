@@ -22,6 +22,14 @@ const Login = () => {
     }, []);
 
     const onSubmit = async () => {
+        setLoader(true);
+
+        if(!email && !password){
+            setAlert("Please fill the email id and password");
+            setLoader(false);
+            return;
+        }
+
         let data = JSON.stringify({
             "email": email,
             "password": password
@@ -42,17 +50,20 @@ const Login = () => {
         .then(async (response) => {
             console.log("response", response.data.message);
             if(response.data.message === "User LoggedIN!"){
-                // await localForage.setItem('userLogin', {id: Date.now(), value: true});
-                localStorage.setItem('userLogin', {id: Date.now(), value: true});
+                await localForage.setItem('userLogin', {id: Date.now(), value: true});
+                // localStorage.setItem('userLogin', {id: Date.now(), value: true});
                 navigate('/home');
             }else if(response.data.message === "Wrong Email or Passwod!" ){
                 setAlert("Wrong Email or Password");
+                setLoader(false);
             }else{
                 setAlert("Something went wrong! Please try again after sometime.");
+                setLoader(false);
             }
         })
         .catch((error) => {
             console.log(error);
+            setLoader(false);
         });
 
 
@@ -91,7 +102,7 @@ const Login = () => {
             <p className="errorBox">{alert}</p>
             <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', textAlign: 'center', marginBottom: '50px' }}>
                 <div data-aos="zoom-in-up" onClick={() => onSubmit()} style={{ display: 'inline-block' }}>
-                    <ButtonComponent title="Next" loader={loader}/>
+                    <ButtonComponent title="Log in" loader={loader}/>
                 </div>
             </div>
         </div>
