@@ -32,7 +32,7 @@ const ChatWindow = () => {
     const [showProfileId, setShowProfileId] = useState(null);
     // const [userName, setUsername] = useState(null);
 
-    const socket = io('https://backend-ioyu.onrender.com:8900', {
+    const socket = io(process.env.REACT_APP_API_URL, {
         withCredentials: true,
     });
 
@@ -195,7 +195,7 @@ const ChatWindow = () => {
         
         setChatRoom(roomId);
 
-        const socket = io('https://backend-ioyu.onrender.com:8900', {
+        const socket = io(process.env.REACT_APP_API_URL, {
             withCredentials: true,
         });
 
