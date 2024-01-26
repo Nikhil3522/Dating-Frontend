@@ -49,7 +49,7 @@ const Profile = () => {
                         <div className="profileIconDiv">
                             <img 
                                 className="profilePictureIcon" 
-                                src={`https://backend-ioyu.onrender.com/assets/image/${data.data.avatar}`} 
+                                src={data.data.avatar} 
                                 width="170px" 
                             />
                             <img

@@ -26,6 +26,7 @@ import meditation from '../assets/images/meditation.png';
 import gym from '../assets/images/gym.png';
 import golf from '../assets/images/golf.png';
 import basketball from '../assets/images/basketball.png';
+import cross from '../assets/icons/cross.png';
 import { config } from "@react-spring/web";
 import { useNavigate } from "react-router-dom";
 import localforage from "localforage";
@@ -115,7 +116,12 @@ const ProfileEdit = () => {
     }, []);
 
     useEffect(() => {
-        console.log("Data", data);
+        // if(data.image[1]){
+        //     console.log("IMage is exist")
+        // }else{
+        //     console.log("Image does not exist")
+        // }
+        console.log("Data--->", data);
     }, [data]);
 
     const handleImageChange = (event) => {
@@ -226,6 +232,18 @@ const ProfileEdit = () => {
         });
     }
 
+    useEffect(() => {
+        console.log("selectedImage", selectedImage);
+    }, [selectedImage]);
+
+    const deleteImage = (selectedImageIndex) => {
+        console.log("Delete Image");
+        const tempDataImage = data.image.filter((i, index) => index != selectedImage && i);
+        console.log(data.image);
+        console.log(tempDataImage);
+        setData({...data, image: tempDataImage});
+    }
+
     return (
         <>
             {data &&
@@ -235,100 +253,175 @@ const ProfileEdit = () => {
 
                         <div className='imageContainer'>
                             <div className='imageBox'>
-                                {selectedImage[0] ? (
-                                    <img src={URL.createObjectURL(selectedImage[0])} alt="Selected" width="130px" />
-                                ) : (
-                                    <label htmlFor="imageUpload">
-                                        <span className='plusIcon'>+</span>
-                                        <input
-                                            style={{ display: 'none' }}
-                                            id="imageUpload"
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={(e) => handleImageChange(e, 0)}
+                                {
+                                    data.image[0] ?
+                                    <div style={{ position: 'relative' }}>
+                                        <img
+                                            style={{ position: 'absolute', width: '35px', height: '35px', right: '-10px', top: '-10px' }}
+                                            src={cross}
+                                            alt="Cross"
+                                            onClick={() => deleteImage(0)}
                                         />
-                                    </label>
-                                )}
+                                        <img src={data.image[0]} alt="Selected" width="130px" />
+                                    </div>
+                                
+                                    :
+                                    selectedImage[0] ? (
+                                        <img src={URL.createObjectURL(selectedImage[0])} alt="Selected" width="130px" />
+                                    ) : (
+                                        <label htmlFor="imageUpload">
+                                            <span className='plusIcon'>+</span>
+                                            <input
+                                                style={{ display: 'none' }}
+                                                id="imageUpload"
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={(e) => handleImageChange(e, 0)}
+                                            />
+                                        </label>
+                                    )
+                                }
                             </div>
                             <div className='imageBox'>
-                                {selectedImage[1] ? (
-                                    <img src={URL.createObjectURL(selectedImage[1])} alt="Selected" width="130px" />
-                                ) : (
-                                    <label htmlFor="imageUpload">
-                                        <span className='plusIcon'>+</span>
-                                        <input
-                                            style={{ display: 'none' }}
-                                            id="imageUpload"
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={(e) => handleImageChange(e, 1)}
+                                {
+                                    data.image[1] ?
+                                    <div style={{ position: 'relative' }}>
+                                        <img
+                                            style={{ position: 'absolute', width: '35px', height: '35px', right: '-10px', top: '-10px' }}
+                                            src={cross}
+                                            alt="Cross"
+                                            onClick={() => deleteImage(1)}
                                         />
-                                    </label>
-                                )}
+                                        <img src={data.image[1]} alt="Selected" width="130px" />
+                                    </div>
+                                    :
+                                    selectedImage[1] ? (
+                                        <img src={URL.createObjectURL(selectedImage[1])} alt="Selected" width="130px" />
+                                    ) : (
+                                        <label htmlFor="imageUpload">
+                                            <span className='plusIcon'>+</span>
+                                            <input
+                                                style={{ display: 'none' }}
+                                                id="imageUpload"
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={(e) => handleImageChange(e, 1)}
+                                            />
+                                        </label>
+                                    )
+                                }
                             </div>
                             <div className='imageBox'>
-                                {selectedImage[2] ? (
-                                    <img src={URL.createObjectURL(selectedImage[2])} alt="Selected" width="130px" />
-                                ) : (
-                                    <label htmlFor="imageUpload">
-                                        <span className='plusIcon'>+</span>
-                                        <input
-                                            style={{ display: 'none' }}
-                                            id="imageUpload"
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={(e) => handleImageChange(e, 2)}
+                                {
+                                    data.image[2] ?
+                                    <div style={{ position: 'relative' }}>
+                                        <img
+                                            style={{ position: 'absolute', width: '35px', height: '35px', right: '-10px', top: '-10px' }}
+                                            src={cross}
+                                            alt="Cross"
                                         />
-                                    </label>
-                                )}
+                                        <img src={data.image[2]} alt="Selected" width="130px" />
+                                    </div>
+                                    :
+                                    selectedImage[2] ? (
+                                        <img src={URL.createObjectURL(selectedImage[2])} alt="Selected" width="130px" />
+                                    ) : (
+                                        <label htmlFor="imageUpload">
+                                            <span className='plusIcon'>+</span>
+                                            <input
+                                                style={{ display: 'none' }}
+                                                id="imageUpload"
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={(e) => handleImageChange(e, 2)}
+                                            />
+                                        </label>
+                                    )
+                                }
                             </div>
                             <div className='imageBox'>
-                                {selectedImage[3] ? (
-                                    <img src={URL.createObjectURL(selectedImage[3])} alt="Selected" width="130px" />
-                                ) : (
-                                    <label htmlFor="imageUpload">
-                                        <span className='plusIcon'>+</span>
-                                        <input
-                                            style={{ display: 'none' }}
-                                            id="imageUpload"
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={(e) => handleImageChange(e, 3)}
+                                {
+                                    data.image[3] ?
+                                    <div style={{ position: 'relative' }}>
+                                        <img
+                                            style={{ position: 'absolute', width: '35px', height: '35px', right: '-10px', top: '-10px' }}
+                                            src={cross}
+                                            alt="Cross"
                                         />
-                                    </label>
-                                )}
+                                        <img src={data.image[3]} alt="Selected" width="130px" />
+                                    </div>
+                                    :
+                                    selectedImage[3] ? (
+                                        <img src={URL.createObjectURL(selectedImage[3])} alt="Selected" width="130px" />
+                                    ) : (
+                                        <label htmlFor="imageUpload">
+                                            <span className='plusIcon'>+</span>
+                                            <input
+                                                style={{ display: 'none' }}
+                                                id="imageUpload"
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={(e) => handleImageChange(e, 3)}
+                                            />
+                                        </label>
+                                    )
+                                }
                             </div>
                             <div className='imageBox'>
-                                {selectedImage[4] ? (
-                                    <img src={URL.createObjectURL(selectedImage[4])} alt="Selected" width="130px" />
-                                ) : (
-                                    <label htmlFor="imageUpload">
-                                        <span className='plusIcon'>+</span>
-                                        <input
-                                            style={{ display: 'none' }}
-                                            id="imageUpload"
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={(e) => handleImageChange(e, 4)}
+                                {
+                                    data.image[4] ?
+                                    <div style={{ position: 'relative' }}>
+                                        <img
+                                            style={{ position: 'absolute', width: '35px', height: '35px', right: '-10px', top: '-10px' }}
+                                            src={cross}
+                                            alt="Cross"
                                         />
-                                    </label>
-                                )}
+                                        <img src={data.image[4]} alt="Selected" width="130px" />
+                                    </div>
+                                    :
+                                    selectedImage[4] ? (
+                                        <img src={URL.createObjectURL(selectedImage[4])} alt="Selected" width="130px" />
+                                    ) : (
+                                        <label htmlFor="imageUpload">
+                                            <span className='plusIcon'>+</span>
+                                            <input
+                                                style={{ display: 'none' }}
+                                                id="imageUpload"
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={(e) => handleImageChange(e, 4)}
+                                            />
+                                        </label>
+                                    )
+                                }
                             </div>
                             <div className='imageBox'>
-                                {selectedImage[5] ? (
-                                    <img src={URL.createObjectURL(selectedImage[5])} alt="Selected" width="130px" />
-                                ) : (
-                                    <label htmlFor="imageUpload">
-                                        <span className='plusIcon'>+</span>
-                                        <input
-                                            style={{ display: 'none' }}
-                                            id="imageUpload"
-                                            type="file"
-                                            accept="image/*"
-                                            onChange={(e) => handleImageChange(e, 5)}
+                                {
+                                    data.image[5] ?
+                                    <div style={{ position: 'relative' }}>
+                                        <img
+                                            style={{ position: 'absolute', width: '35px', height: '35px', right: '-10px', top: '-10px' }}
+                                            src={cross}
+                                            alt="Cross"
                                         />
-                                    </label>
-                                )}
+                                        <img src={data.image[5]} alt="Selected" width="130px" />
+                                    </div>
+                                    :
+                                    selectedImage[5] ? (
+                                        <img src={URL.createObjectURL(selectedImage[5])} alt="Selected" width="130px" />
+                                    ) : (
+                                        <label htmlFor="imageUpload">
+                                            <span className='plusIcon'>+</span>
+                                            <input
+                                                style={{ display: 'none' }}
+                                                id="imageUpload"
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={(e) => handleImageChange(e, 5)}
+                                            />
+                                        </label>
+                                    )
+                                }
                             </div>
                         </div>
                         <hr></hr>
