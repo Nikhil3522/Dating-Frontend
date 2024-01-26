@@ -25,6 +25,8 @@ import basketball from '../assets/images/basketball.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import localForage from 'localforage';
+import storage from '../firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const UserDetails = () => {
     const navigate = useNavigate();
@@ -46,6 +48,45 @@ const UserDetails = () => {
     const [tempCollege, setTempCollege] = useState(null);
     const [imageLeftForUpload, setImageLeftForUpload] = useState(true);
     const [finalSubmission, setFinalSubmission] = useState(false);
+
+    const handleUpload = async (fileinput) => {
+        return new Promise((resolve, reject) => {
+            if (!fileinput) {
+                reject(new Error("Please upload an image first!"));
+                return;
+            }
+            
+            const storageRef = ref(storage, `/dateuni-image/${fileinput.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, fileinput);
+            
+            uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                    const percent = Math.round(
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                    );
+                    
+                    console.log("percent", percent);
+                },
+                (err) => {
+                    console.error(err);
+                    reject(err);
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref)
+                        .then((url) => {
+                            console.log(url);
+                            resolve(url);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                            reject(error);
+                        });
+                }
+            );
+        });
+    };
+    
 
     useEffect(() => {
         setTimeout(() =>{
@@ -165,20 +206,27 @@ const UserDetails = () => {
                         const formData = new FormData();
                         formData.append('image', selectedImage[i]);
 
-                        await fetch(process.env.REACT_APP_API_URL + '/imageUpload',{
-                            method: 'POST',
-                            body: formData
-                        })
-                        .then(response => response.json())
-                            .then(data => {
-                            // Handle the response data
-                            const imageName = data.image;
-                            // Update the element with the image name in selectedImage array
+                        try {
+                            const imageName = await handleUpload(selectedImage[i]);
                             selectedImage[i] = imageName;
-                            })
-                        .catch(error => {
-                            console.error(error);
-                        });
+                        } catch (error) {
+                            console.error("Error uploading image:", error);
+                        }
+
+                        // await fetch(process.env.REACT_APP_API_URL + '/imageUpload',{
+                        //     method: 'POST',
+                        //     body: formData
+                        // })
+                        // .then(response => response.json())
+                        //     .then(data => {
+                        //     // Handle the response data
+                        //     const imageName = data.image;
+                        //     // Update the element with the image name in selectedImage array
+                        //     selectedImage[i] = imageName;
+                        //     })
+                        // .catch(error => {
+                        //     console.error(error);
+                        // });
                     }
                 }
 
