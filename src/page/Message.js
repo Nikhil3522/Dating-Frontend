@@ -214,7 +214,7 @@ const Message = () => {
                                 <div style={{ width: '90%', margin: 'auto', marginBottom: '25px', display: 'flex', justifyContent: 'space-between' }}>
                                     <img 
                                         style={{ borderRadius: '50%' }} 
-                                        src={`https://backend-ioyu.onrender.com/assets/image/${profile.avatar}`} 
+                                        src={profile.avatar}
                                         height="60px"
                                         width="60px"
                                     />

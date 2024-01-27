@@ -21,6 +21,7 @@ const ChatWindow = () => {
     const { profileId } = useParams();
     const { index } = useParams();
     var { avatar } = useParams();
+    const [userAvatar, setUserAvatar] = useState(null);
     const [ObjectId, setObjectId] = useState(null);
     const [currentUserId, setCurrentUserId] = useState(null);
     const [message, setMessage] = useState('');
@@ -43,6 +44,7 @@ const ChatWindow = () => {
         const data = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
         avatar = data;
+        setUserAvatar(data)
 
     }, [])
 
@@ -360,7 +362,7 @@ const ChatWindow = () => {
                     setProfilePageShow(true)
                     setShowProfileId(profileId)
                     }}>
-                    <img src="https://i.pinimg.com/originals/71/6f/3e/716f3e0ded9ed9f6f3428b4b2b7a1ad2.jpg" width="60px" height="60px" style={{ borderRadius: '50%', marginTop: '5px' }}/>
+                    <img src={userAvatar} width="60px" height="60px" style={{ borderRadius: '50%', marginTop: '5px' }}/>
                     <div style={{color: 'white', marginLeft: '5px'}}>
                         <p style={{lineHeight: '25px', fontSize: '20px'}}>{index && index}</p>
                         {/* <div style={{lineHeight: '5px', display: 'flex'}}>
