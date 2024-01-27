@@ -421,7 +421,9 @@ const Home = () => {
 
                         {/* </div> */}
                       </div> : 
-
+                      data.length === 0 ?
+                         <h4 style={{marginTop: '100px'}}>You've run out of people. Expand yoour age and distance preference to see more people.</h4>
+                      :
                       data && data.map((person, index) => (
                         <UserCard
                           person={person}
