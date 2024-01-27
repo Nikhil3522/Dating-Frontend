@@ -282,9 +282,9 @@ const UserDetails = () => {
             "recommendationPreferences": {
                 "ageRange": {
                     "min": 18,
-                    "max": 24
+                    "max": 40
                 },
-                "radius": 50
+                "radius": 100
             },
             "permission": 2
         }).then(response => {
