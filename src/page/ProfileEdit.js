@@ -30,6 +30,8 @@ import cross from '../assets/icons/cross.png';
 import { config } from "@react-spring/web";
 import { useNavigate } from "react-router-dom";
 import localforage from "localforage";
+import storage from '../firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 const ProfileEdit = () => {
 
@@ -42,6 +44,7 @@ const ProfileEdit = () => {
     const [about, setAbout] = useState('');
     const [defaultValueLanguage, setDefaultValueLanguage] = useState([]);
     const [loader, setLoader] = useState(false);
+    const [imageLength, setImageLength] = useState(0);
 
     const LanguageOptions = [
         { value: 'Hindi', label: 'Hindi' },
@@ -95,14 +98,12 @@ const ProfileEdit = () => {
         await axios.request(config)
             .then((response) => {
                 setData(response.data.data);
-
+                setImageLength(response.data.data.image.length);
                 var temp = [];
 
                 response.data.data.languages.map((item) => {
                     temp.push({ value: item, label: item })
                 });
-
-                console.log("temp", temp);
 
                 setDefaultValueLanguage(temp);
             })
@@ -115,19 +116,11 @@ const ProfileEdit = () => {
             });
     }, []);
 
-    useEffect(() => {
-        // if(data.image[1]){
-        //     console.log("IMage is exist")
-        // }else{
-        //     console.log("Image does not exist")
-        // }
-        console.log("Data--->", data);
-    }, [data]);
-
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         const updatedSelectedImage = [...selectedImage, file];
         setSelectedImage(updatedSelectedImage);
+        handleUpload(file);
     }
 
     // Edit Relationship goal value
@@ -175,6 +168,44 @@ const ProfileEdit = () => {
         setData(tempData);
     }
 
+    const handleUpload = async (fileinput) => {
+        return new Promise((resolve, reject) => {
+            if (!fileinput) {
+                reject(new Error("Please upload an image first!"));
+                return;
+            }
+            
+            const storageRef = ref(storage, `/dateuni-image/${fileinput.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, fileinput);
+            
+            uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                    const percent = Math.round(
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                    );
+                    
+                    console.log("percent", percent);
+                },
+                (err) => {
+                    console.error(err);
+                    reject(err);
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref)
+                        .then((url) => {
+                            setData({...data, image:[...data.image, url]})
+                            resolve(url);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                            reject(error);
+                        });
+                }
+            );
+        });
+    };
+
     const onSubmit = async () => {
 
         // const imageLength = selectedImage.length;
@@ -208,10 +239,11 @@ const ProfileEdit = () => {
         //     }
         // }
 
-        setTimeout(() => {
             saveData();
-        }, 2000);
     }
+
+
+ 
 
     const saveData = () => {
         var tempData = {...data};
@@ -232,15 +264,8 @@ const ProfileEdit = () => {
         });
     }
 
-    useEffect(() => {
-        console.log("selectedImage", selectedImage);
-    }, [selectedImage]);
-
     const deleteImage = (selectedImageIndex) => {
-        console.log("Delete Image");
         const tempDataImage = data.image.filter((i, index) => index != selectedImage && i);
-        console.log(data.image);
-        console.log(tempDataImage);
         setData({...data, image: tempDataImage});
     }
 
@@ -260,14 +285,19 @@ const ProfileEdit = () => {
                                             style={{ position: 'absolute', width: '35px', height: '35px', right: '-10px', top: '-10px' }}
                                             src={cross}
                                             alt="Cross"
-                                            onClick={() => deleteImage(0)}
+                                            onClick={() => {
+                                                deleteImage(0);
+                                                const tempImageLength = imageLength - 1;
+                                                setImageLength(tempImageLength)
+                                            }
+                                            }
                                         />
                                         <img src={data.image[0]} alt="Selected" width="130px" />
                                     </div>
                                 
                                     :
-                                    selectedImage[0] ? (
-                                        <img src={URL.createObjectURL(selectedImage[0])} alt="Selected" width="130px" />
+                                    selectedImage[0 - imageLength] ? (
+                                        <img src={URL.createObjectURL(selectedImage[0 - imageLength])} alt="Selected" width="130px" />
                                     ) : (
                                         <label htmlFor="imageUpload">
                                             <span className='plusIcon'>+</span>
@@ -290,13 +320,17 @@ const ProfileEdit = () => {
                                             style={{ position: 'absolute', width: '35px', height: '35px', right: '-10px', top: '-10px' }}
                                             src={cross}
                                             alt="Cross"
-                                            onClick={() => deleteImage(1)}
+                                            onClick={() => {
+                                                    deleteImage(1);
+                                                    const tempImageLength = imageLength - 1;
+                                                    setImageLength(tempImageLength)
+                                                }}
                                         />
                                         <img src={data.image[1]} alt="Selected" width="130px" />
                                     </div>
                                     :
-                                    selectedImage[1] ? (
-                                        <img src={URL.createObjectURL(selectedImage[1])} alt="Selected" width="130px" />
+                                    selectedImage[1 - imageLength] ? (
+                                        <img src={URL.createObjectURL(selectedImage[1 - imageLength])} alt="Selected" width="130px" />
                                     ) : (
                                         <label htmlFor="imageUpload">
                                             <span className='plusIcon'>+</span>
@@ -323,8 +357,8 @@ const ProfileEdit = () => {
                                         <img src={data.image[2]} alt="Selected" width="130px" />
                                     </div>
                                     :
-                                    selectedImage[2] ? (
-                                        <img src={URL.createObjectURL(selectedImage[2])} alt="Selected" width="130px" />
+                                    selectedImage[2 - imageLength] ? (
+                                        <img src={URL.createObjectURL(selectedImage[2 - imageLength])} alt="Selected" width="130px" />
                                     ) : (
                                         <label htmlFor="imageUpload">
                                             <span className='plusIcon'>+</span>
@@ -351,8 +385,8 @@ const ProfileEdit = () => {
                                         <img src={data.image[3]} alt="Selected" width="130px" />
                                     </div>
                                     :
-                                    selectedImage[3] ? (
-                                        <img src={URL.createObjectURL(selectedImage[3])} alt="Selected" width="130px" />
+                                    selectedImage[3 - imageLength] ? (
+                                        <img src={URL.createObjectURL(selectedImage[3 - imageLength])} alt="Selected" width="130px" />
                                     ) : (
                                         <label htmlFor="imageUpload">
                                             <span className='plusIcon'>+</span>
@@ -379,8 +413,8 @@ const ProfileEdit = () => {
                                         <img src={data.image[4]} alt="Selected" width="130px" />
                                     </div>
                                     :
-                                    selectedImage[4] ? (
-                                        <img src={URL.createObjectURL(selectedImage[4])} alt="Selected" width="130px" />
+                                    selectedImage[4 - imageLength] ? (
+                                        <img src={URL.createObjectURL(selectedImage[4 - imageLength])} alt="Selected" width="130px" />
                                     ) : (
                                         <label htmlFor="imageUpload">
                                             <span className='plusIcon'>+</span>
@@ -407,8 +441,8 @@ const ProfileEdit = () => {
                                         <img src={data.image[5]} alt="Selected" width="130px" />
                                     </div>
                                     :
-                                    selectedImage[5] ? (
-                                        <img src={URL.createObjectURL(selectedImage[5])} alt="Selected" width="130px" />
+                                    selectedImage[5 - imageLength] ? (
+                                        <img src={URL.createObjectURL(selectedImage[5 - imageLength])} alt="Selected" width="130px" />
                                     ) : (
                                         <label htmlFor="imageUpload">
                                             <span className='plusIcon'>+</span>
