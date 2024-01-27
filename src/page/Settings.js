@@ -20,7 +20,8 @@ const Settings = () => {
         axios.request(config)
             .then(async (response) => {
                 await localforage.setItem('userLogin', { id: Date.now(), value: false });
-                navigate('/login');
+                window.location.reload(false);
+                // navigate('/login');
             })
             .catch((error) => {
                 console.log("error in logout", error);

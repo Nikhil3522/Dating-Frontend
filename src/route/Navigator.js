@@ -21,12 +21,12 @@ const Navigator = () => {
     return (
         <HashRouter>
             <Routes >
-                <Route path="/" element={<ProtectedRoute><Welcome url={'/'}/></ProtectedRoute>}/>
-                <Route path="/login" element={<ProtectedRoute><Login url={'/login'}/></ProtectedRoute>}/>
-                <Route path="/signup" element={<ProtectedRoute><Signup url={'/signup'}/></ProtectedRoute>}/>
+                <Route path="/" element={<ProtectedRoute><Welcome url={'/'} reqAuth={false}/></ProtectedRoute>}/>
+                <Route path="/login" element={<ProtectedRoute><Login url={'/login'} reqAuth={false}/></ProtectedRoute>}/>
+                <Route path="/signup" element={<ProtectedRoute><Signup url={'/signup'} reqAuth={false}/></ProtectedRoute>}/>
                 <Route path="/forget-password" element={<ProtectedRoute><ForgetPassword url={'/forget-password'}/></ProtectedRoute>}/>
                 <Route path="/userdetails" element={<UserDetails />}/>
-                <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>}/>
+                <Route path="/home" element={<ProtectedRoute><Home url={'/home'}/></ProtectedRoute>}/>
                 <Route path="/like" element={<ProtectedRoute><Like /></ProtectedRoute>}/>
                 <Route path="/message" element={<ProtectedRoute><Message /></ProtectedRoute>}/>
                 <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>}/>

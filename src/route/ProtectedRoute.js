@@ -12,6 +12,7 @@ const PrivateRoute = ({ children }) => {
   const test = async () => {
     try {
       const data = await localforage.getItem('userLogin');
+      console.log("data value", data);
       if (data && data.value) {
         setIsAuthenticated(true);
       } else {
@@ -27,13 +28,27 @@ const PrivateRoute = ({ children }) => {
     return <div>Loading...</div>;
   }
 
-  if(isAuthenticated && (children.props.url === "/" || children.props.url === "/login" || children.props.url === "/signup" || children.props.url === "/forget-password")){
-    return <Navigate to='/home' />
+  if(children.props.reqAuth === false){
+    if(isAuthenticated && (children.props.url === '/login' || children.props.url === '/' || children.props.url === '/signup')){
+      return <Navigate to='/home' />;
+    }else{
+      return children;
+    }
   }
 
-  if(!isAuthenticated && (children.props.url === "/" || children.props.url === "/login" || children.props.url === "/signup" || children.props.url === "/forget-password")){
-    return children;
-  }
+  // if(isAuthenticated && children.props.url === '/home'){
+  //   return children;
+  // }
+
+  // if(isAuthenticated && (children.props.url === "/" || children.props.url === "/login" || children.props.url === "/signup" || children.props.url === "/forget-password")){
+  //   console.log("isAuth 1")
+  //   return <Navigate to='/home' />
+  // }
+
+  // if(!isAuthenticated && (children.props.url === "/" || children.props.url === "/login" || children.props.url === "/signup" || children.props.url === "/forget-password")){
+  //   console.log("isAuth 2")
+  //   return children;
+  // }
 
   if (!isAuthenticated) {
     return <Navigate to='/login' />;
