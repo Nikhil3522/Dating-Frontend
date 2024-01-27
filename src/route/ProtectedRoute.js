@@ -27,6 +27,14 @@ const PrivateRoute = ({ children }) => {
     return <div>Loading...</div>;
   }
 
+  if(isAuthenticated && (children.props.url === "/" || children.props.url === "/login" || children.props.url === "/signup" || children.props.url === "/forget-password")){
+    return <Navigate to='/home' />
+  }
+
+  if(!isAuthenticated && (children.props.url === "/" || children.props.url === "/login" || children.props.url === "/signup" || children.props.url === "/forget-password")){
+    return children;
+  }
+
   if (!isAuthenticated) {
     return <Navigate to='/login' />;
   }

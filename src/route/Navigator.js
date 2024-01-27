@@ -21,10 +21,10 @@ const Navigator = () => {
     return (
         <HashRouter>
             <Routes >
-                <Route path="/" element={<Welcome />}/>
-                <Route path="/login" element={<Login />}/>
-                <Route path="/signup" element={<Signup />}/>
-                <Route path="/forget-password" element={<ForgetPassword />}/>
+                <Route path="/" element={<ProtectedRoute><Welcome url={'/'}/></ProtectedRoute>}/>
+                <Route path="/login" element={<ProtectedRoute><Login url={'/login'}/></ProtectedRoute>}/>
+                <Route path="/signup" element={<ProtectedRoute><Signup url={'/signup'}/></ProtectedRoute>}/>
+                <Route path="/forget-password" element={<ProtectedRoute><ForgetPassword url={'/forget-password'}/></ProtectedRoute>}/>
                 <Route path="/userdetails" element={<UserDetails />}/>
                 <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>}/>
                 <Route path="/like" element={<ProtectedRoute><Like /></ProtectedRoute>}/>
