@@ -104,6 +104,7 @@ const UserCard = (props) => {
                 onTouchEnd={handleTouchEnd}
             >
                 <img
+                    style={{objectFit: 'contain'}}
                     src={imageUrl}
                     width="95%"
                     height="100%"
