@@ -9,7 +9,7 @@ const UserCard = (props) => {
     const [imageUrl, setImageUrl] = useState(null);
 
     useEffect(() => {
-        let tempImageName = `${process.env.REACT_APP_PRE_IMAGE_URL}/assets/image/${props.person.image[imageIndex]}`;
+        let tempImageName = `${props.person.image[imageIndex]}`;
         setImageUrl(tempImageName);
     }, [imageIndex])
 
