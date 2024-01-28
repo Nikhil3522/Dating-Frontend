@@ -67,11 +67,11 @@ const Profile = () => {
                             <div className="profileCompeteIndicater"></div>
                         </div> */}
 
-                        {data.data.verified === false &&
+                        {/* {data.data.verified === false &&
                             <div className="verifiedDiv" onClick={() => navigate('/verified')}>
                                 <h3>Get Verified <img className="verifiedTag" src={verified} width="40px" height="40px" /></h3>
                             </div>
-                        }
+                        } */}
 
                         <div className="verifiedDiv" style={{ marginTop: '15px' }} onClick={() => navigate('/settings')}>
                             <h3>Settings & privacy</h3>
