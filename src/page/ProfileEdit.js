@@ -31,7 +31,7 @@ import { config } from "@react-spring/web";
 import { useNavigate } from "react-router-dom";
 import localforage from "localforage";
 import storage from '../firebase';
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 
 const ProfileEdit = () => {
 
@@ -65,7 +65,7 @@ const ProfileEdit = () => {
     const interests = [
         { title: "Shopping", img: shopping },
         { title: "Run", img: run },
-        { title: "Video Games", img: videoGame },
+        // { title: "Video Games", img: videoGame },
         { title: "Yoga", img: yoga },
         { title: "Music", img: music },
         { title: "Art", img: art },
@@ -81,8 +81,8 @@ const ProfileEdit = () => {
         { title: "Gym", img: gym },
         { title: "Golf", img: golf },
         { title: "Basketball", img: basketball },
-        { title: "Roadtrip", img: roadTrip },
-        { title: "Running", img: run },
+        // { title: "Roadtrip", img: roadTrip },
+        // { title: "Running", img: run },
     ]
 
     useState(async () => {
@@ -264,7 +264,35 @@ const ProfileEdit = () => {
         });
     }
 
-    const deleteImage = (selectedImageIndex) => {
+    const deleteImage = async (selectedImageIndex) => {
+        // // Create a reference to the file to delete
+        // const desertRef = ref(storage, 'dateuni-image/1292603.jpg');
+
+        // // Delete the file
+        // deleteObject(desertRef).then(() => {
+        // // File deleted successfully
+        // }).catch((error) => {
+        // // Uh-oh, an error occurred!
+        // })
+
+        // console.log("image name", data.image[selectedImageIndex])
+
+        // try {
+        //     // Parse the URL to extract the path
+        //     const urlParts = new URL(data.image[selectedImageIndex]);
+        //     const filePath = decodeURIComponent(urlParts.pathname);
+    
+        //     // Create a storage reference
+        //     const fileRef = ref(storage, filePath);
+    
+        //     // Delete the file
+        //     await deleteObject(fileRef);
+    
+        //     console.log("File deleted successfully.");
+        // } catch (error) {
+        //     console.error("Error deleting file:", error);
+        // }
+
         const tempDataImage = data.image.filter((i, index) => index != selectedImage && i);
         setData({...data, image: tempDataImage});
     }
@@ -353,6 +381,12 @@ const ProfileEdit = () => {
                                             style={{ position: 'absolute', width: '35px', height: '35px', right: '-10px', top: '-10px' }}
                                             src={cross}
                                             alt="Cross"
+                                            onClick={() => {
+                                                deleteImage(2);
+                                                const tempImageLength = imageLength - 1;
+                                                setImageLength(tempImageLength)
+                                            }
+                                            }
                                         />
                                         <img src={data.image[2]} alt="Selected" width="130px" />
                                     </div>
@@ -381,6 +415,12 @@ const ProfileEdit = () => {
                                             style={{ position: 'absolute', width: '35px', height: '35px', right: '-10px', top: '-10px' }}
                                             src={cross}
                                             alt="Cross"
+                                            onClick={() => {
+                                                deleteImage(3);
+                                                const tempImageLength = imageLength - 1;
+                                                setImageLength(tempImageLength)
+                                            }
+                                            }
                                         />
                                         <img src={data.image[3]} alt="Selected" width="130px" />
                                     </div>
@@ -409,6 +449,12 @@ const ProfileEdit = () => {
                                             style={{ position: 'absolute', width: '35px', height: '35px', right: '-10px', top: '-10px' }}
                                             src={cross}
                                             alt="Cross"
+                                            onClick={() => {
+                                                deleteImage(4);
+                                                const tempImageLength = imageLength - 1;
+                                                setImageLength(tempImageLength)
+                                            }
+                                            }
                                         />
                                         <img src={data.image[4]} alt="Selected" width="130px" />
                                     </div>
@@ -437,6 +483,12 @@ const ProfileEdit = () => {
                                             style={{ position: 'absolute', width: '35px', height: '35px', right: '-10px', top: '-10px' }}
                                             src={cross}
                                             alt="Cross"
+                                            onClick={() => {
+                                                deleteImage(5);
+                                                const tempImageLength = imageLength - 1;
+                                                setImageLength(tempImageLength)
+                                            }
+                                            }
                                         />
                                         <img src={data.image[5]} alt="Selected" width="130px" />
                                     </div>

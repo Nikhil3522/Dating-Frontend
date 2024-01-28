@@ -309,7 +309,7 @@ const UserDetails = () => {
     const interests = [
         {title: "Shopping", img: shopping},
         {title: "Run", img: run},
-        {title: "Video Games", img: videoGame},
+        // {title: "Video Games", img: videoGame},
         {title: "Yoga", img: yoga},
         {title: "Music", img: music},
         {title: "Art", img: art},
@@ -325,8 +325,8 @@ const UserDetails = () => {
         {title: "Gym", img: gym},
         {title: "Golf", img: golf},
         {title: "Basketball", img: basketball},
-        {title: "Roadtrip", img: roadTrip},
-        {title: "Running", img: run},
+        // {title: "Roadtrip", img: roadTrip},
+        // {title: "Running", img: run},
     ]
 
     const handleDateChange = (e) => {
