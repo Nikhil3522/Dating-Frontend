@@ -48,7 +48,7 @@ const LikeRequestProfile = (props) => {
             {/* Profile Picture */}
             <img 
                 className="profilePicture" 
-                src={`https://backend-ioyu.onrender.com/assets/image/${userData.avatar}`} 
+                src={`${userData.avatar}`} 
                 width="100%" 
                 height="220px"
             />

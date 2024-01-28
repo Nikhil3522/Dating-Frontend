@@ -119,7 +119,7 @@ const ProfilePage = (props) => {
                     onTouchEnd={handleTouchEnd}
                     style={{ touchAction: 'pan-y' }}
                     className="profileImages"
-                    src={`https://backend-ioyu.onrender.com/assets/image/${profileData.image[imageIndex]}`}
+                    src={`${profileData.image[imageIndex]}`}
                 />
                 <img
                     //   onClick={() => setViewProfile(-1)} 
