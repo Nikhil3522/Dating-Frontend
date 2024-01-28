@@ -24,7 +24,7 @@ const Navigator = () => {
                 <Route path="/" element={<ProtectedRoute><Welcome url={'/'} reqAuth={false}/></ProtectedRoute>}/>
                 <Route path="/login" element={<ProtectedRoute><Login url={'/login'} reqAuth={false}/></ProtectedRoute>}/>
                 <Route path="/signup" element={<ProtectedRoute><Signup url={'/signup'} reqAuth={false}/></ProtectedRoute>}/>
-                <Route path="/forget-password" element={<ProtectedRoute><ForgetPassword url={'/forget-password'}/></ProtectedRoute>}/>
+                <Route path="/forget-password" element={<ForgetPassword/>}/>
                 <Route path="/userdetails" element={<UserDetails />}/>
                 <Route path="/home" element={<ProtectedRoute><Home url={'/home'}/></ProtectedRoute>}/>
                 <Route path="/like" element={<ProtectedRoute><Like /></ProtectedRoute>}/>

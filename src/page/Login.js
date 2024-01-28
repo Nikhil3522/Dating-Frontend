@@ -98,7 +98,7 @@ const Login = () => {
                 </div>
             </div>
 
-            <p><a href="/#/forget-password">Forget password?</a> · <a href="/#+/signup">Sign up</a></p>
+            <p><a href="/#/forget-password">Forget password?</a> · <a href="/#/signup">Sign up</a></p>
 
             <p className="errorBox">{alert}</p>
             <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', textAlign: 'center', marginBottom: '50px' }}>
