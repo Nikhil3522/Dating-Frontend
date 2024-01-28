@@ -35,9 +35,11 @@ const ProfileCard = (props) => {
     const [imageIndex, setImageIndex] = useState(0);
 
     const swiped=(direction, person)=>{
+        console.log("Swiping")
         if(direction === 'right'){
-            likeProfile(person.userId);
-            props.reCallAPI(person.userId);
+            console.log("Right Swipe")
+            // likeProfile(person.userId);
+            // props.reCallAPI(person.userId);
         }
     }
     
@@ -79,7 +81,7 @@ const ProfileCard = (props) => {
                 className="swipe"
                 preventSwipe={["up", "down"]}
                 onSwipe={(dir) => swiped(dir, props.person)}
-                onCardLeftScreen={() => outOfFrame(props.person)}
+                // onCardLeftScreen={() => outOfFrame(props.person)}
             >
                 <div
                     className="card"

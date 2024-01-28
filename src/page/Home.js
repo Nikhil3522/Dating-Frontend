@@ -363,7 +363,7 @@ const Home = () => {
                           onTouchEnd={handleTouchEnd}
                           style={{ touchAction: 'pan-y' }}
                           className="profileImages"
-                          src={`https://backend-ioyu.onrender.com/assets/image/${data[viewProfile].image[imageIndex]}`} 
+                          src={`${data[viewProfile].image[imageIndex]}`} 
                         />
                         <img
                           onClick={() => setViewProfile(-1)}
