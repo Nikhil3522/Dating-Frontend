@@ -309,7 +309,7 @@ const ProfileEdit = () => {
                                 {
                                     data.image[0] ?
                                     <div style={{ position: 'relative' }}>
-                                        <img
+                                        {/* <img
                                             style={{ position: 'absolute', width: '35px', height: '35px', right: '-10px', top: '-10px' }}
                                             src={cross}
                                             alt="Cross"
@@ -319,7 +319,7 @@ const ProfileEdit = () => {
                                                 setImageLength(tempImageLength)
                                             }
                                             }
-                                        />
+                                        /> */}
                                         <img src={data.image[0]} alt="Selected" width="130px" />
                                     </div>
                                 
@@ -344,7 +344,7 @@ const ProfileEdit = () => {
                                 {
                                     data.image[1] ?
                                     <div style={{ position: 'relative' }}>
-                                        <img
+                                        {/* <img
                                             style={{ position: 'absolute', width: '35px', height: '35px', right: '-10px', top: '-10px' }}
                                             src={cross}
                                             alt="Cross"
@@ -353,7 +353,7 @@ const ProfileEdit = () => {
                                                     const tempImageLength = imageLength - 1;
                                                     setImageLength(tempImageLength)
                                                 }}
-                                        />
+                                        /> */}
                                         <img src={data.image[1]} alt="Selected" width="130px" />
                                     </div>
                                     :
@@ -377,7 +377,7 @@ const ProfileEdit = () => {
                                 {
                                     data.image[2] ?
                                     <div style={{ position: 'relative' }}>
-                                        <img
+                                        {/* <img
                                             style={{ position: 'absolute', width: '35px', height: '35px', right: '-10px', top: '-10px' }}
                                             src={cross}
                                             alt="Cross"
@@ -387,7 +387,7 @@ const ProfileEdit = () => {
                                                 setImageLength(tempImageLength)
                                             }
                                             }
-                                        />
+                                        /> */}
                                         <img src={data.image[2]} alt="Selected" width="130px" />
                                     </div>
                                     :
@@ -411,7 +411,7 @@ const ProfileEdit = () => {
                                 {
                                     data.image[3] ?
                                     <div style={{ position: 'relative' }}>
-                                        <img
+                                        {/* <img
                                             style={{ position: 'absolute', width: '35px', height: '35px', right: '-10px', top: '-10px' }}
                                             src={cross}
                                             alt="Cross"
@@ -421,7 +421,7 @@ const ProfileEdit = () => {
                                                 setImageLength(tempImageLength)
                                             }
                                             }
-                                        />
+                                        /> */}
                                         <img src={data.image[3]} alt="Selected" width="130px" />
                                     </div>
                                     :
@@ -445,7 +445,7 @@ const ProfileEdit = () => {
                                 {
                                     data.image[4] ?
                                     <div style={{ position: 'relative' }}>
-                                        <img
+                                        {/* <img
                                             style={{ position: 'absolute', width: '35px', height: '35px', right: '-10px', top: '-10px' }}
                                             src={cross}
                                             alt="Cross"
@@ -455,7 +455,7 @@ const ProfileEdit = () => {
                                                 setImageLength(tempImageLength)
                                             }
                                             }
-                                        />
+                                        /> */}
                                         <img src={data.image[4]} alt="Selected" width="130px" />
                                     </div>
                                     :
@@ -479,7 +479,7 @@ const ProfileEdit = () => {
                                 {
                                     data.image[5] ?
                                     <div style={{ position: 'relative' }}>
-                                        <img
+                                        {/* <img
                                             style={{ position: 'absolute', width: '35px', height: '35px', right: '-10px', top: '-10px' }}
                                             src={cross}
                                             alt="Cross"
@@ -489,7 +489,7 @@ const ProfileEdit = () => {
                                                 setImageLength(tempImageLength)
                                             }
                                             }
-                                        />
+                                        /> */}
                                         <img src={data.image[5]} alt="Selected" width="130px" />
                                     </div>
                                     :
