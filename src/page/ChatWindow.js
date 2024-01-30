@@ -420,6 +420,7 @@ const ChatWindow = () => {
                     // margin: 'auto',
                     marginLeft: '10px',
                     transition: 'bottom 0.3s ease', // Adding transition for smooth animation
+                    marginBottom: '15px',
                 }}
             >
                 {/* <img style={{ borderRadius: '15px', height: '50px', marginTop: '5px' }} src={emoji}  /> */}
