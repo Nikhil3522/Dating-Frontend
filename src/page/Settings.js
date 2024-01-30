@@ -237,7 +237,7 @@ const Settings = () => {
                         </div>
                         : step === 3 ?
                             <>
-                                <h3>Please mail us at support@dateuni.in to delete your account.</h3>
+                                <h3>Please mail us at info.dateuni@gmail.com to delete your account.</h3>
                             </>
                             : null
             }
