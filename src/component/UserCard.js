@@ -112,7 +112,7 @@ const UserCard = (props) => {
                 <div className='info-container'
                     onClick={() => props.changeViewProfileIndex(props.key)}>
                     <div>
-                        <h1>{props.person.name}, {props.person.age} </h1>
+                        <h1>{props.person.name.split(' ')[0]}, {props.person.age} </h1>
                         <img onTouchStart={() => props.changeViewProfileIndex(props.key)} className="upIcon" src={up} width="45px" />
                     </div>
                 </div>
