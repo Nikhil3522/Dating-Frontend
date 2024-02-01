@@ -27,6 +27,7 @@ import { useNavigate } from 'react-router-dom';
 import localForage from 'localforage';
 import storage from '../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import imageCompression from 'browser-image-compression';
 
 const UserDetails = () => {
     const navigate = useNavigate();
@@ -50,40 +51,55 @@ const UserDetails = () => {
     const [finalSubmission, setFinalSubmission] = useState(false);
 
     const handleUpload = async (fileinput) => {
-        return new Promise((resolve, reject) => {
-            if (!fileinput) {
-                reject(new Error("Please upload an image first!"));
-                return;
-            }
+
+        var options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true
+        }
+
+        imageCompression(fileinput, options)
+        .then(function (compressedFile) {
+            fileinput = compressedFile;
             
-            const storageRef = ref(storage, `/dateuni-image/${fileinput.name}`);
-            const uploadTask = uploadBytesResumable(storageRef, fileinput);
-            
-            uploadTask.on(
-                "state_changed",
-                (snapshot) => {
-                    const percent = Math.round(
-                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                    );
-                    
-                    console.log("percent", percent);
-                },
-                (err) => {
-                    console.error(err);
-                    reject(err);
-                },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref)
-                        .then((url) => {
-                            console.log(url);
-                            resolve(url);
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                            reject(error);
-                        });
+            return new Promise((resolve, reject) => {
+                if (!fileinput) {
+                    reject(new Error("Please upload an image first!"));
+                    return;
                 }
-            );
+                
+                const storageRef = ref(storage, `/dateuni-image/${fileinput.name}`);
+                const uploadTask = uploadBytesResumable(storageRef, fileinput);
+                
+                uploadTask.on(
+                    "state_changed",
+                    (snapshot) => {
+                        const percent = Math.round(
+                            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                        );
+                        
+                        console.log("percent", percent);
+                    },
+                    (err) => {
+                        console.error(err);
+                        reject(err);
+                    },
+                    () => {
+                        getDownloadURL(uploadTask.snapshot.ref)
+                            .then((url) => {
+                                console.log(url);
+                                resolve(url);
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                                reject(error);
+                            });
+                    }
+                );
+            });
+        })
+        .catch(function (error) {
+            console.log(error.message);
         });
     };
     
