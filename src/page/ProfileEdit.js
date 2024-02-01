@@ -32,6 +32,7 @@ import { useNavigate } from "react-router-dom";
 import localforage from "localforage";
 import storage from '../firebase';
 import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
+import imageCompression from 'browser-image-compression';
 
 const ProfileEdit = () => {
 
@@ -169,40 +170,55 @@ const ProfileEdit = () => {
     }
 
     const handleUpload = async (fileinput) => {
-        return new Promise((resolve, reject) => {
-            if (!fileinput) {
-                reject(new Error("Please upload an image first!"));
-                return;
-            }
+
+        var options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true
+        }
+
+        imageCompression(fileinput, options)
+        .then(function (compressedFile) {
+            fileinput = compressedFile;
             
-            const storageRef = ref(storage, `/dateuni-image/${fileinput.name}`);
-            const uploadTask = uploadBytesResumable(storageRef, fileinput);
-            
-            uploadTask.on(
-                "state_changed",
-                (snapshot) => {
-                    const percent = Math.round(
-                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                    );
-                    
-                    console.log("percent", percent);
-                },
-                (err) => {
-                    console.error(err);
-                    reject(err);
-                },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref)
-                        .then((url) => {
-                            setData({...data, image:[...data.image, url]})
-                            resolve(url);
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                            reject(error);
-                        });
+            return new Promise((resolve, reject) => {
+                if (!fileinput) {
+                    reject(new Error("Please upload an image first!"));
+                    return;
                 }
-            );
+                
+                const storageRef = ref(storage, `/dateuni-image/${fileinput.name}`);
+                const uploadTask = uploadBytesResumable(storageRef, fileinput);
+                
+                uploadTask.on(
+                    "state_changed",
+                    (snapshot) => {
+                        const percent = Math.round(
+                            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                        );
+                        
+                        console.log("percent", percent);
+                    },
+                    (err) => {
+                        console.error(err);
+                        reject(err);
+                    },
+                    () => {
+                        getDownloadURL(uploadTask.snapshot.ref)
+                            .then((url) => {
+                                setData({...data, image:[...data.image, url]})
+                                resolve(url);
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                                reject(error);
+                            });
+                    }
+                );
+            });
+        })
+        .catch(function (error) {
+            console.log(error.message);
         });
     };
 
