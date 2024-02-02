@@ -5,6 +5,15 @@ import no from '../assets/icons/no.png';
 
 const LikeRequestProfile = (props) => {
     const [userData, setUserData] = useState(null);
+    const [optimizedImageUrl, setOptimizedImageUrl] = useState(null);
+
+    useEffect(() => {
+        if(userData && userData.avatar){
+            let originalUrl = userData.avatar;
+            let modifiedUrl = originalUrl.replace("https://firebasestorage.googleapis.com", "https://ik.imagekit.io/dateuni/tr:w-400");
+            setOptimizedImageUrl(modifiedUrl);
+        }
+    }, [userData]);
 
     useEffect(() => {
         let config = {
@@ -48,7 +57,7 @@ const LikeRequestProfile = (props) => {
             {/* Profile Picture */}
             <img 
                 className="profilePicture" 
-                src={`${userData.avatar}`} 
+                src={optimizedImageUrl} 
                 width="100%" 
                 height="220px"
             />
