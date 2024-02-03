@@ -112,8 +112,9 @@ const UserDetails = () => {
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
-        if(file.type){
-            window.alert("type", file.type);
+        const extension = file.name.split('.').pop();
+
+        if(extension !== "HEIC"){
             const updatedSelectedImage = [...selectedImage, file];
             setSelectedImage(updatedSelectedImage);
         }else{
