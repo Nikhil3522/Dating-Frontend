@@ -112,8 +112,12 @@ const UserDetails = () => {
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
-        const updatedSelectedImage = [...selectedImage, file];
-        setSelectedImage(updatedSelectedImage);
+        if(file.type){
+            const updatedSelectedImage = [...selectedImage, file];
+            setSelectedImage(updatedSelectedImage);
+        }else{
+            window.alert('HEIC files are not supported. Please select a different image.');
+        }
     }
 
     useEffect(() => {
