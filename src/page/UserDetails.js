@@ -113,6 +113,7 @@ const UserDetails = () => {
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if(file.type){
+            window.alert("type", file.type);
             const updatedSelectedImage = [...selectedImage, file];
             setSelectedImage(updatedSelectedImage);
         }else{
