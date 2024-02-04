@@ -12,6 +12,23 @@ const Message = () => {
     const [matchProfile, setMatchProfile] = useState([]);
     const [loader, setLoader] = useState(true);
 
+    const optimizedImage = (matchProfile) => {
+        console.log("fas", matchProfile)
+        if(matchProfile.length > 0){
+            const updatedProfiles = matchProfile.map((profile) => {
+                console.log("profile", profile.avatar);
+                let originalUrl = profile.avatar;
+                let modifiedUrl = originalUrl.replace("https://firebasestorage.googleapis.com", "https://ik.imagekit.io/dateuni/tr:w-100");
+                return {
+                    ...profile,
+                    avatar: modifiedUrl
+                }
+            });
+            setMatchProfile(updatedProfiles);
+
+        }
+    }
+
     useEffect(() => {
         fetchData();
     }, []);
@@ -38,7 +55,8 @@ const Message = () => {
         // Wait for all promises to resolve
         await Promise.all(promises);
         setLoader(false);
-        setMatchProfile(sortedArray); // Update the state with the updated array
+        // setMatchProfile(sortedArray); // Update the state with the updated array
+        optimizedImage(sortedArray);
     };
 
 
