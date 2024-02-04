@@ -13,7 +13,6 @@ const Message = () => {
     const [loader, setLoader] = useState(true);
 
     const optimizedImage = (matchProfile) => {
-        console.log("fas", matchProfile)
         if(matchProfile.length > 0){
             const updatedProfiles = matchProfile.map((profile) => {
                 console.log("profile", profile.avatar);

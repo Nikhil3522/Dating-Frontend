@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import ButtonComponent from "../component/ButtonComponent";
 import makeAnimated from 'react-select/animated';
-import chroma from 'chroma-js';
+import chroma, { average } from 'chroma-js';
 // import { ColourOption, colourOptions } from '../data';
 import Select, { StylesConfig } from 'react-select';
 import shopping from '../assets/images/shopping.png';
@@ -86,6 +86,17 @@ const ProfileEdit = () => {
         // { title: "Running", img: run },
     ]
 
+    const optimizedImage = (mydata) => {
+        if(mydata.image.length > 0){
+            const updatedProfiles = mydata.image.map((profile) => {
+                let originalUrl = profile;
+                let modifiedUrl = originalUrl.replace("https://firebasestorage.googleapis.com", "https://ik.imagekit.io/dateuni/tr:w-300");
+                return modifiedUrl;
+            });
+            setData({...mydata, image: updatedProfiles});
+        }
+    }
+
     useState(async () => {
 
         let config = {
@@ -98,7 +109,7 @@ const ProfileEdit = () => {
 
         await axios.request(config)
             .then((response) => {
-                setData(response.data.data);
+                optimizedImage(response.data.data)
                 setImageLength(response.data.data.image.length);
                 var temp = [];
 

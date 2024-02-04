@@ -49,7 +49,7 @@ const Profile = () => {
                         <div className="profileIconDiv">
                             <img 
                                 className="profilePictureIcon" 
-                                src={data.data.avatar} 
+                                src={data.data.avatar.replace("https://firebasestorage.googleapis.com", "https://ik.imagekit.io/dateuni/tr:w-400")} 
                                 width="170px" 
                             />
                             <img
