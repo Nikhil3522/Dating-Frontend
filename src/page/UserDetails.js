@@ -28,6 +28,8 @@ import localForage from 'localforage';
 import storage from '../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import imageCompression from 'browser-image-compression';
+import heic2any from 'heic2any';
+import normalLoader from '../assets/gif/normalLoader.gif'
 
 const UserDetails = () => {
     const navigate = useNavigate();
@@ -49,6 +51,7 @@ const UserDetails = () => {
     const [tempCollege, setTempCollege] = useState(null);
     const [imageLeftForUpload, setImageLeftForUpload] = useState(true);
     const [finalSubmission, setFinalSubmission] = useState(false);
+    const [normalLoaderShow, setNormalLoaderShow] = useState(false);
 
     const handleUpload = async (fileinput) => {
 
@@ -111,15 +114,30 @@ const UserDetails = () => {
     }, [alert])
 
     const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        const extension = file.name.split('.').pop();
+        setNormalLoaderShow(true);
+        const input = event.target;
+        const fileName = input.value;
+        const fileNameExt = fileName.substr(fileName.lastIndexOf('.')+1);
 
-        if(extension !== "HEIC"){
-            const updatedSelectedImage = [...selectedImage, file];
-            setSelectedImage(updatedSelectedImage);
+        if(fileNameExt === "HEIC" || fileNameExt === "heic" || fileNameExt === "HEIF" || fileNameExt === "heif"){
+            const blob = input.files[0];
+
+            heic2any({
+                blob: blob,
+                toType: 'image/jpg',
+            })
+            .then((resultBlob) => {
+                var updatedSelectedImage = [...selectedImage, resultBlob];
+                setSelectedImage(updatedSelectedImage);
+                setNormalLoaderShow(false);
+            })
         }else{
-            window.alert('HEIC files are not supported. Please select a different image.');
+            const file = input.files[0];
+            var updatedSelectedImage2 = [...selectedImage, file];
+            setSelectedImage(updatedSelectedImage2);
+            setNormalLoaderShow(false);
         }
+
     }
 
     useEffect(() => {
@@ -369,7 +387,27 @@ const UserDetails = () => {
     }
 
     return(
-        <div>
+        <>
+        {normalLoaderShow && 
+            <img 
+                src={normalLoader} 
+                style={{
+                    width: '55px',
+                    position: 'absolute',
+                    zIndex: '10',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                }}
+            />
+        }
+        <div style={ normalLoaderShow ?  {
+                opacity: '0.2',
+                overflow: 'hidden',
+                touchAction: 'none',
+                position: 'fixed',
+                } : {}}
+        >
             <div style={{width: '80%', margin: 'auto', display: 'flex', justifyContent: 'space-between', marginTop: '-15px'}}>
                 {
                     state > 2 &&
@@ -578,6 +616,7 @@ const UserDetails = () => {
                 </div>
             </div>
         </div>
+        </>
     )
 }
 
