@@ -34,6 +34,7 @@ import storage from '../firebase';
 import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 import imageCompression from 'browser-image-compression';
 import heic2any from 'heic2any';
+import normalLoader from '../assets/gif/normalLoader.gif'
 
 const ProfileEdit = () => {
 
@@ -47,6 +48,7 @@ const ProfileEdit = () => {
     const [defaultValueLanguage, setDefaultValueLanguage] = useState([]);
     const [loader, setLoader] = useState(false);
     const [imageLength, setImageLength] = useState(0);
+    const [normalLoaderShow, setNormalLoaderShow] = useState(false);
 
     const LanguageOptions = [
         { value: 'Hindi', label: 'Hindi' },
@@ -130,7 +132,7 @@ const ProfileEdit = () => {
     }, []);
 
     const handleImageChange = (event) => {
-
+        setNormalLoaderShow(true);
         const input = event.target;
         const fileName = input.value;
         const fileNameExt = fileName.substr(fileName.lastIndexOf('.')+1);
@@ -248,15 +250,18 @@ const ProfileEdit = () => {
                                     data: tempData,
                                 }
                                 axios.request(config).then(response => {
+                                    setNormalLoaderShow(false);
                                     // navigate('/profile')
                                     // console.log("res", response.data);
                                 }).catch(error => {
+                                    setNormalLoaderShow(false);
                                     setLoader(false);
                                     console.error("error", error);
                                 });
                                 resolve(url);
                             })
                             .catch((error) => {
+                                setNormalLoaderShow(false);
                                 console.error(error);
                                 reject(error);
                             });
@@ -266,6 +271,7 @@ const ProfileEdit = () => {
         })
         .catch(function (error) {
             console.log(error.message);
+            setNormalLoaderShow(false);
         });
     };
 
@@ -362,9 +368,27 @@ const ProfileEdit = () => {
 
     return (
         <>
+        {normalLoaderShow && 
+            <img 
+                src={normalLoader} 
+                style={{
+                    width: '55px',
+                    position: 'absolute',
+                    zIndex: '10',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                }}
+            />
+        }
             {data &&
                 <>{state === 1 ?
-                    <div>
+                    <div style={ normalLoaderShow ?  {
+                        opacity: '0.2',
+                        overflow: 'hidden',
+                        touchAction: 'none',
+                        position: 'fixed',
+                      } : {}}>
                         Profile Edit
 
                         <div className='imageContainer'>
