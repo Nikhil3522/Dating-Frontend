@@ -33,6 +33,7 @@ import localforage from "localforage";
 import storage from '../firebase';
 import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 import imageCompression from 'browser-image-compression';
+import heic2any from 'heic2any';
 
 const ProfileEdit = () => {
 
@@ -129,10 +130,29 @@ const ProfileEdit = () => {
     }, []);
 
     const handleImageChange = (event) => {
-        const file = event.target.files[0];
-        const updatedSelectedImage = [...selectedImage, file];
-        setSelectedImage(updatedSelectedImage);
-        handleUpload(file);
+
+        const input = event.target;
+        const fileName = input.value;
+        const fileNameExt = fileName.substr(fileName.lastIndexOf('.')+1);
+
+        if(fileNameExt === "HEIC" || fileNameExt === "heic" || fileNameExt === "HEIF" || fileNameExt === "heif"){
+            const blob = input.files[0];
+
+            heic2any({
+                blob: blob,
+                toType: 'image/jpg',
+            })
+            .then((resultBlob) => {
+                var updatedSelectedImage = [...selectedImage, resultBlob];
+                setSelectedImage(updatedSelectedImage);
+                handleUpload(resultBlob);
+            })
+        }else{
+            const file = input.files[0];
+            var updatedSelectedImage2 = [...selectedImage, file];
+            setSelectedImage(updatedSelectedImage2);
+            handleUpload(file);
+        }
     }
 
     // Edit Relationship goal value
@@ -218,6 +238,22 @@ const ProfileEdit = () => {
                         getDownloadURL(uploadTask.snapshot.ref)
                             .then((url) => {
                                 setData({...data, image:[...data.image, url]})
+                                var tempData = {...data, image:[...data.image, url]}
+
+                                let config = {
+                                    method: "POST",
+                                    maxBodyLength: Infinity,
+                                    url: process.env.REACT_APP_API_URL + '/editProfile2',
+                                    withCredentials: true,
+                                    data: tempData,
+                                }
+                                axios.request(config).then(response => {
+                                    // navigate('/profile')
+                                    // console.log("res", response.data);
+                                }).catch(error => {
+                                    setLoader(false);
+                                    console.error("error", error);
+                                });
                                 resolve(url);
                             })
                             .catch((error) => {
