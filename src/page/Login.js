@@ -63,7 +63,12 @@ const Login = () => {
             }
         })
         .catch((error) => {
-            console.log(error);
+            if(error.response.data.message){
+                setAlert("Wrong Email or Password");
+                setLoader(false);
+            }else{
+                console.log(error);
+            }
             setLoader(false);
         });
 
