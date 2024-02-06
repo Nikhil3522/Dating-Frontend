@@ -220,7 +220,7 @@ const ProfileEdit = () => {
                     return;
                 }
                 
-                const storageRef = ref(storage, `/dateuni-image/${fileinput.name}`);
+                const storageRef = ref(storage, `/dateuni-image/${data.name}-${Date.now()}`);
                 const uploadTask = uploadBytesResumable(storageRef, fileinput);
                 
                 uploadTask.on(
