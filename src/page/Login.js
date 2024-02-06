@@ -52,7 +52,7 @@ const Login = () => {
             if(response.data.message === "User LoggedIN!"){
                 await localForage.setItem('userLogin', {id: Date.now(), value: true});
                 // localStorage.setItem('userLogin', {id: Date.now(), value: true});
-                window.location.reload(false);
+                // window.location.reload(false);
                 // navigate('/home');
             }else if(response.data.message === "Wrong Email or Passwod!" ){
                 setAlert("Wrong Email or Password");
