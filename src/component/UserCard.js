@@ -3,6 +3,8 @@ import axios from 'axios';
 import up from '../assets/icons/up.png';
 import { useEffect, useState } from 'react';
 import React, { useRef } from 'react';
+import like from '../assets/icons/like.png';
+import no from '../assets/icons/no.png';
 
 const UserCard = (props) => {
     const [imageIndex, setImageIndex] = useState(0);
@@ -119,13 +121,15 @@ const UserCard = (props) => {
             </div>
             <div className='button-container'>
                 <div className='nope-btn' onClick={() => nope(props.person)}>
-                    NOPE
+                    <img src={no} width={35} height={35} style={{margin: 0, marginTop: '5px'}}/>
+                    <p style={{marginTop: '10px'}}>NOPE</p>
                 </div>
                 <div className='like-btn' onClick={() => {
                     likeProfile(props.person.userId);
                     props.reCallAPI(props.person.userId);
                 }}>
-                    LIKE
+                    <img src={like} width={35} height={35} style={{margin: 0, marginTop: '5px'}}/>
+                    <p style={{marginTop: '10px'}}>LIKE</p>
                 </div>
             </div>
 
