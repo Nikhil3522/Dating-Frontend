@@ -20,6 +20,7 @@ const Settings = () => {
         axios.request(config)
             .then(async (response) => {
                 await localforage.setItem('userLogin', { id: Date.now(), value: false });
+                localStorage.removeItem('likeCount');
                 window.location.reload(false);
                 // navigate('/login');
             })
