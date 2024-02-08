@@ -483,6 +483,20 @@
     margin: auto;
   }
 
+  .likeCountText{
+    margin-top: -40px;
+    margin-left: 59px;
+    font-size: 15px;
+    color: white;
+    font-weight: bolder;
+    background-color: #30b400;
+    width: 20px;
+    z-index: 10;
+    position: absolute;
+    border-radius: 50%;
+    padding: 2px;
+  }
+
 @keyframes FloatDiv-up{
   from {
     margin-top: 0vh;
