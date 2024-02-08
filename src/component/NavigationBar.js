@@ -11,33 +11,48 @@ const NavigationBar = () => {
     const [DPURL, setDPURL] = useState(null);
     const [likeCount, setLikeCount] = useState(null);
 
+    const expirationTime = 15 * 60 * 1000; // 15 minutes in milliseconds
+    const currentTime = new Date().getTime();
+
     useState(() => {
         setDPURL(localStorage.getItem('DP'));
     }, [])
 
     useEffect(() => {
-       // Check if 'likeCount' exists in localStorage
-        if (!localStorage.getItem('likeCount')) {
-            let config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: process.env.REACT_APP_API_URL + '/myLikeCount',
-            withCredentials: true,
+
+        const storedData = localStorage.getItem('likeCount');
+
+        if (storedData) {
+            const parsedData = JSON.parse(storedData);
+            const storedTimestamp = parsedData.timestamp;
+            
+            // Check if the data has not expired
+            if (currentTime - storedTimestamp < expirationTime) {
+                setLikeCount(parsedData.value);
+            } else {
+                let config = {
+                    method: 'get',
+                    maxBodyLength: Infinity,
+                    url: process.env.REACT_APP_API_URL + '/myLikeCount',
+                    withCredentials: true,
+                    }
+                
+                    axios.request(config)
+                    .then((res) => {
+                        const dataToStore = {
+                            value: res.data.data,
+                            timestamp: currentTime,
+                        };
+                        // Save 'likeCount' to localStorage
+                        localStorage.setItem('likeCount', JSON.stringify(dataToStore));
+                        setLikeCount(res.data.data);
+                    })
+                    .catch((error) => {
+                        console.log("error navbar", error);
+                    });
             }
-        
-            axios.request(config)
-            .then((res) => {
-                // Save 'likeCount' to localStorage
-                localStorage.setItem('likeCount', res.data.data);
-                setLikeCount(res.data.data);
-            })
-            .catch((error) => {
-                console.log("error navbar", error);
-            });
-        } else {
-            // 'likeCount' already exists in localStorage
-            setLikeCount(localStorage.getItem('likeCount'));
         }
+
     }, [])
 
     return (
@@ -48,7 +63,7 @@ const NavigationBar = () => {
             </div>
             <div onClick={() => navigate('/like')}>
                 <img src={heart} width="30px"/>
-                {likeCount &&
+                {(likeCount && likeCount > 0) &&
                 <p className='likeCountText'>{likeCount}</p>}
                 {/* <h6 style={{marginTop: '-4px', color: 'white'}}>LIKE</h6> */}
             </div>
