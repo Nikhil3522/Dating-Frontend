@@ -361,7 +361,7 @@ const Home = () => {
                         <img
                           onTouchStart={handleTouchStart}
                           onTouchEnd={handleTouchEnd}
-                          style={{ touchAction: 'pan-y' }}
+                          style={{ touchAction: 'pan-y', height: '80vh', objectFit: 'scale-down' }}
                           className="profileImages"
                           src={`${data[viewProfile].image[imageIndex]}`} 
                         />
