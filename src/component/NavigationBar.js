@@ -18,6 +18,29 @@ const NavigationBar = () => {
         setDPURL(localStorage.getItem('DP'));
     }, [])
 
+    const mylikeCount = () => {
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: process.env.REACT_APP_API_URL + '/myLikeCount',
+            withCredentials: true,
+        }
+    
+        axios.request(config)
+        .then((res) => {
+            const dataToStore = {
+                value: res.data.data,
+                timestamp: currentTime,
+            };
+            // Save 'likeCount' to localStorage
+            localStorage.setItem('likeCount', JSON.stringify(dataToStore));
+            setLikeCount(res.data.data);
+        })
+        .catch((error) => {
+            console.log("error navbar", error);
+        });
+    }
+
     useEffect(() => {
 
         const storedData = localStorage.getItem('likeCount');
@@ -29,28 +52,11 @@ const NavigationBar = () => {
             // Check if the data has not expired
             if (currentTime - storedTimestamp < expirationTime) {
                 setLikeCount(parsedData.value);
-            } else {
-                let config = {
-                    method: 'get',
-                    maxBodyLength: Infinity,
-                    url: process.env.REACT_APP_API_URL + '/myLikeCount',
-                    withCredentials: true,
-                    }
-                
-                    axios.request(config)
-                    .then((res) => {
-                        const dataToStore = {
-                            value: res.data.data,
-                            timestamp: currentTime,
-                        };
-                        // Save 'likeCount' to localStorage
-                        localStorage.setItem('likeCount', JSON.stringify(dataToStore));
-                        setLikeCount(res.data.data);
-                    })
-                    .catch((error) => {
-                        console.log("error navbar", error);
-                    });
+            }else{
+                mylikeCount();
             }
+        }else{
+            mylikeCount();
         }
 
     }, [])
