@@ -3,7 +3,7 @@ import axios from 'axios';
 // import "./tinderCard.css"
 import '../App.css';
 import NavigationBar from "../component/NavigationBar";
-import ProfileCard from "../component/ProfileCard";
+// import ProfileCard from "../component/ProfileCard";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import verified from '../assets/icons/verified.png';
