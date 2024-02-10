@@ -29,3 +29,11 @@ messaging.onBackgroundMessage(function(payload) {
   self.registration.showNotification(notificationTitle,
     notificationOptions);
 });
+
+////Code for adding event on click of notification
+function handleClick (event) {
+  event.notification.close();
+  // Open the url you set on notification.data
+  clients.openWindow("https://www.dateuni.in/#/home")
+}
+self.addEventListener('notificationclick', handleClick);
