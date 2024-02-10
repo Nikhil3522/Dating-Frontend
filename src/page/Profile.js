@@ -7,6 +7,8 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import localforage from "localforage";
 import blackLoader from "../assets/gif/blackLoader.gif";
+import { requestForToken, onMessageListener } from '../firebase';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -36,7 +38,35 @@ const Profile = () => {
             });
     }, []);
 
+    const [notification, setNotification] = useState({title: '', body: ''});
+    const notify = () =>  toast(<ToastDisplay/>);
+    function ToastDisplay() {
+        return (
+        <div>
+            <p><b>{notification?.title}</b></p>
+            <p>{notification?.body}</p>
+        </div>
+        );
+    };
+
+    useEffect(() => {
+        if (notification?.title ){
+        notify()
+        }
+
+    }, [notification])
+
+    requestForToken();
+
+    onMessageListener()
+    .then((payload) => {
+        setNotification({title: payload?.notification?.title, body: payload?.notification?.body});     
+    })
+    .catch((err) => console.log('failed: ', err));
+
     return (
+        <>
+        <Toaster/>
         <div className="profile-container">
             {
                 data ?
@@ -119,6 +149,7 @@ const Profile = () => {
 
             <NavigationBar />
         </div>
+        </>
     )
 }
 
