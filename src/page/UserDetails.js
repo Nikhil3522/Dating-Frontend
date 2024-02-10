@@ -54,57 +54,53 @@ const UserDetails = () => {
     const [normalLoaderShow, setNormalLoaderShow] = useState(false);
 
     const handleUpload = async (fileinput) => {
-
-        var options = {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 1920,
-            useWebWorker: true
-        }
-
-        imageCompression(fileinput, options)
-        .then(function (compressedFile) {
-            fileinput = compressedFile;
-            
+        try {
+            const options = {
+                maxSizeMB: 1,
+                maxWidthOrHeight: 1920,
+                useWebWorker: true
+            };
+    
+            const compressedFile = await imageCompression(fileinput, options);
+    
+            if (!compressedFile) {
+                throw new Error("Please upload an image first!");
+            }
+    
+            const storageRef = ref(storage, `/dateuni-image/${name}-${Date.now()}`);
+            const uploadTask = uploadBytesResumable(storageRef, compressedFile);
+    
             return new Promise((resolve, reject) => {
-                if (!fileinput) {
-                    reject(new Error("Please upload an image first!"));
-                    return;
-                }
-                
-                const storageRef = ref(storage, `/dateuni-image/${name}-${Date.now()}`);
-                const uploadTask = uploadBytesResumable(storageRef, fileinput);
-                
                 uploadTask.on(
                     "state_changed",
                     (snapshot) => {
                         const percent = Math.round(
                             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
                         );
-                        
                         console.log("percent", percent);
                     },
                     (err) => {
                         console.error(err);
                         reject(err);
                     },
-                    () => {
-                        getDownloadURL(uploadTask.snapshot.ref)
-                            .then((url) => {
-                                console.log(url);
-                                resolve(url);
-                            })
-                            .catch((error) => {
-                                console.error(error);
-                                reject(error);
-                            });
+                    async () => {
+                        try {
+                            const url = await getDownloadURL(uploadTask.snapshot.ref);
+                            console.log(url);
+                            resolve(url);
+                        } catch (error) {
+                            console.error(error);
+                            reject(error);
+                        }
                     }
                 );
             });
-        })
-        .catch(function (error) {
+        } catch (error) {
             console.log(error.message);
-        });
+            throw error;
+        }
     };
+    
     
 
     useEffect(() => {
@@ -248,6 +244,7 @@ const UserDetails = () => {
 
                         try {
                             const imageName = await handleUpload(selectedImage[i]);
+                            console.log("imageName", imageName);
                             selectedImage[i] = imageName;
                         } catch (error) {
                             console.error("Error uploading image:", error);
