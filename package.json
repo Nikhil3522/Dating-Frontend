@@ -13,7 +13,6 @@
     "axios": "^1.4.0",
     "browser-image-compression": "^2.0.2",
     "chroma-js": "^2.4.2",
-    "cra-append-sw": "^2.7.0",
     "crypto-js": "^4.1.1",
     "firebase": "^9.21.0",
     "heic2any": "^0.0.4",
@@ -62,8 +61,6 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "gh-pages": "^5.0.0",
-    "webpack": "^5.90.1",
-    "webpack-dev-server": "^4.15.1"
+    "gh-pages": "^5.0.0"
   }
 }
