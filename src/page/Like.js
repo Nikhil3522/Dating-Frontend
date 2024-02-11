@@ -142,7 +142,7 @@ const Like = () => {
                 {
                     like.length === 0 ? 
                     <div>
-                        <h2>When someone swipes right on you, you'll be able to find them right here</h2>
+                        <h2>When someone like you, you'll be able to find them right here</h2>
                     </div> 
                     :
                     <div className="likeContainer">
