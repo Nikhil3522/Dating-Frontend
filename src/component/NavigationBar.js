@@ -69,7 +69,7 @@ const NavigationBar = () => {
             </div>
             <div onClick={() => navigate('/like')}>
                 <img src={heart} width="30px"/>
-                {(likeCount && likeCount > 0) &&
+                {(likeCount > 0) &&
                 <p className='likeCountText'>{likeCount}</p>}
                 {/* <h6 style={{marginTop: '-4px', color: 'white'}}>LIKE</h6> */}
             </div>
