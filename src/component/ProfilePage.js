@@ -108,7 +108,7 @@ const ProfilePage = (props) => {
 
     return (
         profileData &&
-        <div className="tinderCard_container">
+        // <div className="tinderCard_container">
             <div className="detailProfileDiv " >
                 <SwipeDetector
                     onSwipeLeft={handleSwipeLeft}
@@ -177,7 +177,7 @@ const ProfilePage = (props) => {
                 </div>
 
             </div>
-        </div>
+        // </div>
     )
 }
 

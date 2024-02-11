@@ -388,10 +388,11 @@
   }
 
   .detailProfileDiv{
-    min-width: 90%;
+    /* min-width: 90%;
     margin-top: -80px;
     min-height: 100vh;
-    margin-left: 370px;
+    margin-left: 370px; */
+    margin: 5px;
     border: 1px solid red;
     border-radius: 10px;
     background-color: antiquewhite;
