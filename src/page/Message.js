@@ -229,16 +229,18 @@ const Message = () => {
                         matchProfile.map((profile, index) => (
                             <div key={index} onClick={() => redirectTo(profile)}>
                                 <div style={{ width: '90%', margin: 'auto', marginBottom: '25px', display: 'flex', justifyContent: 'space-between' }}>
-                                    <img 
-                                        style={{ borderRadius: '50%' }} 
-                                        src={profile.avatar}
-                                        height="60px"
-                                        width="60px"
-                                    />
+                                    <div>
+                                        <img 
+                                            style={{ borderRadius: '50%', objectFit: 'cover', objectPosition: 'top'  }} 
+                                            src={profile.avatar}
+                                            height="60px"
+                                            width="60px"
+                                        />
+                                    </div>
                                     {/* Online indication of user */}
                                     {/* <div style={{ backgroundColor: 'lightGreen', width: '20px', height: '16px', borderRadius: '50%', marginTop: '60px', marginLeft: '-12px' }}></div> */}
-                                    <div style={{ width: '100%' }}>
-                                        <h2 style={{ lineHeight: '10px' }}>{profile.name}</h2>
+                                    <div style={{ width: '100%', textAlign: 'left', paddingLeft: '10px', marginTop: '-8px' }}>
+                                        <h3 style={{ lineHeight: '10px', fontWeight: 500 }}>{profile.name}</h3>
                                         <p style={{ lineHeight: '10px' }}>{profile.content}</p>
                                     </div>
 
@@ -246,7 +248,7 @@ const Message = () => {
 
 
 
-                                        <p style={{ marginBottom: '0', width: '70px' }}>{formatTimestamp(profile['createdAt'])}</p>
+                                        <p style={{ marginBottom: '0', width: '70px', fontSize: '13px' }}>{formatTimestamp(profile['createdAt'])}</p>
                                         {profile.numberOfUnseenMessages > 0 && profile.sender == profile.index &&
                                             <p className="unseenMsg">{profile.numberOfUnseenMessages}</p>
                                         }
