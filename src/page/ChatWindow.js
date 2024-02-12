@@ -362,7 +362,7 @@ const ChatWindow = () => {
                     setProfilePageShow(true)
                     setShowProfileId(profileId)
                     }}>
-                    <img src={userAvatar} width="60px" height="60px" style={{ borderRadius: '50%', marginTop: '5px' }}/>
+                    <img src={userAvatar} width="60px" height="60px" style={{ borderRadius: '50%', marginTop: '5px', objectFit: 'cover', objectPosition: '50% 30%' }}/>
                     <div style={{color: 'white', marginLeft: '5px'}}>
                         <p style={{lineHeight: '25px', fontSize: '20px'}}>{index && index}</p>
                         {/* <div style={{lineHeight: '5px', display: 'flex'}}>
@@ -380,7 +380,7 @@ const ChatWindow = () => {
                 />
             </div> */}
         </div>
-        <div style={{display: 'flex', flexDirection: 'column',justifyContent: 'space-between', height: '90vh', backgroundImage: `url(${chatBG})`, backgroundSize: '100% 100%'}}>
+        <div style={{display: 'flex', flexDirection: 'column',justifyContent: 'space-between', height: '90vh', backgroundColor: 'antiquewhite', backgroundSize: '100% 100%'}}>
             <div 
                 // onScroll={handleScroll} 
                 style={{ padding: '10px', display: 'flex', flexDirection: 'column-reverse', overflowY: displayBlockComp ? 'hidden':'scroll' }}
