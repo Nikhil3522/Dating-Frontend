@@ -354,7 +354,7 @@ const ChatWindow = () => {
     return (
         profilePageShow === false ? 
         <>
-        <div style={{display: 'flex', flexDirection: 'column', height: '100vh', position: 'absolute',top: '0', width: '100vw', backgroundColor: 'antiquewhite'}}>
+        <div style={{display: 'flex', flexDirection: 'column', height: '100vh', position: 'absolute',top: '0', width: '100vw', maxWidth: '600px', backgroundColor: 'antiquewhite'}}>
             <div className="title" style={{ backgroundColor: 'blue', background: 'linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%)', width: '94%', maxWidth: '600px', display: 'flex', justifyContent: 'space-between', paddingLeft: '10px', paddingRight: '10px', height: '70px'}}>
                 { displayBlockComp && <BlockComponent hideBlockComp={hideBlockComp} profileId={profileId}/> }
                 <div style={{display: 'flex'}}>
