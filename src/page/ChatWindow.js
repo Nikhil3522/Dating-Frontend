@@ -354,57 +354,58 @@ const ChatWindow = () => {
     return (
         profilePageShow === false ? 
         <>
-        <div className="title" style={{ backgroundColor: 'blue', background: 'linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%)', width: '94%', maxWidth: '600px', position: 'absolute', top: '0', display: 'flex', justifyContent: 'space-between', paddingLeft: '10px', paddingRight: '10px'}}>
-            { displayBlockComp && <BlockComponent hideBlockComp={hideBlockComp} profileId={profileId}/> }
-            <div style={{display: 'flex'}}>
-                <img onClick={() => navigate('/message')} src={backPage} width="70px" height="70px"/>
-                <div style={{ display: 'flex', marginLeft: '5px'}} onClick={() => {
-                    setProfilePageShow(true)
-                    setShowProfileId(profileId)
-                    }}>
-                    <img src={userAvatar} width="60px" height="60px" style={{ borderRadius: '50%', marginTop: '5px', objectFit: 'cover', objectPosition: '50% 30%' }}/>
-                    <div style={{color: 'white', marginLeft: '5px'}}>
-                        <p style={{lineHeight: '25px', fontSize: '20px'}}>{index && index}</p>
-                        {/* <div style={{lineHeight: '5px', display: 'flex'}}>
-                            <div style={{width:"15px", marginTop:'-5px', marginRight: '5px', minHeight:"15px", backgroundColor: "lightgreen", borderRadius: '50%'}}></div>Online
-                        </div> */}
+        <div style={{display: 'flex', flexDirection: 'column', height: '100vh', position: 'absolute',top: '0', width: '100vw', backgroundColor: 'antiquewhite'}}>
+            <div className="title" style={{ backgroundColor: 'blue', background: 'linear-gradient(283deg, rgba(255,91,61,1) 0%, rgba(253,45,114,1) 83%)', width: '94%', maxWidth: '600px', display: 'flex', justifyContent: 'space-between', paddingLeft: '10px', paddingRight: '10px', height: '70px'}}>
+                { displayBlockComp && <BlockComponent hideBlockComp={hideBlockComp} profileId={profileId}/> }
+                <div style={{display: 'flex'}}>
+                    <img onClick={() => navigate('/message')} src={backPage} width="70px" height="70px"/>
+                    <div style={{ display: 'flex', marginLeft: '5px'}} onClick={() => {
+                        setProfilePageShow(true)
+                        setShowProfileId(profileId)
+                        }}>
+                        <img src={userAvatar} width="60px" height="60px" style={{ borderRadius: '50%', marginTop: '5px', objectFit: 'cover', objectPosition: '50% 30%' }}/>
+                        <div style={{color: 'white', marginLeft: '5px'}}>
+                            <p style={{lineHeight: '25px', fontSize: '20px'}}>{index && index}</p>
+                            {/* <div style={{lineHeight: '5px', display: 'flex'}}>
+                                <div style={{width:"15px", marginTop:'-5px', marginRight: '5px', minHeight:"15px", backgroundColor: "lightgreen", borderRadius: '50%'}}></div>Online
+                            </div> */}
+                        </div>
                     </div>
                 </div>
+                {/* <div>
+                    <img 
+                        onClick={() => setDisplayBlockComp(!displayBlockComp)}
+                        src={threeDot} 
+                        height={"30px"} 
+                        style={{marginTop: '20px'}}
+                    />
+                </div> */}
             </div>
-            {/* <div>
-                <img 
-                    onClick={() => setDisplayBlockComp(!displayBlockComp)}
-                    src={threeDot} 
-                    height={"30px"} 
-                    style={{marginTop: '20px'}}
-                />
-            </div> */}
-        </div>
-        <div style={{display: 'flex', flexDirection: 'column',justifyContent: 'space-between', height: '90vh', backgroundColor: 'antiquewhite', backgroundSize: '100% 100%'}}>
-            <div 
-                // onScroll={handleScroll} 
-                style={{ padding: '10px', display: 'flex', flexDirection: 'column-reverse', overflowY: displayBlockComp ? 'hidden':'scroll' }}
-            >
-                {messageData.map((msg, index) => (
-                    msg && msg.date ? (
-                        <p key={index}>{msg.date}</p>
-                    ) : (
-                        msg && ( // Check if msg is not null or undefined
-                        <div key={index} className='msg-content' style={{ width: calculateMessageWidth(msg.content), alignSelf: msg.sender == currentUserId ? 'flex-end' : 'flex-start', borderTopRightRadius: msg.sender !== currentUserId ? '10px' : '0', borderTopLeftRadius: msg.sender == currentUserId ? '10px' : '0' }}>
-                            {msg.content.split('\n').map((line, index) => (
-                            <p key={index} style={{ marginTop: '0', marginBottom: '0' }}>{line}</p>
-                            ))}
-                            <div style={{ display: 'flex', justifyContent: 'space-between', width: '90%', margin: 'auto' }}>
-                            {msg.sender == currentUserId && <img src={msg.seen === true ? doubleTick : tick} width={"20px"} />}
-                            <p style={{ lineHeight: '2px', marginTop: '10px', marginBottom: '3px', fontSize: '13px', textAlign: msg.sender == currentUserId ? 'right' : 'left' }}>{msg.time}</p>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flexGrow: 1, backgroundSize: '100% 100%', overflowY: 'auto' }}>
+
+                <div 
+                    // onScroll={handleScroll} 
+                    style={{ padding: '10px', display: 'flex', flexDirection: 'column-reverse', overflowY: displayBlockComp ? 'hidden':'scroll' }}
+                >
+                    {messageData.map((msg, index) => (
+                        msg && msg.date ? (
+                            <p key={index}>{msg.date}</p>
+                        ) : (
+                            msg && ( // Check if msg is not null or undefined
+                            <div key={index} className='msg-content' style={{ width: calculateMessageWidth(msg.content), alignSelf: msg.sender == currentUserId ? 'flex-end' : 'flex-start', borderTopRightRadius: msg.sender !== currentUserId ? '10px' : '0', borderTopLeftRadius: msg.sender == currentUserId ? '10px' : '0' }}>
+                                {msg.content.split('\n').map((line, index) => (
+                                <p key={index} style={{ marginTop: '0', marginBottom: '0' }}>{line}</p>
+                                ))}
+                                <div style={{ display: 'flex', justifyContent: 'space-between', width: '90%', margin: 'auto' }}>
+                                {msg.sender == currentUserId && <img src={msg.seen === true ? doubleTick : tick} width={"20px"} />}
+                                <p style={{ lineHeight: '2px', marginTop: '10px', marginBottom: '3px', fontSize: '13px', textAlign: msg.sender == currentUserId ? 'right' : 'left' }}>{msg.time}</p>
+                                </div>
                             </div>
-                        </div>
+                            )
                         )
-                    )
-                ))}
+                    ))}
+                </div>
             </div>
-
-
             <div
                 id="messageContainer"
                 style={{
@@ -420,7 +421,7 @@ const ChatWindow = () => {
                     // margin: 'auto',
                     marginLeft: '10px',
                     transition: 'bottom 0.3s ease', // Adding transition for smooth animation
-                    marginBottom: '15px',
+                    marginBottom: '5px',
                 }}
             >
                 {/* <img style={{ borderRadius: '15px', height: '50px', marginTop: '5px' }} src={emoji}  /> */}
@@ -438,7 +439,7 @@ const ChatWindow = () => {
                         overflowY: 'hidden',
                         paddingTop: '15px',
         
-                      }}
+                        }}
                     value={message}
                     onChange={handleInputChange}
                     placeholder="MESSAGE..."
